@@ -30,9 +30,9 @@ public class PlayerPetItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         HoverPanel.SetActive(false);
     }
 
-    public void OnlickDisplay()
+    public void OnlickEquip()
     {
-        ShopManager.Instance.DisplayInformationSelectedPet(pet);
+        PetBagManager.Instance.EquipSelectedPet(pet);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

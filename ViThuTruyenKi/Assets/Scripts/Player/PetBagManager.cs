@@ -14,6 +14,12 @@ public class PetBagManager : MonoBehaviour
     public GameObject PetItem;
     public Transform Content;
 
+    [Header("EQUIPPET")]
+    public Image EquipPetImage;
+    public static Pet EquipPet;
+    public bool IsEquipPet;
+    [SerializeField] GameObject HoverPanel;
+
     [Header("UPGRADE PET")]
     public Image PetImage;
     public TMP_Text Name;
@@ -58,11 +64,30 @@ public class PetBagManager : MonoBehaviour
         }
     }
 
+    public void EquipSelectedPet(Pet pet)
+    {
+        if (IsEquipPet)
+        {
+            UnequipPet();
+        }
+        EquipPet = pet;
+        IsEquipPet = true;
+        EquipPetImage.sprite = pet.Image;
+    }
+
+    public void UnequipPet()
+    {
+        IsEquipPet = false;
+        EquipPet = null;
+        HoverPanel.SetActive(false);
+        EquipPetImage.sprite = null;
+    }
+
     public void MoveToUpgradePanel(Pet pet)
     {
         ListPetPanel.SetActive(false);
         UpgradePetPanel.SetActive(true);
-
+        LoadPetList();
         PetImage.sprite = pet.Image;
         Name.text = pet.Name;
         Level.text = "Level " + pet.Level;
@@ -105,6 +130,7 @@ public class PetBagManager : MonoBehaviour
         AttackRange.text = pet.AttackRange.ToString();
         ShopManager.Gold -= 1000;
         SetUpStatusForUpgrade(pet);
+        LoadPetList();
     }
 
     public void UpgradeDisplayPet()
