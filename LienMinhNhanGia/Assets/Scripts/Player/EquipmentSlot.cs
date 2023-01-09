@@ -12,7 +12,6 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             HoverPanel.SetActive(true);
         }
-
     }
 
     public void OnPointerExit(PointerEventData eventData)
