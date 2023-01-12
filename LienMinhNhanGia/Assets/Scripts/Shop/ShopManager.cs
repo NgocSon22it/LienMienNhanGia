@@ -7,33 +7,34 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    [Header("Instance")]
     public static ShopManager Instance;
 
-    public GameObject ShopPetItem;
-    public Transform Content;
+    [SerializeField] GameObject ShopPetItem;
+    [SerializeField] Transform Content;
 
-    public GameObject ListPetItemPanel;
-    public GameObject PetInformationPanel;
-    public GameObject OwnedText;
-    public GameObject NotOwn;
+    [Header("Shop Manager")]
+    [SerializeField] GameObject ListPetItemPanel;
+    [SerializeField] GameObject PetInformationPanel;
+    [SerializeField] GameObject OwnedText;
+    [SerializeField] GameObject NotOwn;
 
-    public TMP_Text Goldtxt;
+    [Header("Display Information")]
+    [SerializeField] Image PetImage;
+    [SerializeField] TMP_Text Name;
+    [SerializeField] TMP_Text Damage;
+    [SerializeField] TMP_Text AttackSpeed;
+    [SerializeField] TMP_Text AttackRange;
+    [SerializeField] TMP_Text Price;
+    [SerializeField] Button BuyBtn;
 
-    [Header("DisplayInformation")]
-    public Image PetImage;
-    public TMP_Text Name;
-    public TMP_Text Damage;
-    public TMP_Text AttackSpeed;
-    public TMP_Text AttackRange;
-    public TMP_Text Price;
-    public Button BuyBtn;
-
-
+    [Header("Gold")]
     public static int Gold = 5000;
+    [SerializeField] TMP_Text Goldtxt;
 
 
     PetEntity PetSelected;
-    public List<Sprite> ListImage = new List<Sprite>();
+    [SerializeField] List<Sprite> ListImage = new List<Sprite>();
     private void Awake()
     {
         Instance = this;

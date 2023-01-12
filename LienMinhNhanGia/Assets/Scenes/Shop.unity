@@ -310,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &47494480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1619,10 +1619,6 @@ MonoBehaviour:
   CanUpgradePanel: {fileID: 1776855621}
   MaxLevelPanel: {fileID: 1932716540}
   UpgradePetPanel: {fileID: 1235251323}
-  ListSkillSlot:
-  - {fileID: 816013349}
-  - {fileID: 1900261539}
-  - {fileID: 1210199797}
   ListSkillImage:
   - {fileID: 21300000, guid: e0a392401d783ce48852f8335b3c673a, type: 3}
   - {fileID: 21300000, guid: 5a4ce05f3c20d3048b72675a620bb67e, type: 3}
@@ -6714,7 +6710,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1117587845}
-  - component: {fileID: 1117587844}
   m_Layer: 5
   m_Name: Main
   m_TagString: Untagged
@@ -6722,18 +6717,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1117587844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117587843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc645bf0b085c74eada8dd08cdf629c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1117587845
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6811,7 +6794,6 @@ MonoBehaviour:
   PetItem: {fileID: 6642737355048773514, guid: 4602f3085ad3b4b4e9222bd33c63faae, type: 3}
   Content: {fileID: 1005802086}
   EquipPetImage: {fileID: 725278902}
-  IsEquipPet: 0
   HoverPanel: {fileID: 930456831}
   PetImage: {fileID: 1177089968}
   Name: {fileID: 1016443298}
@@ -8086,7 +8068,6 @@ MonoBehaviour:
   PetInformationPanel: {fileID: 632805024}
   OwnedText: {fileID: 600183928}
   NotOwn: {fileID: 2137109437}
-  Goldtxt: {fileID: 1563053387}
   PetImage: {fileID: 536063868}
   Name: {fileID: 1098850100}
   Damage: {fileID: 970448029}
@@ -8094,6 +8075,7 @@ MonoBehaviour:
   AttackRange: {fileID: 1783005839}
   Price: {fileID: 329667346}
   BuyBtn: {fileID: 2137109439}
+  Goldtxt: {fileID: 1563053387}
   ListImage:
   - {fileID: 21300000, guid: a925555f281c58e4b82b8bf19bcf50e0, type: 3}
   - {fileID: 21300000, guid: 415a6236a102a3d47b3065516fd53cbd, type: 3}
@@ -11264,7 +11246,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117587844}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManaget, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1

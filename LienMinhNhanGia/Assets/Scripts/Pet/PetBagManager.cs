@@ -7,39 +7,39 @@ using UnityEngine.UI;
 
 public class PetBagManager : MonoBehaviour
 {
+    [Header("Instance")]
     public static PetBagManager Instance;
 
     public static List<PetEntity> Bag = new List<PetEntity>();
+    [SerializeField] GameObject PetItem;
+    [SerializeField] Transform Content;
 
-    public GameObject PetItem;
-    public Transform Content;
-
-    [Header("EQUIPPET")]
-    public Image EquipPetImage;
+    [Header("EQUIP PET")]
+    [SerializeField] Image EquipPetImage;
     public static PetEntity EquipPet;
-    public bool IsEquipPet;
+    private bool IsEquipPet;
     [SerializeField] GameObject HoverPanel;
 
     [Header("UPGRADE PET")]
-    public Image PetImage;
-    public TMP_Text Name;
-    public TMP_Text Damage;
-    public TMP_Text AttackSpeed;
-    public TMP_Text AttackRange;
-    public TMP_Text Level;
+    [SerializeField] Image PetImage;
+    [SerializeField] TMP_Text Name;
+    [SerializeField] TMP_Text Damage;
+    [SerializeField] TMP_Text AttackSpeed;
+    [SerializeField] TMP_Text AttackRange;
+    [SerializeField] TMP_Text Level;
 
     [Header("CAN UPGRADE")]
-    public TMP_Text NextLevel;
-    public TMP_Text NextDamage;
-    public TMP_Text NextAttackSpeed;
-    public TMP_Text NextAttackRange;
-    public TMP_Text UpgradeCost;
+    [SerializeField] TMP_Text NextLevel;
+    [SerializeField] TMP_Text NextDamage;
+    [SerializeField] TMP_Text NextAttackSpeed;
+    [SerializeField] TMP_Text NextAttackRange;
+    [SerializeField] TMP_Text UpgradeCost;
 
     [Header("UPGRADE MANAGER")]
-    public GameObject CanUpgradePanel;
-    public GameObject MaxLevelPanel;
-    public GameObject ListPetPanel;
-    public GameObject UpgradePetPanel;
+    [SerializeField] GameObject CanUpgradePanel;
+    [SerializeField] GameObject MaxLevelPanel;
+    [SerializeField] GameObject ListPetPanel;
+    [SerializeField] GameObject UpgradePetPanel;
 
     PetEntity PetSelected;
 

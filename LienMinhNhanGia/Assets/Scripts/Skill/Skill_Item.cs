@@ -7,12 +7,12 @@ using UnityEngine.UI;
 
 public class Skill_Item : MonoBehaviour, IPointerClickHandler
 {
-    public int Id;
-    public Image SkillImage;
-    public int Chakra;
-    public int Level;
-    public int Damage;
-    public string Name;
+    private int Id;
+    private Image SkillImage;
+    private int Chakra;
+    private int Level;
+    private int Damage;
+    private string Name;
 
 
     public void OnPointerClick(PointerEventData eventData)

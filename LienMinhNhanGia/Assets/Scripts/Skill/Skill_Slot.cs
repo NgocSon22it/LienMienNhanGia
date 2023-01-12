@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 {
-    public SkillEntity Skill;
-    public Image SkillImage;
-    public int slot;
+    [SerializeField] SkillEntity Skill;
+    [SerializeField] Image SkillImage;
+    [SerializeField] int slot;
 
-    public bool IsEquip;
+    [SerializeField] bool IsEquip;
 
     [Header("EquipSkill")]
-    public GameObject EquipText;
+    [SerializeField] GameObject EquipText;
 
     public void OnPointerClick(PointerEventData eventData)
     {

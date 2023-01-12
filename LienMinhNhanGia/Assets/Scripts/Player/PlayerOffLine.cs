@@ -7,34 +7,60 @@ using UnityEngine;
 
 public class PlayerOffLine : MonoBehaviour
 {
+    [Header("Instance")]
+    public static PlayerOffLine Instance;
 
     [Header("Component")]
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     Animator animator;
+    BoxCollider2D boxCollider;
 
-
-    [Header("Common Value")]
-    [SerializeField] int MovementSpeed, JumpPower;
+    [Header("Hard Value")]
     float XInput, YInput;
-    int Combo, CanJump = 0;
-    bool CanCombo, IsGround, IsFacingRight = true;
+    int Combo;
+    bool CanCombo, IsFacingRight = true;
+
+    [Header("Change Value For Level Up")]
+    private int MovementSpeed, JumpPower, JumpTime;
+    private bool CanDoubleJump;
+
+    [Header("Enviroment Interaction")]
+    [SerializeField] LayerMask JumpAbleLayer;
+    [SerializeField] Vector2 DetectGroundVector;
+    [SerializeField] Transform DetectGroundTransform;
+    [SerializeField] float DetectGroundDistance;
 
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        SetJumpPower(60);
+        SetMovementSpeed(27);
+        JumpTime = CanDoubleJump == true ? 2 : 1;
     }
 
     // Update is called once per frame
     void Update()
     {
         XInput = Input.GetAxis("Horizontal");
+
+        if(IsGround() && rb.velocity.y <= 0)
+        {
+            JumpTime = CanDoubleJump == true ? 2 : 1;
+        }
+
         Jump();
         NormalAttack();
+
     }
 
     private void FixedUpdate()
@@ -44,16 +70,18 @@ public class PlayerOffLine : MonoBehaviour
 
     public void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && CanJump > 0)
+
+        if (Input.GetKeyDown(KeyCode.Space) && JumpTime > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, JumpPower);
             animator.SetTrigger("Jump");
-            IsGround = false;           
-            CanJump--;
+            JumpTime--;
             Finishcombo();
         }
-        animator.SetBool("IsGround", IsGround);
+
+        animator.SetBool("IsGround", IsGround());
     }
+
 
     public void Walk()
     {
@@ -72,8 +100,6 @@ public class PlayerOffLine : MonoBehaviour
         IsFacingRight = !IsFacingRight;
         transform.Rotate(0, 180, 0);
     }
-
-
     public void NormalAttack()
     {
         if (Input.GetKeyDown(KeyCode.J) && !CanCombo)
@@ -97,12 +123,52 @@ public class PlayerOffLine : MonoBehaviour
         Combo = 0;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool IsGround()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            IsGround = true;
-            CanJump = 2;
-        }
+        return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, JumpAbleLayer);     
+    }
+
+    #region MovementSpeed
+    public void SetMovementSpeed(int Speed)
+    {
+        MovementSpeed = Speed;
+    }
+
+    public int GetMovementSpeed()
+    {
+        return MovementSpeed;
+    }
+
+    #endregion
+
+    #region JumpPower
+    public void SetJumpPower(int JumpPower)
+    {
+        this.JumpPower = JumpPower;
+    }
+
+    public int GetJumpPower()
+    {
+        return JumpPower;
+    }
+    #endregion
+
+    #region DoubleJump
+    public void SetDoubleJump(bool CanDoubleJump)
+    {
+        this.CanDoubleJump = CanDoubleJump;
+        JumpTime = 2;
+    }
+
+    public bool GetCanDoubleJump()
+    {
+        return CanDoubleJump;
+    }
+    #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(DetectGroundTransform.position - DetectGroundTransform.up * DetectGroundDistance, DetectGroundVector);
     }
 }

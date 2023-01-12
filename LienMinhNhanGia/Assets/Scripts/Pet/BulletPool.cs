@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    public static BulletPool instance;
-    List<GameObject> ListBullet = new List<GameObject>();
-    public int AmountBullet = 20;
+    [Header("Instance")]
+    public static BulletPool Instance;
 
-
+    [Header("Handle Bullet")]
+    int AmountBullet = 20;
     [SerializeField] GameObject Bullet;
+    List<GameObject> ListBullet = new List<GameObject>();
+
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     private void Start()

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class BossHealthBar : MonoBehaviour
 {
-    public Enemy Boss;
-    [SerializeField] private Image CurrentHealth;
+    [SerializeField] Enemy Boss;
+    [SerializeField] Image CurrentHealth;
     // Start is called before the first frame update
     void Start()
     {

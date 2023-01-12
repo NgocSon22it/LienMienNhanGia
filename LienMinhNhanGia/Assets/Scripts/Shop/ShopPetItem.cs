@@ -7,14 +7,12 @@ using UnityEngine.UI;
 public class ShopPetItem : MonoBehaviour
 {
 
-    public Image PetImage;
-    public TMP_Text PetPrice;
-    public TMP_Text PetName;
+    [SerializeField] Image PetImage;
+    [SerializeField] TMP_Text PetPrice;
+    [SerializeField] TMP_Text PetName;
 
-    public GameObject OwnedText;
-    public GameObject NotOwn;
-
-
+    [SerializeField] GameObject OwnedText;
+    [SerializeField] GameObject NotOwn;
 
     PetEntity pet;
 

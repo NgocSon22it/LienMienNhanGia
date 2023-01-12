@@ -6,33 +6,34 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
+    [Header("Instance")]
     public static SkillManager instance;
 
-    public GameObject SkillItem;
-    public Transform Content;
+    [SerializeField] GameObject SkillItem;
+    [SerializeField] Transform Content;
 
     [Header("SHOW HOVER SKILL")]
     [SerializeField] Image SkillImage;
     [SerializeField] TMP_Text SkillDescription;
 
     [Header("SKILL UPGRADE")]
-    public TMP_Text CurrentLevel;
-    public TMP_Text CurrentDamage;
-    public TMP_Text CurrentChakra;
+    [SerializeField] TMP_Text CurrentLevel;
+    [SerializeField] TMP_Text CurrentDamage;
+    [SerializeField] TMP_Text CurrentChakra;
 
     [Header("CAN UPGRADE")]
-    public TMP_Text NextLevel;
-    public TMP_Text NextDamage;
-    public TMP_Text NextChakra;
-    public TMP_Text UpgradeCost;
+    [SerializeField] TMP_Text NextLevel;
+    [SerializeField] TMP_Text NextDamage;
+    [SerializeField] TMP_Text NextChakra;
+    [SerializeField] TMP_Text UpgradeCost;
 
     [Header("UPGRADE MANAGER")]
-    public GameObject CanUpgradePanel;
-    public GameObject MaxLevelPanel;
-    public GameObject UpgradePetPanel;
+    [SerializeField] GameObject CanUpgradePanel;
+    [SerializeField] GameObject MaxLevelPanel;
+    [SerializeField] GameObject UpgradePetPanel;
 
     [Header("SKILL SLOT MANAGER")]
-    public List<Skill_Slot> ListSkillSlot = new List<Skill_Slot>();
+    List<Skill_Slot> ListSkillSlot = new List<Skill_Slot>();
 
 
 
@@ -40,7 +41,7 @@ public class SkillManager : MonoBehaviour
 
     static List<SkillEntity> listSkill = new List<SkillEntity>();
 
-    public GameObject SelectedSkillCircle;
+    [SerializeField] GameObject SelectedSkillCircle;
 
     public static SkillEntity SkillSelected;
 

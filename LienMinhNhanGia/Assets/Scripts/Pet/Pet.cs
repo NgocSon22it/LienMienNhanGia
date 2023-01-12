@@ -10,13 +10,13 @@ public class Pet : MonoBehaviour
     [SerializeField] float AttackSpeed;
 
     private Quaternion Rotation;
-    public GameObject Player;
+    [SerializeField] GameObject Player;
 
-   
+
     float posX, posY, angle = 1.5f;
-    public float rotationRadius = 2f;
-    public float angularSpeed = 2f;
-    public Transform rotationCenter;
+    float rotationRadius = 2f;
+    float angularSpeed = 2f;
+    [SerializeField] Transform rotationCenter;
     public void SetUp(PetEntity petEntity)
     {
         Damage = petEntity.Damage;
@@ -49,7 +49,7 @@ public class Pet : MonoBehaviour
         Vector2 direction = (Vector2)Player.transform.position - (Vector2)transform.position;
         direction.Normalize();
 
-        GameObject BulletIns = BulletPool.instance.GetBulletFromPool();
+        GameObject BulletIns = BulletPool.Instance.GetBulletFromPool();
         if (BulletIns != null)
         {
             BulletIns.transform.position = transform.position;
@@ -58,7 +58,7 @@ public class Pet : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Rotation.eulerAngles = new Vector3(0, 0, angle);
             BulletIns.transform.rotation = Rotation;
-            BulletIns.GetComponent<Rigidbody2D>().AddForce(direction * 2000);           
+            BulletIns.GetComponent<Rigidbody2D>().AddForce(direction * 2000);
         }
 
     }

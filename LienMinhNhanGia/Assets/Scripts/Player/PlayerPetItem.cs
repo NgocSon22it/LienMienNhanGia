@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class PlayerPetItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Image PetImage;
-    public TMP_Text PetLevel;
-    public TMP_Text PetName;
+    [SerializeField] Image PetImage;
+    [SerializeField] TMP_Text PetLevel;
+    [SerializeField] TMP_Text PetName;
 
     PetEntity pet;
 
-    public GameObject HoverPanel;
+    [SerializeField] GameObject HoverPanel;
     
     public void SetUp(PetEntity _Pet)
     {
