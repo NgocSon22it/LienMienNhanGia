@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
     [Header("Instance")]
-    public static SkillManager instance;
+    public static SkillManager Instance;
 
     [SerializeField] GameObject SkillItem;
     [SerializeField] Transform Content;
@@ -33,13 +34,10 @@ public class SkillManager : MonoBehaviour
     [SerializeField] GameObject UpgradePetPanel;
 
     [Header("SKILL SLOT MANAGER")]
-    List<Skill_Slot> ListSkillSlot = new List<Skill_Slot>();
+    [SerializeField] List<Skill_Slot> ListSkillSlot = new List<Skill_Slot>();
+    [SerializeField] List<Sprite> ListSkillImage = new List<Sprite>();
 
-
-
-    public List<Sprite> ListSkillImage = new List<Sprite>();
-
-    static List<SkillEntity> listSkill = new List<SkillEntity>();
+    List<SkillEntity> listSkill = new List<SkillEntity>();
 
     [SerializeField] GameObject SelectedSkillCircle;
 
@@ -47,13 +45,13 @@ public class SkillManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
     private void Start()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 1; i < 4; i++)
         {
-            SkillEntity Skill = new SkillEntity(i,ListSkillImage[i], (i + 1) * 10, "Skill " + i, i, i * 100);
+            SkillEntity Skill = new SkillEntity(i, ListSkillImage[i], (i + 1) * 10, "Skill" + i, i, i * 100);
 
             listSkill.Add(Skill);
         }
@@ -71,7 +69,7 @@ public class SkillManager : MonoBehaviour
 
         foreach (SkillEntity skill in listSkill)
         {
-            Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skill.Id, skill.SkillImage, skill.Chakra, skill.Name, skill.Level, skill.Damage);
+            Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skill);
         }
     }
 
@@ -110,9 +108,20 @@ public class SkillManager : MonoBehaviour
         skill.Damage += skill.Damage * 30 / 100;
         skill.Chakra -= (skill.Chakra * 30 / 100);
         skill.Level += 1;
+
         CurrentLevel.text = "Level " + skill.Level;
         CurrentDamage.text = skill.Damage.ToString();
         CurrentChakra.text = skill.Chakra.ToString();
+        foreach (SkillEntity skillentity in listSkill)
+        {
+            if (skillentity.Id == skill.Id)
+            {
+                skillentity.Level = skill.Level;
+                skillentity.Chakra = skill.Chakra;
+                skillentity.Damage = skill.Damage;
+            }
+        }
+
         SetUpStatusForUpgrade(skill);
         LoadSkillList();
     }
@@ -122,15 +131,24 @@ public class SkillManager : MonoBehaviour
         UpgradeSelectedSkill(SkillSelected);
     }
 
-    public void SetUpSelectedCircle (Vector3 transform)
+    public void SetUpSelectedCircle(Vector3 transform)
     {
         SelectedSkillCircle.transform.position = transform;
     }
 
-    public void  Skill()
+    /*public void CheckStatusForEquipSkill(SkillEntity skillEntity)
     {
-            Debug.Log("Skill");
-    }
+        foreach (Skill_Slot skill in ListSkillSlot)
+        {
+            if (skill.Skill != null)
+            {
+                if (skill.Skill.Id == skillEntity.Id)
+                {
+                    skill.UnEquipSlot();
+                }
+            }
+        }
+    }*/
 
 }
 

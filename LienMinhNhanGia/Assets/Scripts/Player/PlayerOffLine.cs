@@ -157,7 +157,6 @@ public class PlayerOffLine : MonoBehaviour
     public void SetDoubleJump(bool CanDoubleJump)
     {
         this.CanDoubleJump = CanDoubleJump;
-        JumpTime = 2;
     }
 
     public bool GetCanDoubleJump()

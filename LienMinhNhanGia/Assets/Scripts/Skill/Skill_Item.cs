@@ -5,32 +5,32 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Skill_Item : MonoBehaviour, IPointerClickHandler
+public class Skill_Item : MonoBehaviour , IPointerClickHandler
 {
-    private int Id;
-    private Image SkillImage;
-    private int Chakra;
-    private int Level;
-    private int Damage;
-    private string Name;
+    public SkillEntity Skill;
 
+    [SerializeField] Image SkillImage;
+    [SerializeField] GameObject EquipStatusMenu;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SkillManager.instance.SetUpSelectedCircle(this.gameObject.transform.position);
-        SkillEntity skill = new SkillEntity(Id, SkillImage.sprite, Chakra, Name, Level, Damage);
-        SkillManager.instance.ShowInformationHoverSkill(skill);
+        SkillManager.Instance.SetUpSelectedCircle(this.gameObject.transform.position);       
+        SkillManager.Instance.ShowInformationHoverSkill(Skill);
     }
-    public void SetUp(int Id, Sprite skillImage, int Chakra, string Name, int Level, int Damage)
+    public void SetUp(SkillEntity Skill)
     {
-        this.Id = Id;
-        SkillImage.sprite = skillImage;
-        this.Chakra = Chakra;
-        this.Name = Name;
-        this.Level = Level;
-        this.Damage = Damage;
+        this.Skill = Skill;
+        SkillImage.sprite = Skill.SkillImage;
     }
 
+    public void Equiped()
+    {
+        EquipStatusMenu.SetActive(true);
+    }
+    public void UnEquiped()
+    {
+        EquipStatusMenu.SetActive(false);
+    }
 
 
 }
