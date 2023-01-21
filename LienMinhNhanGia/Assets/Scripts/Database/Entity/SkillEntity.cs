@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillEntity   
+public class SkillEntity
 {
     public int Id;
     public Sprite SkillImage;
@@ -10,6 +10,9 @@ public class SkillEntity
     public string Name;
     public int Level;
     public int Damage;
+
+    //Logic
+    public string MethodName;
 
     public SkillEntity(int Id, Sprite skillImage, int chakra, string name, int level, int damage)
     {
@@ -21,5 +24,6 @@ public class SkillEntity
         Damage = damage;
     }
 
+    public SkillEntity() { }
 
 }

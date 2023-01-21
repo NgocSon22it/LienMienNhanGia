@@ -34,14 +34,16 @@ public class SkillManager : MonoBehaviour
     [SerializeField] GameObject UpgradePetPanel;
 
     [Header("SKILL SLOT MANAGER")]
-    [SerializeField] List<Skill_Slot> ListSkillSlot = new List<Skill_Slot>();
-    [SerializeField] List<Sprite> ListSkillImage = new List<Sprite>();
-
-    List<SkillEntity> listSkill = new List<SkillEntity>();
+    List<AccountSkillEntity> listSkill = new List<AccountSkillEntity>();
+    [SerializeField]  List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
 
     [SerializeField] GameObject SelectedSkillCircle;
 
     public static SkillEntity SkillSelected;
+
+    [Header("DAO")]
+    SkillDAO skillDAO;
+    Account_SkillDAO account_SkillDAO;
 
     private void Awake()
     {
@@ -49,27 +51,34 @@ public class SkillManager : MonoBehaviour
     }
     private void Start()
     {
-        for (int i = 1; i < 4; i++)
-        {
-            SkillEntity Skill = new SkillEntity(i, ListSkillImage[i], (i + 1) * 10, "Skill" + i, i, i * 100);
-
-            listSkill.Add(Skill);
-        }
-
-        LoadSkillList();
+        account_SkillDAO = GetComponentInParent<Account_SkillDAO>();
+        skillDAO = GetComponentInParent<SkillDAO>();
+        LoadAccountSkillList();
     }
 
 
-    public void LoadSkillList()
+    public void LoadAccountSkillList()
     {
+        listSkill = account_SkillDAO.GetAllSkillForAccount();
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
         }
 
-        foreach (SkillEntity skill in listSkill)
+        foreach (AccountSkillEntity skill in listSkill)
         {
-            Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skill);
+            SkillEntity skillentity = skillDAO.GetSkillbyID(skill.Id);
+
+            bool status = skill.SlotIndex != 0 ? true : false;
+            Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skillentity, status);
+        }
+    }
+
+    public void LoadAccountSkillSlot()
+    {
+        foreach (Skill_Slot slot in listSkillSlot)
+        {
+            slot.SetUpSlot();
         }
     }
 
@@ -82,7 +91,6 @@ public class SkillManager : MonoBehaviour
         CurrentDamage.text = skill.Damage.ToString();
         CurrentChakra.text = skill.Chakra.ToString();
         CurrentLevel.text = "Level " + skill.Level.ToString();
-
         SetUpStatusForUpgrade(skill);
     }
     public void SetUpStatusForUpgrade(SkillEntity skill)
@@ -112,18 +120,9 @@ public class SkillManager : MonoBehaviour
         CurrentLevel.text = "Level " + skill.Level;
         CurrentDamage.text = skill.Damage.ToString();
         CurrentChakra.text = skill.Chakra.ToString();
-        foreach (SkillEntity skillentity in listSkill)
-        {
-            if (skillentity.Id == skill.Id)
-            {
-                skillentity.Level = skill.Level;
-                skillentity.Chakra = skill.Chakra;
-                skillentity.Damage = skill.Damage;
-            }
-        }
 
         SetUpStatusForUpgrade(skill);
-        LoadSkillList();
+        LoadAccountSkillList();
     }
 
     public void UpgradeDisplaySkill()
@@ -135,20 +134,6 @@ public class SkillManager : MonoBehaviour
     {
         SelectedSkillCircle.transform.position = transform;
     }
-
-    /*public void CheckStatusForEquipSkill(SkillEntity skillEntity)
-    {
-        foreach (Skill_Slot skill in ListSkillSlot)
-        {
-            if (skill.Skill != null)
-            {
-                if (skill.Skill.Id == skillEntity.Id)
-                {
-                    skill.UnEquipSlot();
-                }
-            }
-        }
-    }*/
 
 }
 

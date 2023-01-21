@@ -11,18 +11,18 @@ public class Skill_Hold_Manager : MonoBehaviour
         Instance = this;
     }
 
-    public void Skill1()
+    public void WaterBall()
     {
-        Debug.Log("Skill1");
+        Debug.Log("WaterBall");
     }
 
-    public void Skill2()
+    public void WaterSword()
     {
-        Debug.Log("Skill2");
+        Debug.Log("WaterSword");
     }
-    public void Skill3()
+    public void WaterDragon()
     {
-        Debug.Log("Skill3");
+        Debug.Log("WaterDragon");
     }
 
     public void CallMethodFromHold(string MethodName)

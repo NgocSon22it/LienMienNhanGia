@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillImage: {fileID: 1822554587833591560}
+  EquipStatusMenu: {fileID: 3778885125015163496}
 --- !u!1 &2590630201698980329
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,21 +7,35 @@ using UnityEngine.UI;
 
 public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 {
-    public SkillEntity Skill;
+    SkillEntity Skill;
+
     [SerializeField] Image SkillImage;
-    [SerializeField] int slot;
-    [SerializeField] KeyCode key;
+    [SerializeField] int SlotIndex;
+    [SerializeField] KeyCode SlotKey;
 
-    [SerializeField] bool IsEquip;
+    [Header("Slot Manager")]
+    [SerializeField] GameObject Empty;
+    [SerializeField] GameObject Full;
 
-    [Header("EquipSkill")]
-    [SerializeField] GameObject EquipText;
+    [Header("DAO")]
+    Account_SkillDAO account_SkillDAO;
+    SkillDAO skillDAO;
+
+    private void Start()
+    {
+        account_SkillDAO = GetComponentInParent<Account_SkillDAO>();
+        skillDAO = GetComponentInParent<SkillDAO>();
+        SetUpSlot();
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (SkillManager.SkillSelected != null)
         {
             EquipSlot(SkillManager.SkillSelected);
+
+            SkillManager.Instance.LoadAccountSkillList();
+            SkillManager.Instance.LoadAccountSkillSlot();
         }
     }
 
@@ -34,26 +48,68 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
     {
         if (Skill == null) return;
 
-        if (Input.GetKeyDown(key))
+        if (Input.GetKeyDown(SlotKey))
         {
-            Skill_Hold_Manager.Instance.CallMethodFromHold(Skill.Name);
+            Skill_Hold_Manager.Instance.CallMethodFromHold(Skill.MethodName);
         }
     }
 
     public void EquipSlot(SkillEntity skill)
     {
-        if (IsEquip)
+        if(Skill == null)
         {
-            UnEquipSlot();
+            account_SkillDAO.UpdateSlotIndex(skill.Id, SlotIndex);           
         }
-        SkillImage.sprite = skill.SkillImage;
-        Skill = skill;
+        else
+        {
+            AccountSkillEntity CurrentSkill = account_SkillDAO.GetAccountSkillbyId(Skill.Id);
+            AccountSkillEntity SelectSkill = account_SkillDAO.GetAccountSkillbyId(skill.Id);
+
+            int SlotCheck = CurrentSkill.SlotIndex;
+            account_SkillDAO.UpdateSlotIndex(CurrentSkill.Id, SelectSkill.SlotIndex);
+            account_SkillDAO.UpdateSlotIndex(SelectSkill.Id, SlotCheck);        
+        }
+
+        SetUpSlot();
     }
 
     public void UnEquipSlot()
     {
-        IsEquip = false;
-        Skill = null;
-        SkillImage.sprite = null;
+        if(Skill != null)
+        {
+            account_SkillDAO.UpdateSlotIndex(Skill.Id, 0);
+        }
+
+        SetUpSlot();
+        SkillManager.Instance.LoadAccountSkillList();
+    }
+
+    public void SetUpSlot()
+    {
+        AccountSkillEntity accountSkillEntity = account_SkillDAO.GetAccountSkillbySlotIndex(SlotIndex);
+
+        if (accountSkillEntity != null)
+        {
+            SkillEntity skillEntity = skillDAO.GetSkillbyID(accountSkillEntity.Id);
+
+            Skill = skillEntity;
+            SkillImage.sprite = Skill.SkillImage;
+
+            SetUpStatusPanel(false, true);
+        }
+        else
+        {
+            Skill = null;
+            SkillImage.sprite = null;
+
+            SetUpStatusPanel(true, false);
+        }       
+        
+    }
+
+    public void SetUpStatusPanel(bool EmptyStatus, bool FullStatus)
+    {
+        Empty.SetActive(EmptyStatus);
+        Full.SetActive(FullStatus);
     }
 }
