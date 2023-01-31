@@ -28,9 +28,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] TMP_Text Price;
     [SerializeField] Button BuyBtn;
 
-    [Header("Gold")]
-    public static int Gold = 5000;
-    [SerializeField] TMP_Text Goldtxt;
 
 
     PetEntity PetSelected;
@@ -42,7 +39,6 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {       
         LoadPetList();
-        Goldtxt.text = Gold.ToString();
     }
 
     public void LoadPetList()
@@ -80,17 +76,11 @@ public class ShopManager : MonoBehaviour
             Instantiate(ShopPetItem, Content).GetComponent<ShopPetItem>().SetUp(pet);
         }
     }
-    private void Update()
-    {
-        Goldtxt.text = Gold.ToString();
-    }
     public void BuySelectedPet(PetEntity pet)
     {
         PetBagManager.Bag.Add(pet);
-        Gold -= pet.Price;
         LoadPetList();
         SetUpStatusForBuy(pet);
-        Debug.Log(Gold);
     }
 
     public void SetUpStatusForBuy(PetEntity pet)

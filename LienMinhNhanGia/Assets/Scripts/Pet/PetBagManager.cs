@@ -128,7 +128,6 @@ public class PetBagManager : MonoBehaviour
         Damage.text = pet.Damage.ToString();
         AttackSpeed.text = pet.AttackSpeed.ToString();
         AttackRange.text = pet.AttackRange.ToString();
-        ShopManager.Gold -= 1000;
         SetUpStatusForUpgrade(pet);
         LoadPetList();
     }

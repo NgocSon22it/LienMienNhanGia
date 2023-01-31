@@ -201,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpAbleLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2147483647
   DetectGroundVector: {x: 2.67, y: 0.1}
   DetectGroundTransform: {fileID: 941887470606723563}
   DetectGroundDistance: 0

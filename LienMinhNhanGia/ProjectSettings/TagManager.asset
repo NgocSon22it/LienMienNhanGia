@@ -9,6 +9,8 @@ TagManager:
   - Ground
   - CheckPoint
   - CameraLogic
+  - Item
+  - Shop
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Pet
   - Ground
   - CheckPoint
-  - 
+  - Item
   - 
   - 
   - 
