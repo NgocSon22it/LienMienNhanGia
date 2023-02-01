@@ -28,8 +28,8 @@ public class MissionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        missionDAO = GetComponentInParent<MissionDAO>();
-        account_MissionDAO = GetComponentInParent<Account_MissionDAO>();
+        missionDAO = GetComponent<MissionDAO>();
+        account_MissionDAO = GetComponent<Account_MissionDAO>();
         LoadMissionList();
     }
 
