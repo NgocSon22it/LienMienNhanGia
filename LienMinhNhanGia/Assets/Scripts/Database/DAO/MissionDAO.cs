@@ -9,7 +9,7 @@ public class MissionDAO : MonoBehaviour
 {
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();
 
-    public MissionEntity GetMissionbyId(int MissionID)
+    public MissionEntity GetMissionbyId(string MissionID)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
@@ -17,7 +17,7 @@ public class MissionDAO : MonoBehaviour
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "Select * from Mission where Mission_ID = " + MissionID;
+                cmd.CommandText = "Select * from Mission where Mission_ID = '" + MissionID + "'";
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -27,7 +27,7 @@ public class MissionDAO : MonoBehaviour
                 {
                     MissionEntity a = new MissionEntity
                     {
-                        MissionID = Convert.ToInt32(dr["Mission_ID"]),
+                        MissionID = dr["Mission_ID"].ToString(),
                         Name = dr["Name"].ToString(),
                         Category = dr["Category"].ToString(),
                         Request = dr["Request"].ToString(),

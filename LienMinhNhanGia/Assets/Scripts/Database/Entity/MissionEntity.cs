@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MissionEntity
 {
-    public int MissionID;
+    public string MissionID;
     public int MapID;
     public string Name;
     public string Category;

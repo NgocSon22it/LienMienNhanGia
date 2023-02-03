@@ -29,9 +29,10 @@ public class Account_MissionDAO : MonoBehaviour
                     list.Add(new AccountMissionEntity
                     {
                         AccountID = Convert.ToInt32(dr["Acc_ID"]),
-                        MissionID = Convert.ToInt32(dr["Mission_ID"]),
+                        MissionID = dr["Mission_ID"].ToString(),
                         State = Convert.ToInt32(dr["State"]),
                         Current = Convert.ToInt32(dr["Current"]),
+                        Link = dr["Link_image"].ToString(),
                         Delete = Convert.ToBoolean(dr["Delete"])
                     });
                 }
@@ -47,12 +48,12 @@ public class Account_MissionDAO : MonoBehaviour
         return list;
     }
 
-    public void UpdateAccountMissionState(int AccountID, int MissionID, int State)
+    public void UpdateAccountMissionState(int AccountID, string MissionID, int State)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "UPDATE Account_Mission Set [State] = @state where Acc_ID = @accountid and Mission_ID = " + MissionID;
+            cmd.CommandText = "UPDATE Account_Mission Set [State] = @state where Acc_ID = @accountid and Mission_ID = '" + MissionID + "'";
             cmd.Parameters.AddWithValue("@state", State);
             cmd.Parameters.AddWithValue("@accountid", AccountID);
             connection.Open();
@@ -61,12 +62,12 @@ public class Account_MissionDAO : MonoBehaviour
         }
     }
 
-    public void UpdateAccountMissionCurrent(int AccountID, int MissionID)
+    public void UpdateAccountMissionCurrent(int AccountID, string MissionID)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "UPDATE Account_Mission Set [Current] = [Current] + 1 where Acc_ID = @accountid and Mission_ID = " + MissionID;
+            cmd.CommandText = "UPDATE Account_Mission Set [Current] = [Current] + 1 where Acc_ID = @accountid and Mission_ID = '" + MissionID + "'";
             cmd.Parameters.AddWithValue("@accountid", AccountID);
             connection.Open();
             cmd.ExecuteNonQuery();

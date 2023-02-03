@@ -4,32 +4,34 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    [SerializeField] bool start = false;
-    [SerializeField] float duration = 1.0f;
-    [SerializeField] AnimationCurve Curve;
+    [Header("Instance")]
+    public static CameraShake Instance;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] float duration = 1.0f;
+
+    private void Awake()
     {
-        if(start) 
-        {
-            start = false;
-            StartCoroutine(Shake());
-        }
+        Instance = this;
     }
 
-    IEnumerator Shake()
+    public void ExecuteShakeScreen(AnimationCurve animationCurve)
+    {
+        StartCoroutine(Shake(animationCurve));
+    }
+
+    IEnumerator Shake(AnimationCurve animationCurve)
     {
         Vector3 startPosition = transform.position;
         float elapsedTime = 0f;
 
-        while(elapsedTime < duration)
+        while (elapsedTime < duration)
         {
-            elapsedTime+= Time.deltaTime;
-            float strenth = Curve.Evaluate(elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            float strenth = animationCurve.Evaluate(elapsedTime / duration);
             transform.position = startPosition + Random.insideUnitSphere * strenth;
             yield return null;
         }
+
         transform.position = startPosition;
     }
 

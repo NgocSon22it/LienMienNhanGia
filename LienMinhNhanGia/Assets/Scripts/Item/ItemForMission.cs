@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemForMission : MonoBehaviour
 {
     [SerializeField] string ItemName;
-    [SerializeField] int MissionID;
+    [SerializeField] string MissionID;
 
     private void Start()
     {
@@ -17,6 +17,7 @@ public class ItemForMission : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             MissionManager.Instance.AddCurrentAmountMission(MissionID);
+            Destroy(gameObject);
         }
     }
 

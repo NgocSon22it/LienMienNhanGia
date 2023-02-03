@@ -5,9 +5,10 @@ using UnityEngine;
 public class AccountMissionEntity
 {
     public int AccountID;
-    public int MissionID;
+    public string MissionID;
     public int State;
     public int Current;
+    public string Link;
     public bool Delete;
 
     public AccountMissionEntity() { }

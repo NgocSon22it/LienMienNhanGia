@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class MissionItem : MonoBehaviour
 {
@@ -15,9 +15,11 @@ public class MissionItem : MonoBehaviour
     [SerializeField] TMP_Text MissionCoinBonus;
     [SerializeField] TMP_Text MissionExperienceBonus;
 
-    [SerializeField] GameObject DonePanel;
+    [SerializeField] GameObject NotClaimBtn;
     [SerializeField] GameObject ClaimBtn;
-    [SerializeField] GameObject InprogressPanel;
+    [SerializeField] GameObject Done;
+
+    [SerializeField] Image CurrentProgress;
 
     MissionEntity missionEntity;
 
@@ -32,24 +34,27 @@ public class MissionItem : MonoBehaviour
         MissionCoinBonus.text = _missionEntity.CoinBonus.ToString();
         MissionExperienceBonus.text = _missionEntity.ExperienceBonus.ToString();
 
-        if (Current >= _missionEntity.Target && State == 1)
+        CurrentProgress.fillAmount = (float)Current / (float)_missionEntity.Target;
+
+        if (Current >= _missionEntity.Target && State == 0)
         {
-            DonePanel.SetActive(true);
-            ClaimBtn.SetActive(false);
-            InprogressPanel.SetActive(false);
-        }
-        else if(Current >= _missionEntity.Target && State == 0)
-        {
-            DonePanel.SetActive(false);
+            NotClaimBtn.SetActive(false);
             ClaimBtn.SetActive(true);
-            InprogressPanel.SetActive(false);
+            Done.SetActive(false);
+        }
+        else if(Current >= _missionEntity.Target && State == 1)
+        {
+            NotClaimBtn.SetActive(false);
+            ClaimBtn.SetActive(false);
+            Done.SetActive(true);
         }
         else
         {
-            DonePanel.SetActive(false);
+            NotClaimBtn.SetActive(true);
             ClaimBtn.SetActive(false);
-            InprogressPanel.SetActive(true);
+            Done.SetActive(false);
         }
+
 
     }
 

@@ -30,13 +30,15 @@ public class PlayerOffLine : MonoBehaviour
     [SerializeField] Vector2 DetectGroundVector;
     [SerializeField] Transform DetectGroundTransform;
     [SerializeField] float DetectGroundDistance;
-
+    [SerializeField] AnimationCurve TakeDamageAnimationCurve;
+    [SerializeField] int a, b;
+    [SerializeField] float c;
 
     private void Awake()
     {
         Instance = this;
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,14 +55,16 @@ public class PlayerOffLine : MonoBehaviour
     {
         XInput = Input.GetAxis("Horizontal");
 
-        if(IsGround() && rb.velocity.y <= 0)
+        if (IsGround() && rb.velocity.y <= 0)
         {
             JumpTime = CanDoubleJump == true ? 2 : 1;
         }
-
         Jump();
         NormalAttack();
-
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            TakeDamage(1);
+        }
     }
 
     private void FixedUpdate()
@@ -95,6 +99,12 @@ public class PlayerOffLine : MonoBehaviour
             Flip();
         }
     }
+
+    public void TakeDamage(int damage)
+    {
+        CameraManager.Instance.StartShakeScreen(a, b, c);
+    }
+
     public void Flip()
     {
         IsFacingRight = !IsFacingRight;
@@ -125,7 +135,7 @@ public class PlayerOffLine : MonoBehaviour
 
     public bool IsGround()
     {
-        return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, JumpAbleLayer);     
+        return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, JumpAbleLayer);
     }
 
     #region MovementSpeed

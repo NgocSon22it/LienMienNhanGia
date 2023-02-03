@@ -12,6 +12,8 @@ TagManager:
   - Item
   - Shop
   - Wall
+  - Truc Thu
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Item
   - Minimap
   - Wall
-  - 
+  - TrucThu
   - 
   - 
   - 
@@ -54,6 +56,9 @@ TagManager:
     locked: 0
   - name: Topographic
     uniqueID: 3768551199
+    locked: 0
+  - name: Trap
+    uniqueID: 2555300491
     locked: 0
   - name: Player
     uniqueID: 3882615129

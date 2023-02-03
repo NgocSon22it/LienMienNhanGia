@@ -36,7 +36,7 @@ public class MissionManager : MonoBehaviour
 
     public void LoadMissionList()
     {
-        List = account_MissionDAO.GetAllMissionForAccount(2);
+        List = account_MissionDAO.GetAllMissionForAccount(1);
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
@@ -49,9 +49,9 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-    public void AddCurrentAmountMission(int MissionID)
+    public void AddCurrentAmountMission(string MissionID)
     {
-        account_MissionDAO.UpdateAccountMissionCurrent(2, MissionID);
+        account_MissionDAO.UpdateAccountMissionCurrent(1, MissionID);
         LoadMissionList();
     }
 
@@ -59,7 +59,9 @@ public class MissionManager : MonoBehaviour
     {
         Gold += missionEntity.CoinBonus;
         Exp  += missionEntity.ExperienceBonus;
-        account_MissionDAO.UpdateAccountMissionState(2, missionEntity.MissionID, 1);
+
+        account_MissionDAO.UpdateAccountMissionState(1, missionEntity.MissionID, 1);
         LoadMissionList();
+
     }
 }
