@@ -10,7 +10,9 @@ public class TrucThu : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            
+            UIManager.Instance.ControlPauseGame(MissionPanel, KeyCode.E);
+            Debug.Log(MissionPanel.gameObject.name);
+            Destroy(gameObject);
         }
     }
 }

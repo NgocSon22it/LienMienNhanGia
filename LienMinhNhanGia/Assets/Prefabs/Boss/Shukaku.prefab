@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 1965142497738684167}
   - component: {fileID: 1965142497738683644}
   - component: {fileID: 1742846465}
+  - component: {fileID: 5762491573222706124}
   m_Layer: 0
   m_Name: Shukaku
   m_TagString: Enemy
@@ -215,8 +216,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1453609927
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f34deeaa9612ae940a8968d1a45a7599, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -280,8 +281,8 @@ MonoBehaviour:
   - {fileID: 1965142498229474371}
   - {fileID: 1965142498681976359}
   m_Bounds:
-    m_Center: {x: 0.091424584, y: 0.7251973, z: 0}
-    m_Extent: {x: 1.4643108, y: 1.4627361, z: 0}
+    m_Center: {x: 0.09142625, y: 0.7251977, z: 0}
+    m_Extent: {x: 1.4643112, y: 1.4627361, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -327,11 +328,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2a8cfae5c7fa54c870bd0cc53b74f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
   Effect: {fileID: 0}
   Place: {fileID: 0}
   SecondSkillObject: {fileID: 3057998679401550122, guid: 5125b201090de594784210dd16be43ea, type: 3}
   SecondSkillObjectFall: {fileID: 9035951548985870632, guid: 7a519ea951a073e4a86ff04d1bc2384c, type: 3}
   Place2: {fileID: 0}
+  Place2End: {fileID: 0}
+  ThirdSkillObject: {fileID: 0}
+  Place3: {fileID: 0}
+  FouthSkillObject: {fileID: 0}
+  FouthSkillEffect: {fileID: 0}
+--- !u!50 &5762491573222706124
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965142497738684166}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 10
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1965142497764471514
 GameObject:
   m_ObjectHideFlags: 0

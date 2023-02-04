@@ -14,8 +14,8 @@ public class MissionManager : MonoBehaviour
 
     List<AccountMissionEntity> List = new List<AccountMissionEntity>();
 
-    public int Gold;
-    public int Exp;
+
+    public int MissionCount;
 
     [Header("DAO")]
     MissionDAO missionDAO;
@@ -57,11 +57,14 @@ public class MissionManager : MonoBehaviour
 
     public void ClaimRewardSelectedMission(MissionEntity missionEntity)
     {
-        Gold += missionEntity.CoinBonus;
-        Exp  += missionEntity.ExperienceBonus;
 
         account_MissionDAO.UpdateAccountMissionState(1, missionEntity.MissionID, 1);
         LoadMissionList();
 
+    }
+
+    public void SetMissionCount(int missionCount)
+    {
+        MissionCount = missionCount;
     }
 }

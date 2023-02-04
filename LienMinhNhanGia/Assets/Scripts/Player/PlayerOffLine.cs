@@ -30,7 +30,6 @@ public class PlayerOffLine : MonoBehaviour
     [SerializeField] Vector2 DetectGroundVector;
     [SerializeField] Transform DetectGroundTransform;
     [SerializeField] float DetectGroundDistance;
-    [SerializeField] AnimationCurve TakeDamageAnimationCurve;
     [SerializeField] int a, b;
     [SerializeField] float c;
 

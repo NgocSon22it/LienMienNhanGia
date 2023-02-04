@@ -14,6 +14,8 @@ TagManager:
   - Wall
   - Truc Thu
   - FxTemporaire
+  - BossDoor
+  - BossDoorUp
   layers:
   - Default
   - TransparentFX
@@ -29,8 +31,8 @@ TagManager:
   - Minimap
   - Wall
   - TrucThu
-  - 
-  - 
+  - BossDoor
+  - BossDoorUp
   - 
   - 
   - 
@@ -59,6 +61,12 @@ TagManager:
     locked: 0
   - name: Trap
     uniqueID: 2555300491
+    locked: 0
+  - name: Boss
+    uniqueID: 2841357369
+    locked: 0
+  - name: Enemy
+    uniqueID: 3334385651
     locked: 0
   - name: Player
     uniqueID: 3882615129

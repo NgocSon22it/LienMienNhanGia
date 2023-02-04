@@ -7,11 +7,18 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject MissionPanel;
     [SerializeField] GameObject PausePanel;
+    [SerializeField] GameObject MapPanel;
 
     bool IsPause, IsPlaying = true;
 
     KeyCode KeyCheck = KeyCode.None;
 
+    public static UIManager Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     public void PauseGame()
     {
         Time.timeScale = 0f;
@@ -24,6 +31,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f;
         IsPause = false;
         IsPlaying = true;
+        KeyCheck = KeyCode.None;
     }
 
     private void Update()
@@ -33,18 +41,17 @@ public class UIManager : MonoBehaviour
 
     public void ControlPauseGame(GameObject Panel, KeyCode key)
     {
-        if (Input.GetKeyDown(key) && IsPlaying)
+        if (IsPlaying)
         {
             PauseGame();
             Panel.SetActive(true);
             KeyCheck = key;
             Debug.Log("Pause");
         }
-        else if (Input.GetKeyDown(key) && IsPause && key == KeyCheck)
+        else if (IsPause && key == KeyCheck)
         {
             ResumeGame();
-            Panel.SetActive(false);
-            KeyCheck = KeyCode.None;
+            Panel.SetActive(false);            
             Debug.Log("Resume");
         }
     }
@@ -59,6 +66,11 @@ public class UIManager : MonoBehaviour
         {
             ControlPauseGame(MissionPanel, KeyCode.E);
         }
+        else if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ControlPauseGame(MapPanel, KeyCode.Tab);
+        }
+        
     }
 
 }

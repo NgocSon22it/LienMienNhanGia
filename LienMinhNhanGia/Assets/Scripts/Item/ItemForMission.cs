@@ -17,6 +17,7 @@ public class ItemForMission : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             MissionManager.Instance.AddCurrentAmountMission(MissionID);
+            MissionManager.Instance.MissionCount += 1;
             Destroy(gameObject);
         }
     }
