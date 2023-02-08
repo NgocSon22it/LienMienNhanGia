@@ -2,21 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Photon.Realtime;
 
 public class CameraManager : MonoBehaviour
 {
-
-
-    [SerializeField] float MinHorizontal, MaxHorizontal;
-    [SerializeField] float MinVertical, MaxVertical;
-
-    [Range(0f, 1f)]
-    [SerializeField] float SmoothTime;
-    [SerializeField] float speed;
-
-    Vector3 TargetPosition;
-    Vector3 Velocity = Vector3.zero;
-
 
     CinemachineVirtualCamera virtualCamera;
     CinemachineBasicMultiChannelPerlin channelPerlin;
@@ -60,12 +49,6 @@ public class CameraManager : MonoBehaviour
                 StopShakeScreen();
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        transform.position = new Vector3(Mathf.Clamp(TargetPosition.x, MinHorizontal, MaxHorizontal), Mathf.Clamp(TargetPosition.y, MinVertical, MaxVertical), -10);
-
     }
     
 }

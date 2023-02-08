@@ -28,12 +28,14 @@ public class MissionDAO : MonoBehaviour
                     MissionEntity a = new MissionEntity
                     {
                         MissionID = dr["Mission_ID"].ToString(),
+                        MapID = dr["Map_ID"].ToString(),
                         Name = dr["Name"].ToString(),
                         Category = dr["Category"].ToString(),
                         Request = dr["Request"].ToString(),
                         Target = Convert.ToInt32(dr["Target"]),
                         ExperienceBonus = Convert.ToInt32(dr["Experience_Bonus"]),
                         CoinBonus = Convert.ToInt32(dr["Coin_Bonus"]),
+                        Delete = Convert.ToBoolean(dr["Delete"])
 
                     };
                     connection.Close();

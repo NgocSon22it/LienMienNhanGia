@@ -24,21 +24,10 @@ public class LevelManager : MonoBehaviour
     {
         Instance = this;
     }
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         SetUpExperience();
         SetUpExperienceUI();
-    }
-
-    private void Update()
-    {
-        SetUpExperienceUI();
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            AddExperience(100);
-        }
     }
 
     public void SetUpExperience()
@@ -63,13 +52,14 @@ public class LevelManager : MonoBehaviour
             Level++;
             Expercience -= ExpercienceToNextLevel;
             ExpercienceToNextLevel = Level * 100;
-            LevelUpReward();
+            LevelUpReward();           
         }
+        SetUpExperienceUI();
     }
 
     public void LevelUpReward()
     {
-        PlayerOffLine.Instance.SetDoubleJump(Level >= 2 ? true : false);
+        PlayerOffLine.Instance.SetJumpTimeMax(Level >= 2 ? 2 : 1);
     }
 
 

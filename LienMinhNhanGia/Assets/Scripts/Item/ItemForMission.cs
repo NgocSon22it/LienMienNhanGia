@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class ItemForMission : MonoBehaviour
 {
-    [SerializeField] string ItemName;
     [SerializeField] string MissionID;
-
-    private void Start()
-    {
-        ItemName = gameObject.name;
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            MissionManager.Instance.AddCurrentAmountMission(MissionID);
-            MissionManager.Instance.MissionCount += 1;
+            MissionManager.Instance.IncreaseCurrentMission(MissionID);
             Destroy(gameObject);
         }
     }

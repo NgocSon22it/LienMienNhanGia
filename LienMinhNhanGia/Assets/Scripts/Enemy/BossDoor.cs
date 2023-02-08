@@ -44,8 +44,7 @@ public class BossDoor : MonoBehaviour
     {
         rb.velocity = -transform.right * 10;
         TriggerPlayer.enabled = false;
-        isOpen = true;
-        MissionManager.Instance.SetMissionCount(0);
+        isOpen = true;      
         CameraManager.Instance.StartShakeScreen(10, 3, 2);
     }
 

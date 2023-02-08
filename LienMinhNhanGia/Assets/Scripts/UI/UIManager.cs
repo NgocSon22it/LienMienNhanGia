@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] PlayerOffLine Player;
+
+
+
     [SerializeField] GameObject MissionPanel;
     [SerializeField] GameObject PausePanel;
     [SerializeField] GameObject MapPanel;
@@ -19,6 +23,21 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        SetUpUI();
+    }
+
+
+    public void SetUpUI()
+    {
+        Player.SetUpPlayer();
+    }
+
+
+
+
     public void PauseGame()
     {
         Time.timeScale = 0f;

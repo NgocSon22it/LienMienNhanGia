@@ -53,11 +53,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 536340623
+    locked: 0
+  - name: UpBackGround
+    uniqueID: 1636930973
+    locked: 0
+  - name: BackGroundAttack
+    uniqueID: 3397247059
+    locked: 0
   - name: Topographic (Minimap)
     uniqueID: 2547597367
     locked: 0
   - name: Topographic
     uniqueID: 3768551199
+    locked: 0
+  - name: ittem
+    uniqueID: 1301962501
     locked: 0
   - name: Trap
     uniqueID: 2555300491

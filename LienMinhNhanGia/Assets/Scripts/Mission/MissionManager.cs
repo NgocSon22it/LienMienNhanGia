@@ -12,14 +12,13 @@ public class MissionManager : MonoBehaviour
     [SerializeField] GameObject MissionItem;
     [SerializeField] Transform Content;
 
-    List<AccountMissionEntity> List = new List<AccountMissionEntity>();
+    List<AccountMissionEntity> ListAccountMission = new List<AccountMissionEntity>();
 
 
     public int MissionCount;
 
     [Header("DAO")]
-    MissionDAO missionDAO;
-    Account_MissionDAO account_MissionDAO;
+    [SerializeField] GameObject DAOManager;
     private void Awake()
     {
         Instance = this;
@@ -28,43 +27,37 @@ public class MissionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        missionDAO = GetComponent<MissionDAO>();
-        account_MissionDAO = GetComponent<Account_MissionDAO>();
         LoadMissionList();
     }
 
 
     public void LoadMissionList()
     {
-        List = account_MissionDAO.GetAllMissionForAccount(1);
+        ListAccountMission = DAOManager.GetComponent<Account_MissionDAO>().GetAllMissionForAccount(AccountManager.AccountID);
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
         }
 
-        foreach (AccountMissionEntity accountMission in List)
+        foreach (AccountMissionEntity accountMission in ListAccountMission)
         {
-            MissionEntity mission = missionDAO.GetMissionbyId(accountMission.MissionID);
+            MissionEntity mission = DAOManager.GetComponent<MissionDAO>().GetMissionbyId(accountMission.MissionID);
             Instantiate(MissionItem, Content).GetComponent<MissionItem>().SetUp(mission, accountMission.Current, accountMission.State);
         }
     }
 
-    public void AddCurrentAmountMission(string MissionID)
+    public void IncreaseCurrentMission(string MissionID)
     {
-        account_MissionDAO.UpdateAccountMissionCurrent(1, MissionID);
+        DAOManager.GetComponent<Account_MissionDAO>().UpdateAccountMissionCurrent(AccountManager.AccountID, MissionID);
         LoadMissionList();
     }
 
     public void ClaimRewardSelectedMission(MissionEntity missionEntity)
     {
 
-        account_MissionDAO.UpdateAccountMissionState(1, missionEntity.MissionID, 1);
+        DAOManager.GetComponent<Account_MissionDAO>().UpdateAccountMissionState(AccountManager.AccountID, missionEntity.MissionID, 1);
+        LevelManager.Instance.AddExperience(missionEntity.ExperienceBonus);
         LoadMissionList();
 
-    }
-
-    public void SetMissionCount(int missionCount)
-    {
-        MissionCount = missionCount;
     }
 }
