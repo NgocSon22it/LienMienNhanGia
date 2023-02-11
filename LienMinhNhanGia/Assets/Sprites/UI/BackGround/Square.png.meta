@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6debecd4dc6593c45a0467eaf17f5c59
+guid: 25d65296d0bce74409c1dc45da0141ed
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Xbutton_0
+      name: Square_0
       rect:
         serializedVersion: 2
-        x: 91
-        y: 0
-        width: 417
-        height: 417
+        x: 39
+        y: 73
+        width: 418
+        height: 358
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,8 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 198552f2bed22784a9f9593ea2af3c58
-      internalID: 1038527742
+      spriteID: 1e4cac3e47272b640a6346fd982ad50a
+      internalID: 1255006888
       vertices: []
       indices: 
       edges: []
@@ -136,7 +136,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Xbutton_0: 1038527742
+      Square_0: 1255006888
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

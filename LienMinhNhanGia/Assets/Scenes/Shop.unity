@@ -644,12 +644,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1117587845}
-  - {fileID: 1459005968}
   - {fileID: 1124406004}
   - {fileID: 230144912}
   - {fileID: 1849787219}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1485,7 +1484,7 @@ RectTransform:
   - {fileID: 1007552775}
   - {fileID: 1167000783}
   m_Father: {fileID: 102902422}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2512,7 +2511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &347362117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2538,7 +2537,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &350124894
 GameObject:
@@ -6654,7 +6653,7 @@ RectTransform:
   - {fileID: 265356518}
   - {fileID: 47494480}
   m_Father: {fileID: 102902422}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6673,25 +6672,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6173f679c5671c749be66c611bfe0822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PetItem: {fileID: 6642737355048773514, guid: 4602f3085ad3b4b4e9222bd33c63faae, type: 3}
-  Content: {fileID: 1005802086}
-  EquipPetImage: {fileID: 725278902}
-  HoverPanel: {fileID: 930456831}
-  PetImage: {fileID: 1177089968}
-  Name: {fileID: 1016443298}
-  Damage: {fileID: 304792152}
-  AttackSpeed: {fileID: 2032562875}
-  AttackRange: {fileID: 1582402499}
-  Level: {fileID: 206690492}
-  NextLevel: {fileID: 711863655}
-  NextDamage: {fileID: 1701645194}
-  NextAttackSpeed: {fileID: 1689765633}
-  NextAttackRange: {fileID: 865937510}
-  UpgradeCost: {fileID: 355654724}
-  CanUpgradePanel: {fileID: 2124829528}
-  MaxLevelPanel: {fileID: 47320121}
-  ListPetPanel: {fileID: 265356517}
-  UpgradePetPanel: {fileID: 47494479}
 --- !u!114 &1124406006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7610,27 +7590,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1391255052}
   m_CullTransparentMesh: 1
---- !u!1 &1459005967 stripped
+--- !u!1 &1417303764
 GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1459005968}
+  m_Layer: 0
+  m_Name: 'Recovery GameObject for RectTransform (ID in file: 1459005968)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1459005967
+GameObject:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 6259753207105914262, guid: 60c8587bd18292548adada73275efd68, type: 3}
   m_PrefabInstance: {fileID: 6259753205809262489}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1459005968 stripped
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1459005970}
+  m_Layer: 0
+  m_Name: 
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1459005968
 RectTransform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 6259753207105914249, guid: 60c8587bd18292548adada73275efd68, type: 3}
   m_PrefabInstance: {fileID: 6259753205809262489}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1459005969 stripped
+  m_GameObject: {fileID: 1417303764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1459005969
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 6259753207105914248, guid: 60c8587bd18292548adada73275efd68, type: 3}
   m_PrefabInstance: {fileID: 6259753205809262489}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459005967}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d25320bd2e209243a1d8ac28606bf73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainItem: {fileID: 0}
+  Content: {fileID: 0}
+  ItemImage: {fileID: 0}
+  ItemNameTxt: {fileID: 0}
+  ItemCoinTxt: {fileID: 0}
+  ItemDescriptionTxt: {fileID: 0}
+--- !u!4 &1459005970
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459005967}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1494507191
 GameObject:
   m_ObjectHideFlags: 0
@@ -8503,7 +8547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ab1b2d19ff8d642bd1c37640b8b3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HoverPanel: {fileID: 930456831}
 --- !u!1 &1582402497
 GameObject:
   m_ObjectHideFlags: 0
@@ -9209,7 +9252,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1701645192
 GameObject:
@@ -10414,7 +10457,7 @@ RectTransform:
   - {fileID: 1563053386}
   - {fileID: 1872973555}
   m_Father: {fileID: 102902422}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

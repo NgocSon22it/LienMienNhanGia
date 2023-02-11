@@ -16,6 +16,7 @@ TagManager:
   - FxTemporaire
   - BossDoor
   - BossDoorUp
+  - Slope
   layers:
   - Default
   - TransparentFX
@@ -33,7 +34,7 @@ TagManager:
   - TrucThu
   - BossDoor
   - BossDoorUp
-  - 
+  - Slope
   - 
   - 
   - 

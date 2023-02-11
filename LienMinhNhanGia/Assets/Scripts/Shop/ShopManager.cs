@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,120 +11,110 @@ public class ShopManager : MonoBehaviour
     [Header("Instance")]
     public static ShopManager Instance;
 
-    [SerializeField] GameObject ShopPetItem;
+    [Header("DAOManager")]
+    [SerializeField] GameObject DAOManager;
+
+
+    [SerializeField] GameObject MainItem;
     [SerializeField] Transform Content;
 
-    [Header("Shop Manager")]
-    [SerializeField] GameObject ListPetItemPanel;
-    [SerializeField] GameObject PetInformationPanel;
-    [SerializeField] GameObject OwnedText;
-    [SerializeField] GameObject NotOwn;
 
-    [Header("Display Information")]
-    [SerializeField] Image PetImage;
-    [SerializeField] TMP_Text Name;
-    [SerializeField] TMP_Text Damage;
-    [SerializeField] TMP_Text AttackSpeed;
-    [SerializeField] TMP_Text AttackRange;
-    [SerializeField] TMP_Text Price;
-    [SerializeField] Button BuyBtn;
+    [Header("Selected Item")]
+    [SerializeField] Image ItemImage;
+    [SerializeField] TMP_Text ItemNameTxt;
+    [SerializeField] TMP_Text ItemCoinTxt;
+    [SerializeField] TMP_Text ItemDescriptionTxt;
+    [SerializeField] GameObject SelectedSquare;
+    ItemEntity MainItemSelected;
+    [SerializeField] GameObject CanBuyPanel;
+    [SerializeField] GameObject NotBuyPanel;
 
+    [Header("Account Information")]
+    [SerializeField] TMP_Text AccountCoinTxt;
 
+    List<ItemEntity> ListMainItem = new List<ItemEntity>();
+    List<AccountItemEntity> ListAccountItem = new List<AccountItemEntity>();
 
-    PetEntity PetSelected;
-    [SerializeField] List<Sprite> ListImage = new List<Sprite>();
     private void Awake()
     {
         Instance = this;
     }
+
     private void Start()
-    {       
-        LoadPetList();
+    {
+        LoadAccountItem();
+        LoadShopMainItemList();
+        if (ListMainItem.Count > 0)
+        {
+            SetUpSelectedMainItem(ListMainItem[0]);
+        }
     }
 
-    public void LoadPetList()
+    public void LoadShopMainItemList()
     {
+        AccountCoinTxt.text = AccountManager.AccountCoin.ToString();        
+        LoadAccountItem();
+        ListMainItem = DAOManager.GetComponent<ItemDAO>().GetAllItem();
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
         }
 
-        List<PetEntity> list = new List<PetEntity>();
-
-        PetEntity Pet1 = new PetEntity(1, "Shukaku", ListImage[0], 10, 0.7f, 15,1, 100);
-        PetEntity Pet2 = new PetEntity(2, "Matatabi", ListImage[1], 10, 0.7f, 15,1, 200);
-        PetEntity Pet3 = new PetEntity(3, "Isobu", ListImage[2], 10, 0.7f, 15, 1, 300);
-        PetEntity Pet4 = new PetEntity(4, "Son Goku", ListImage[3], 10, 0.7f, 15, 1, 400);
-        PetEntity Pet5 = new PetEntity(5, "Kokuo", ListImage[4], 10, 0.7f, 15, 1, 500);
-        PetEntity Pet6 = new PetEntity(6, "Raijuu", ListImage[5], 10, 0.7f, 15, 1,600);
-        PetEntity Pet7 = new PetEntity(7, "Chomei", ListImage[6], 10, 0.7f, 15, 1,700);
-        PetEntity Pet8 = new PetEntity(8, "Gyuki", ListImage[7], 10, 0.7f, 15, 1,800);
-        PetEntity Pet9 = new PetEntity(9, "Kurama", ListImage[8], 10, 0.7f, 15, 1,900);
-
-        list.Add(Pet1);
-        list.Add(Pet2);
-        list.Add(Pet3);
-        list.Add(Pet4);
-        list.Add(Pet5);
-        list.Add(Pet6);
-        list.Add(Pet7);
-        list.Add(Pet8);
-        list.Add(Pet9);
-
-
-        foreach (PetEntity pet in list)
+        foreach (ItemEntity Item in ListMainItem)
         {
-            Instantiate(ShopPetItem, Content).GetComponent<ShopPetItem>().SetUp(pet);
+            Instantiate(MainItem, Content).GetComponent<ShopMainItem>().SetUp(Item);
         }
-    }
-    public void BuySelectedPet(PetEntity pet)
-    {
-        PetBagManager.Bag.Add(pet);
-        LoadPetList();
-        SetUpStatusForBuy(pet);
-    }
-
-    public void SetUpStatusForBuy(PetEntity pet)
-    {
-        foreach (PetEntity petInBag in PetBagManager.Bag)
-        {
-            if (pet.Id == petInBag.Id)
-            {
-                OwnedText.SetActive(true);
-                NotOwn.SetActive(false);
-                break;
-            }
-            else
-            {
-                OwnedText.SetActive(false);
-                NotOwn.SetActive(true);
-            }
-        }
-    }
-    public void BackToListPetItem()
-    {
-        ListPetItemPanel.SetActive(true);
-        PetInformationPanel.SetActive(false);
-    }
-
-    public void DisplayInformationSelectedPet(PetEntity pet)
-    {
-        ListPetItemPanel.SetActive(false);
-        PetInformationPanel.SetActive(true);
-        PetSelected = pet;
-        PetImage.sprite = pet.Image;
-        Name.text = pet.Name;
-        Damage.text = pet.Damage.ToString();
-        AttackSpeed.text = pet.AttackSpeed.ToString();
-        AttackRange.text = pet.AttackSpeed.ToString();
-        Price.text = pet.Price.ToString();
-
-        SetUpStatusForBuy(pet);
         
     }
 
-    public void BuyDisplayPet()
+    public void SetUpSelectedMainItem(ItemEntity mainItem)
     {
-        BuySelectedPet(PetSelected);
+        MainItemSelected = mainItem;
+        ItemImage.sprite = Resources.Load<Sprite>(mainItem.ItemID);
+        ItemNameTxt.text = mainItem.ItemName;
+        ItemCoinTxt.text = mainItem.ItemCoin.ToString();
+        ItemDescriptionTxt.text = mainItem.Description;
+
+        if (CheckMainItemOwned())
+        {
+            CanBuyPanel.gameObject.SetActive(false);
+            NotBuyPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            CanBuyPanel.gameObject.SetActive(true);
+            NotBuyPanel.gameObject.SetActive(false);
+        }
     }
+
+    public bool CheckMainItemOwned()
+    {
+        foreach(AccountItemEntity itemEntity in ListAccountItem)
+        {
+            if(itemEntity.ItemID.Equals(MainItemSelected.ItemID))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void SetUpSelectedSquare(Vector3 transform)
+    {
+        SelectedSquare.transform.position = transform;
+    }
+
+    public void LoadAccountItem()
+    {
+        ListAccountItem = DAOManager.GetComponent<Account_ItemDAO>().GetAllItemForAccount(AccountManager.AccountID);
+    }
+
+    public void BuySelectedMainItem()
+    {
+        DAOManager.GetComponent<ItemDAO>().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
+        LoadShopMainItemList();
+        SetUpSelectedMainItem(MainItemSelected);
+
+    }
+
 }

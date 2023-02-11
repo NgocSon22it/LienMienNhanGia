@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ItemEntity
 {
-    public int ItemID;
-    public int ItemName;
+    public string ItemID;
+    public string ItemName;
     public int ItemCoin;
     public string Description;
     public string LinkImage;

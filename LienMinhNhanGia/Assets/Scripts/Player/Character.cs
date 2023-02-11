@@ -26,6 +26,7 @@ public class Character : MonoBehaviour
     #region Enviroment Interaction
     [Header("Enviroment Interaction")]
     [SerializeField] protected LayerMask JumpAbleLayer;
+    [SerializeField] protected LayerMask NotFallingLayer;
     [SerializeField] protected Vector2 DetectGroundVector;
     [SerializeField] protected Transform DetectGroundTransform;
     [SerializeField] protected float DetectGroundDistance;
@@ -45,8 +46,7 @@ public class Character : MonoBehaviour
     [Header("Change Value For Level Up")]
     protected int JumpPower;
     protected int JumpTime, JumpTimeMax = 1;
-    protected bool CanJump;
-    protected bool IsFall;
+    public bool IsFalling;
 
 
     #endregion
@@ -77,11 +77,14 @@ public class Character : MonoBehaviour
         {
             JumpTime = 1;
         }
+
         Jump();
         NormalAttack();
         Walk();
-        Debug.Log(rigidbody2d.velocity.y);
-        animator.SetBool("Falling", rigidbody2d.velocity.y < 0);
+        animator.SetBool("IsGround", IsGround());
+        animator.SetBool("TouchSlope", IsTouchSlope());
+        animator.SetBool("Falling", rigidbody2d.velocity.y < 0); 
+        animator.SetBool("FallingFromHighPlace", rigidbody2d.velocity.y < -10);
     }
 
     #region Set Up Player
@@ -168,21 +171,18 @@ public class Character : MonoBehaviour
             if (IsGround())
             {
                 JumpHandle(JumpPower);
-                CanJump = true;
             }
             else
             {
-                if (JumpTime < JumpTimeMax)
+
+                if (JumpTime < JumpTimeMax && !IsFalling)
                 {
                     JumpHandle(JumpPower * 0.7f);
                     JumpTime++;
                 }
 
             }
-        }
-
-
-        animator.SetBool("IsGround", IsGround());
+        }  
     }
 
     public void JumpHandle(float jumpPower)
@@ -236,6 +236,11 @@ public class Character : MonoBehaviour
     {
         return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, JumpAbleLayer);
     }
+
+    public bool IsTouchSlope()
+    {
+        return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, NotFallingLayer);
+    }
     #endregion
 
     #region MovementSpeed
@@ -274,5 +279,14 @@ public class Character : MonoBehaviour
         return JumpTimeMax;
     }
     #endregion
+
+    public void Fall()
+    {
+        IsFalling = true;
+    }
+    public void NotFall()
+    {
+        IsFalling = false;
+    }
 
 }
