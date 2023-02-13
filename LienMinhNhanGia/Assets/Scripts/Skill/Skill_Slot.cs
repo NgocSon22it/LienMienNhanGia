@@ -18,21 +18,21 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
     [SerializeField] GameObject Full;
 
     [Header("DAO")]
-    Account_SkillDAO account_SkillDAO;
-    SkillDAO skillDAO;
+    [SerializeField] GameObject DAOManager;
+
+    [Header("Extension")]
+    string Extension = "Skill/";
 
     private void Start()
     {
-        account_SkillDAO = GetComponentInParent<Account_SkillDAO>();
-        skillDAO = GetComponentInParent<SkillDAO>();
         SetUpSlot();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (SkillManager.SkillSelected != null)
+        if (SkillManager.Instance.SkillSelected != null)
         {
-            EquipSlot(SkillManager.SkillSelected);
+            EquipSlot(SkillManager.Instance.SkillSelected);
 
             SkillManager.Instance.LoadAccountSkillList();
             SkillManager.Instance.LoadAccountSkillSlot();
@@ -58,16 +58,16 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
     {
         if(Skill == null)
         {
-            account_SkillDAO.UpdateSlotIndex(skill.Id, SlotIndex);           
+            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, skill.SkillID, SlotIndex);           
         }
         else
         {
-            AccountSkillEntity CurrentSkill = account_SkillDAO.GetAccountSkillbyId(Skill.Id);
-            AccountSkillEntity SelectSkill = account_SkillDAO.GetAccountSkillbyId(skill.Id);
+            AccountSkillEntity CurrentSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySkillID(AccountManager.AccountID, Skill.SkillID);
+            AccountSkillEntity SelectSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
 
             int SlotCheck = CurrentSkill.SlotIndex;
-            account_SkillDAO.UpdateSlotIndex(CurrentSkill.Id, SelectSkill.SlotIndex);
-            account_SkillDAO.UpdateSlotIndex(SelectSkill.Id, SlotCheck);        
+            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, CurrentSkill.SkillID, SelectSkill.SlotIndex);
+            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, SelectSkill.SkillID, SlotCheck);        
         }
 
         SetUpSlot();
@@ -77,7 +77,7 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
     {
         if(Skill != null)
         {
-            account_SkillDAO.UpdateSlotIndex(Skill.Id, 0);
+            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, Skill.SkillID, 0);
         }
 
         SetUpSlot();
@@ -86,14 +86,15 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 
     public void SetUpSlot()
     {
-        AccountSkillEntity accountSkillEntity = account_SkillDAO.GetAccountSkillbySlotIndex(SlotIndex);
+        AccountSkillEntity accountSkillEntity = 
+        DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, SlotIndex);
 
         if (accountSkillEntity != null)
         {
-            SkillEntity skillEntity = skillDAO.GetSkillbyID(accountSkillEntity.Id);
+            SkillEntity skillEntity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
 
             Skill = skillEntity;
-            SkillImage.sprite = Skill.SkillImage;
+            SkillImage.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);
 
             SetUpStatusPanel(false, true);
         }
@@ -101,7 +102,6 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
         {
             Skill = null;
             SkillImage.sprite = null;
-
             SetUpStatusPanel(true, false);
         }       
         

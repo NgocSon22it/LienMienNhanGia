@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class Account_SkillDAO : MonoBehaviour
 {
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();
 
-    public List<AccountSkillEntity> GetAllSkillForAccount()
+    public List<AccountSkillEntity> GetAllSkillForAccount(int AccountID)
     {
         List<AccountSkillEntity> list = new List<AccountSkillEntity>();
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -18,7 +19,7 @@ public class Account_SkillDAO : MonoBehaviour
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "Select * from Account_Skill";
+                cmd.CommandText = "Select * from Account_Skill where Account_ID = " + AccountID;
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -28,9 +29,12 @@ public class Account_SkillDAO : MonoBehaviour
                 {
                     list.Add(new AccountSkillEntity
                     {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        CurrentLevel = Convert.ToInt32(dr["CurrentLevel"]),
-                        SlotIndex = Convert.ToInt32(dr["SlotIndex"])
+                        ID = Convert.ToInt32(dr["ID"]),
+                        AccountID = Convert.ToInt32(dr["Account_ID"]),
+                        SkillID = dr["Skill_ID"].ToString(),
+                        CurrentLevel = Convert.ToInt32(dr["Current_Level"]),
+                        SlotIndex = Convert.ToInt32(dr["Slot_Index"]),
+                        Detele = Convert.ToBoolean(dr["Delete"])
 
                     });
                 }
@@ -46,7 +50,7 @@ public class Account_SkillDAO : MonoBehaviour
         return list;
     }
 
-    public AccountSkillEntity GetAccountSkillbySlotIndex(int SlotIndex)
+    public AccountSkillEntity GetAccountSkillbySlotIndex(int AccountID, int SlotIndex)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
@@ -54,7 +58,8 @@ public class Account_SkillDAO : MonoBehaviour
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "Select * from Account_Skill where SlotIndex = " + SlotIndex;
+                cmd.CommandText = "Select * from Account_Skill where Account_ID = @accountid and Slot_Index = " + SlotIndex;
+                cmd.Parameters.AddWithValue("@accountid", AccountID);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -64,9 +69,12 @@ public class Account_SkillDAO : MonoBehaviour
                 {
                     AccountSkillEntity a = new AccountSkillEntity
                     {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        CurrentLevel = Convert.ToInt32(dr["CurrentLevel"]),
-                        SlotIndex = Convert.ToInt32(dr["SlotIndex"])
+                        ID = Convert.ToInt32(dr["ID"]),
+                        AccountID = Convert.ToInt32(dr["Account_ID"]),
+                        SkillID = dr["Skill_ID"].ToString(),
+                        CurrentLevel = Convert.ToInt32(dr["Current_Level"]),
+                        SlotIndex = Convert.ToInt32(dr["Slot_Index"]),
+                        Detele = Convert.ToBoolean(dr["Delete"])
                     };
                     connection.Close();
                     return a;
@@ -81,7 +89,7 @@ public class Account_SkillDAO : MonoBehaviour
 
         return null;
     }
-    public AccountSkillEntity GetAccountSkillbyId(int IdSkill)
+    public AccountSkillEntity GetAccountSkillbySkillID(int AccountID, string SkillID)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
@@ -89,7 +97,8 @@ public class Account_SkillDAO : MonoBehaviour
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "Select * from Account_Skill where Id = " + IdSkill;
+                cmd.CommandText = "Select * from Account_Skill where Account_ID = @accountid AND Skill_ID = '" + SkillID +"'";
+                cmd.Parameters.AddWithValue("@accountid", AccountID);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -99,9 +108,12 @@ public class Account_SkillDAO : MonoBehaviour
                 {
                     AccountSkillEntity a = new AccountSkillEntity
                     {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        CurrentLevel = Convert.ToInt32(dr["CurrentLevel"]),
-                        SlotIndex = Convert.ToInt32(dr["SlotIndex"])
+                        ID = Convert.ToInt32(dr["ID"]),
+                        AccountID = Convert.ToInt32(dr["Account_ID"]),
+                        SkillID = dr["Skill_ID"].ToString(),
+                        CurrentLevel = Convert.ToInt32(dr["Current_Level"]),
+                        SlotIndex = Convert.ToInt32(dr["Slot_Index"]),
+                        Detele = Convert.ToBoolean(dr["Delete"])
                     };
                     connection.Close();
                     return a;
@@ -117,13 +129,14 @@ public class Account_SkillDAO : MonoBehaviour
         return null;
     }
 
-    public void UpdateSlotIndex(int IdSkill, int SlotIndex)
+    public void UpdateAccountSkillSlotIndex(int AccountID, string SkillID, int SlotIndex)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "Update Account_Skill set SlotIndex = @slot where Id = " + IdSkill;
-            cmd.Parameters.AddWithValue("@slot", SlotIndex);
+            cmd.CommandText = "Update Account_Skill set Slot_Index = @slotindex where Skill_ID = @skillid and Account_ID = " + AccountID;
+            cmd.Parameters.AddWithValue("@slotindex", SlotIndex);
+            cmd.Parameters.AddWithValue("@skillid", SkillID);
             connection.Open();
             cmd.ExecuteNonQuery();
             connection.Close();

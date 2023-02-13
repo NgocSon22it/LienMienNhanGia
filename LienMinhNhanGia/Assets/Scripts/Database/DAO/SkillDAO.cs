@@ -27,15 +27,19 @@ public class SkillDAO : MonoBehaviour
                 {
                     list.Add(new SkillEntity
                     {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        Chakra = Convert.ToInt32(dr["Chakra"]),
-                        Level = Convert.ToInt32(dr["Level"]),
-                        Damage = Convert.ToInt32(dr["Damage"]),
-                        SkillImage = Resources.Load<Sprite>(dr["Image"].ToString()),
+                        SkillID = dr["Skill_ID"].ToString(),
+                        CharacterID = dr["Character_ID"].ToString(),
                         Name = dr["Name"].ToString(),
-                        MethodName = dr["MethodName"].ToString(),
-
-
+                        Chakra = Convert.ToInt32(dr["Chakra"]),
+                        Cooldown = (float) dr["Cooldown"],
+                        Damage = Convert.ToInt32(dr["Damage"]),
+                        Coin = Convert.ToInt32(dr["Coin"]),
+                        LevelUnlock = Convert.ToInt32(dr["Level_Unlock"]),
+                        Update_Coin = Convert.ToInt32(dr["Update_Coin"]),
+                        MethodName = dr["Method_Name"].ToString(),
+                        Description = dr["Description"].ToString(),
+                        Link_Image = dr["Link_Image"].ToString(),
+                        Delete = Convert.ToBoolean(dr["Delete"])
                     });
                 }
 
@@ -50,7 +54,7 @@ public class SkillDAO : MonoBehaviour
         return list;
     }
 
-    public SkillEntity GetSkillbyID(int IdSkill)
+    public SkillEntity GetSkillbyID(string SkillID)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
@@ -58,7 +62,7 @@ public class SkillDAO : MonoBehaviour
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "select * from Skill where Id = " + IdSkill;
+                cmd.CommandText = "Select * from Skill where Skill_ID = '" + SkillID +"'";
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -68,13 +72,19 @@ public class SkillDAO : MonoBehaviour
                 {
                     SkillEntity a = new SkillEntity
                     {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        Chakra = Convert.ToInt32(dr["Chakra"]),
-                        Level = Convert.ToInt32(dr["Level"]),
-                        Damage = Convert.ToInt32(dr["Damage"]),
-                        SkillImage = Resources.Load<Sprite>(dr["Image"].ToString()),
+                        SkillID = dr["Skill_ID"].ToString(),
+                        CharacterID = dr["Character_ID"].ToString(),
                         Name = dr["Name"].ToString(),
-                        MethodName = dr["MethodName"].ToString(),
+                        Chakra = Convert.ToInt32(dr["Chakra"]),
+                        Cooldown = (float)dr["Cooldown"],
+                        Damage = Convert.ToInt32(dr["Damage"]),
+                        Coin = Convert.ToInt32(dr["Coin"]),
+                        LevelUnlock = Convert.ToInt32(dr["Level_Unlock"]),
+                        Update_Coin = Convert.ToInt32(dr["Update_Coin"]),
+                        MethodName = dr["Method_Name"].ToString(),
+                        Description = dr["Description"].ToString(),
+                        Link_Image = dr["Link_Image"].ToString(),
+                        Delete = Convert.ToBoolean(dr["Delete"])
                     };
                     connection.Close();
                     return a;

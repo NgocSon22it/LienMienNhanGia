@@ -7,16 +7,23 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] PlayerOffLine Player;
 
-
-
+    [Header("All Panel For PauseGame")]
     [SerializeField] GameObject MissionPanel;
     [SerializeField] GameObject PausePanel;
-    [SerializeField] GameObject MapPanel;
+    [SerializeField] GameObject CommonPanel;
 
+    [Header("All Tab Panel")]
+    [SerializeField] List<GameObject> AllTabPanel;
+
+    [Header("Logic")]
     bool IsPause, IsPlaying = true;
-
     KeyCode KeyCheck = KeyCode.None;
 
+
+    [Header("DAOManager")]
+    [SerializeField] GameObject DAOManager;
+
+    [Header("Instance")]
     public static UIManager Instance;
 
     private void Awake()
@@ -27,16 +34,14 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SetUpUI();
+        PlayerBagManager.Instance.InitialManager();
+        ShopManager.Instance.InitialManager();
     }
-
 
     public void SetUpUI()
     {
         Player.SetUpPlayer();
     }
-
-
-
 
     public void PauseGame()
     {
@@ -70,7 +75,7 @@ public class UIManager : MonoBehaviour
         else if (IsPause && key == KeyCheck)
         {
             ResumeGame();
-            Panel.SetActive(false);            
+            Panel.SetActive(false);
             Debug.Log("Resume");
         }
     }
@@ -87,9 +92,19 @@ public class UIManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ControlPauseGame(MapPanel, KeyCode.Tab);
+            ControlPauseGame(CommonPanel, KeyCode.Tab);
         }
-        
+
     }
+
+    public void OpenTabPanel(int tab)
+    {
+        for (int i = 0; i < AllTabPanel.Count; i++)
+        {
+            AllTabPanel[i].SetActive(false);
+        }
+        AllTabPanel[tab - 1].SetActive(true);
+    }
+
 
 }

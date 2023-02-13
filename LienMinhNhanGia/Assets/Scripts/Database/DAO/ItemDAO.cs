@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using UnityEngine;
+using static UnityEditor.Progress;
+using Unity.VisualScripting;
 
 public class ItemDAO : MonoBehaviour
 {
@@ -61,5 +63,46 @@ public class ItemDAO : MonoBehaviour
             cmd.ExecuteNonQuery();
             connection.Close();
         }
+    }
+
+
+    public ItemEntity GetItembyId(string ItemID)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "Select * from Item where Item_ID = '" + ItemID + "'";
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+
+                foreach (DataRow dr in dataTable.Rows)
+                {
+                    ItemEntity a = new ItemEntity
+                    {
+                        ItemID = dr["Item_ID"].ToString(),
+                        ItemName = dr["Name"].ToString(),
+                        ItemCoin = Convert.ToInt32(dr["Coin"]),
+                        Description = dr["Description"].ToString(),
+                        LinkImage = dr["Link_image"].ToString(),
+                        Delete = Convert.ToBoolean(dr["Delete"])
+
+                    };
+                    connection.Close();
+                    return a;
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+
+        return null;
     }
 }

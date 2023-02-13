@@ -12,16 +12,18 @@ public class Skill_Item : MonoBehaviour , IPointerClickHandler
     [SerializeField] Image SkillImage;
     [SerializeField] GameObject EquipStatusMenu;
 
+    [Header("Extension")]
+    string Extension = "Skill/";
     public void OnPointerClick(PointerEventData eventData)
     {
-        SkillManager.Instance.SetUpSelectedCircle(gameObject.transform.position);
-        SkillManager.Instance.ShowInformationHoverSkill(Skill);
+        SkillManager.Instance.SetUpSelectedSkill(Skill, transform.position);
+        //SkillManager.Instance.ShowInformationHoverSkill(Skill);
     }
     public void SetUp(SkillEntity Skill, bool IsEquiped)
     {
         this.Skill = Skill;
 
-        SkillImage.sprite = Skill.SkillImage;
+        SkillImage.sprite =  Resources.Load<Sprite>(Extension + Skill.SkillID);
 
         if (IsEquiped)
         {

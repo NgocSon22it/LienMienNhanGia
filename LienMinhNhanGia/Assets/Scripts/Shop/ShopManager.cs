@@ -33,28 +33,16 @@ public class ShopManager : MonoBehaviour
     [SerializeField] TMP_Text AccountCoinTxt;
 
     List<ItemEntity> ListMainItem = new List<ItemEntity>();
-    List<AccountItemEntity> ListAccountItem = new List<AccountItemEntity>();
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
-    {
-        LoadAccountItem();
-        LoadShopMainItemList();
-        if (ListMainItem.Count > 0)
-        {
-            SetUpSelectedMainItem(ListMainItem[0]);
-        }
-    }
-
     public void LoadShopMainItemList()
     {
-        AccountCoinTxt.text = AccountManager.AccountCoin.ToString();        
-        LoadAccountItem();
-        ListMainItem = DAOManager.GetComponent<ItemDAO>().GetAllItem();
+        AccountCoinTxt.text = AccountManager.AccountCoin.ToString();
+        ListMainItem = DAOManager.GetComponent<ItemDAO>().GetAllItem();        
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
@@ -64,7 +52,7 @@ public class ShopManager : MonoBehaviour
         {
             Instantiate(MainItem, Content).GetComponent<ShopMainItem>().SetUp(Item);
         }
-        
+
     }
 
     public void SetUpSelectedMainItem(ItemEntity mainItem)
@@ -89,9 +77,9 @@ public class ShopManager : MonoBehaviour
 
     public bool CheckMainItemOwned()
     {
-        foreach(AccountItemEntity itemEntity in ListAccountItem)
+        foreach (AccountItemEntity itemEntity in AccountManager.ListAccountItem)
         {
-            if(itemEntity.ItemID.Equals(MainItemSelected.ItemID))
+            if (itemEntity.ItemID.Equals(MainItemSelected.ItemID))
             {
                 return true;
             }
@@ -104,11 +92,6 @@ public class ShopManager : MonoBehaviour
         SelectedSquare.transform.position = transform;
     }
 
-    public void LoadAccountItem()
-    {
-        ListAccountItem = DAOManager.GetComponent<Account_ItemDAO>().GetAllItemForAccount(AccountManager.AccountID);
-    }
-
     public void BuySelectedMainItem()
     {
         DAOManager.GetComponent<ItemDAO>().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
@@ -116,5 +99,15 @@ public class ShopManager : MonoBehaviour
         SetUpSelectedMainItem(MainItemSelected);
 
     }
+
+    public void InitialManager()
+    {
+        LoadShopMainItemList();
+        if (ListMainItem.Count > 0)
+        {
+            SetUpSelectedMainItem(ListMainItem[0]);
+        }
+    }
+
 
 }

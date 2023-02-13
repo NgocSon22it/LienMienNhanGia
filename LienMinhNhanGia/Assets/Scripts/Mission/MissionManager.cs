@@ -9,6 +9,7 @@ public class MissionManager : MonoBehaviour
 
     [Header("Instance")]
     public static MissionManager Instance;
+
     [SerializeField] GameObject MissionItem;
     [SerializeField] Transform Content;
 

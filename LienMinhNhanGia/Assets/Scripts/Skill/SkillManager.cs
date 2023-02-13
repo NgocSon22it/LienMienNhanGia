@@ -13,7 +13,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] GameObject SkillItem;
     [SerializeField] Transform Content;
 
-    [Header("SHOW HOVER SKILL")]
+    /*[Header("SHOW HOVER SKILL")]
     [SerializeField] Image SkillImage;
     [SerializeField] TMP_Text SkillDescription;
 
@@ -31,19 +31,20 @@ public class SkillManager : MonoBehaviour
     [Header("UPGRADE MANAGER")]
     [SerializeField] GameObject CanUpgradePanel;
     [SerializeField] GameObject MaxLevelPanel;
-    [SerializeField] GameObject UpgradePetPanel;
+    [SerializeField] GameObject UpgradePetPanel;*/
 
     [Header("SKILL SLOT MANAGER")]
-    List<AccountSkillEntity> listSkill = new List<AccountSkillEntity>();
-    [SerializeField]  List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
+    List<AccountSkillEntity> ListAccountSkill = new List<AccountSkillEntity>();
+    [SerializeField] List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
 
     [SerializeField] GameObject SelectedSkillCircle;
 
-    public static SkillEntity SkillSelected;
+    public SkillEntity SkillSelected;
 
-    [Header("DAO")]
-    SkillDAO skillDAO;
-    Account_SkillDAO account_SkillDAO;
+    [Header("DAO Manager")]
+    [SerializeField] GameObject DAOManager;
+
+    bool StatusEquip;
 
     private void Awake()
     {
@@ -51,26 +52,24 @@ public class SkillManager : MonoBehaviour
     }
     private void Start()
     {
-        account_SkillDAO = GetComponentInParent<Account_SkillDAO>();
-        skillDAO = GetComponentInParent<SkillDAO>();
         LoadAccountSkillList();
     }
 
 
     public void LoadAccountSkillList()
     {
-        listSkill = account_SkillDAO.GetAllSkillForAccount();
+        ListAccountSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAllSkillForAccount(AccountManager.AccountID);
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
         }
 
-        foreach (AccountSkillEntity skill in listSkill)
+        foreach (AccountSkillEntity Skill in ListAccountSkill)
         {
-            SkillEntity skillentity = skillDAO.GetSkillbyID(skill.Id);
+            SkillEntity skillentity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(Skill.SkillID);
 
-            bool status = skill.SlotIndex != 0 ? true : false;
-            Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skillentity, status);
+            StatusEquip = Skill.SlotIndex != 0 ? true : false;
+            Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skillentity, StatusEquip);
         }
     }
 
@@ -83,7 +82,7 @@ public class SkillManager : MonoBehaviour
     }
 
 
-    public void ShowInformationHoverSkill(SkillEntity skill)
+    /*public void ShowInformationHoverSkill(SkillEntity skill)
     {
         SkillSelected = skill;
         SkillImage.sprite = skill.SkillImage;
@@ -109,9 +108,9 @@ public class SkillManager : MonoBehaviour
             CanUpgradePanel.SetActive(false);
 
         }
-    }
+    }*/
 
-    public void UpgradeSelectedSkill(SkillEntity skill)
+    /*public void UpgradeSelectedSkill(SkillEntity skill)
     {
         skill.Damage += skill.Damage * 30 / 100;
         skill.Chakra -= (skill.Chakra * 30 / 100);
@@ -123,16 +122,20 @@ public class SkillManager : MonoBehaviour
 
         SetUpStatusForUpgrade(skill);
         LoadAccountSkillList();
-    }
+    }*/
 
-    public void UpgradeDisplaySkill()
+    /*public void UpgradeDisplaySkill()
     {
         UpgradeSelectedSkill(SkillSelected);
-    }
+    }*/
 
-    public void SetUpSelectedCircle(Vector3 transform)
+    public void SetUpSelectedSkill(SkillEntity Skill,Vector3 transform)
     {
-        SelectedSkillCircle.transform.position = transform;
+        if (Skill != null)
+        {
+            SkillSelected = Skill;
+            SelectedSkillCircle.transform.position = transform;
+        }
     }
 
 }
