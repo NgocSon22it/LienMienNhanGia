@@ -12,14 +12,12 @@ public class BossCamera : MonoBehaviour
     [SerializeField] GameObject BossDoor;
 
     bool Move;
-    GameObject Player;
 
     BoxCollider2D boxCollider;
 
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
@@ -28,7 +26,6 @@ public class BossCamera : MonoBehaviour
         if (BossFightCamera.transform.position == BossFightCameraTransform.position)
         {
             Move = false;
-            Player.GetComponent<PlayerOffLine>().enabled = true;
         }
     }
 
@@ -46,8 +43,6 @@ public class BossCamera : MonoBehaviour
         BossFightCamera.GetComponent<Camera>().orthographicSize = 30;
         Move = true;
         boxCollider.enabled = false;
-        Player.GetComponent<PlayerOffLine>().enabled = false;
-        Player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         BossDoor.GetComponent<BossDoor>().CloseDoor();
     }
 
