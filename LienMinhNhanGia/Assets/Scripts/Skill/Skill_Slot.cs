@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -71,6 +70,7 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
         }
 
         SetUpSlot();
+        LobbyManager.Instance.SetUpAccountData();
     }
 
     public void UnEquipSlot()
@@ -82,6 +82,7 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 
         SetUpSlot();
         SkillManager.Instance.LoadAccountSkillList();
+        LobbyManager.Instance.SetUpAccountData();
     }
 
     public void SetUpSlot()

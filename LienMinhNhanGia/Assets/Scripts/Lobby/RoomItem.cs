@@ -16,8 +16,8 @@ public class RoomItem : MonoBehaviour
         RoomName.text = "Phòng" + _Roominformation.Name + " " + _Roominformation.PlayerCount + " / " + _Roominformation.MaxPlayers;
     }
 
-    /*public void Onclick()
+    public void Onclick()
     {
-        LobbyManager.Instance.JoinRoom(info);
-    }*/
+        LobbyManager.Instance.JoinRoom(Roominformation);
+    }
 }

@@ -6,8 +6,9 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEditor.Experimental.GraphView;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -24,9 +25,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("Create Room")]
     [SerializeField] GameObject CreateRoomPanel;
-   
+
     [SerializeField] TMP_InputField CreateRoomNameInput;
     [SerializeField] TMP_Dropdown DropDownNumberPlayerJoin;
+
+    [Header("Test")]
+    [SerializeField] TMP_InputField TestId;
 
     //Password
     [SerializeField] Toggle PasswordToggle;
@@ -38,13 +42,26 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject RoomLobbyItem;
     public Transform RoomContent;
 
+    [Header("List Player")]
+    public GameObject PlayerItem;
+    public Transform PlayerContent;
+
     [Header("Find Room")]
     [SerializeField] TMP_Text FindRoomNameTxt;
     [SerializeField] TMP_Dropdown DropDownBoss;
 
+    [Header("DAO Manager")]
+    [SerializeField] GameObject DAOManager;
+
+    [Header("Account Information PlayerItem")]
+    AccountEntity Account;
+    AccountSkillEntity Account_SkillU;
+    AccountSkillEntity Account_SkillI;
+    AccountSkillEntity Account_SkillO;
+
     List<BossEntity> bossEntities = new List<BossEntity>();
     private static Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
-
+    ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
     private void Awake()
     {
         Instance = this;
@@ -83,7 +100,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void ConnectServer()
     {
-        PhotonNetwork.NickName = "Ngoc Son";
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AutomaticallySyncScene = true;
         Debug.Log("Connect to Server");
@@ -104,17 +120,32 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.IsVisible = true;
             roomOptions.IsOpen = true;
-            roomOptions.MaxPlayers = (byte) NumberPlayer;
-            
+            roomOptions.MaxPlayers = (byte)NumberPlayer;
+            roomOptions.BroadcastPropsChangeToAll = true;
+
             roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
             roomOptions.CustomRoomProperties.Add("password", roomPassword);
-
             PhotonNetwork.CreateRoom(roomName, roomOptions);
         }
         else
         {
+            string roomName = CreateRoomNameInput.text;
+            int NumberPlayer = Convert.ToInt32(DropDownNumberPlayerJoin.options[DropDownNumberPlayerJoin.value].text);
 
-        }    
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.IsVisible = true;
+            roomOptions.IsOpen = true;
+            roomOptions.MaxPlayers = (byte)NumberPlayer;
+            roomOptions.BroadcastPropsChangeToAll = true;
+
+            PhotonNetwork.CreateRoom(roomName, roomOptions);
+        }
+    }
+
+    public void JoinRoom(RoomInfo info)
+    {
+        PhotonNetwork.JoinRoom(info.Name);
+        Debug.Log("Join Room");
     }
 
     public override void OnJoinedRoom()
@@ -124,6 +155,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RoomNameTxt.text = PhotonNetwork.CurrentRoom.Name;
         Debug.Log("JoinRoom");
 
+        Player[] players = PhotonNetwork.PlayerList;
+
+        foreach (Transform trans in PlayerContent)
+        {
+            Destroy(trans.gameObject);
+        }
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            Instantiate(PlayerItem, PlayerContent).GetComponent<PlayerItem>().SetUp(players[i]);
+        }
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Instantiate(PlayerItem, PlayerContent).GetComponent<PlayerItem>().SetUp(newPlayer);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -152,35 +199,83 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OpenCreateRoomPanel()
+    public void LeaveRoom()
     {
-        CreateRoomPanel.SetActive(true);
+        PhotonNetwork.LeaveRoom();
     }
 
+    public override void OnLeftRoom()
+    {
+        cachedRoomList.Clear();
+        NotInroomPanel.SetActive(true);
+        InRoomPanel.SetActive(false);
+        CloseCreateRoomPanel();
+        Debug.Log("LeftRoom");
+    }
+
+    public void SetUpAccountData()
+    {
+        Account = DAOManager.GetComponent<AccountDAO>().GetAccountByID(Convert.ToInt32(TestId.text));
+        Account_SkillU = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(Convert.ToInt32(TestId.text), 1);
+        Account_SkillI = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(Convert.ToInt32(TestId.text), 2);
+        Account_SkillO = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(Convert.ToInt32(TestId.text), 3);
+
+        PhotonNetwork.NickName = Account.Name;
+        // Convert the object to a JSON string
+        string AccountJson = JsonUtility.ToJson(Account);
+        string Account_SkillU_Json = JsonUtility.ToJson(Account_SkillU);
+        string Account_SkillI_Json = JsonUtility.ToJson(Account_SkillI);
+        string Account_SkillO_Json = JsonUtility.ToJson(Account_SkillO);
+
+
+        customProperties["Account_SkillU"] = Account_SkillU_Json;
+        customProperties["Account_SkillI"] = Account_SkillI_Json;
+        customProperties["Account_SkillO"] = Account_SkillO_Json;
+
+        customProperties["Account"] = AccountJson;
+        PhotonNetwork.SetPlayerCustomProperties(customProperties);
+    }
+
+    public void ResetCreateRoomData()
+    {
+        CreateRoomNameInput.text = "";
+        CreateRoomPasswordInput.text = "";
+        DropDownNumberPlayerJoin.value = 0;
+
+    }
+    public void OpenCreateRoomPanel()
+    {
+        PasswordToggle.isOn = false;
+        CreateRoomPanel.SetActive(true);
+        ResetCreateRoomData();        
+        SetUpPassword(false);
+    }
     public void CloseCreateRoomPanel()
     {
         CreateRoomPanel.SetActive(false);
     }
-
     public void TogglePasswordChange()
     {
-        if(PasswordToggle.isOn)
+        if (PasswordToggle.isOn)
         {
-            CreateRoomPasswordPanel.SetActive(true);
-            CreateRoomWithPassword = true;
+            SetUpPassword(true);
         }
         else
         {
-            CreateRoomPasswordPanel.SetActive(false);
-            CreateRoomWithPassword = false;
+            SetUpPassword(false);
         }
     }
-
+    public void SetUpPassword(bool status)
+    {
+        CreateRoomPasswordPanel.SetActive(status);
+        CreateRoomWithPassword = status;
+    }
 
     /*public void GetCaptionDropdownMenuValue()
     {
         Sprite a = FindBossDd.options[FindBossDd.value].image;
         Debug.Log(a.name);
     }*/
+
 
 }
