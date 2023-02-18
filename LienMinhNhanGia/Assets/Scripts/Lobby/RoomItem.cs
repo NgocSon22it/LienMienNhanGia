@@ -6,14 +6,16 @@ using UnityEngine;
 
 public class RoomItem : MonoBehaviour
 {
-    [SerializeField] TMP_Text RoomName;
+    [SerializeField] TMP_Text RoomNameTxt;
+    [SerializeField] TMP_Text NumberPlayerTxt;
 
     RoomInfo Roominformation;
 
     public void SetUp(RoomInfo _Roominformation)
     {
         Roominformation = _Roominformation;
-        RoomName.text = "Phòng" + _Roominformation.Name + " " + _Roominformation.PlayerCount + " / " + _Roominformation.MaxPlayers;
+        RoomNameTxt.text = "Phòng" + Roominformation.Name;
+        NumberPlayerTxt.text = Roominformation.PlayerCount + " / " + Roominformation.MaxPlayers;
     }
 
     public void Onclick()

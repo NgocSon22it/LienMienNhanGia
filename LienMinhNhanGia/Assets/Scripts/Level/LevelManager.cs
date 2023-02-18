@@ -59,7 +59,7 @@ public class LevelManager : MonoBehaviour
 
     public void LevelUpReward()
     {
-        PlayerOffLine.Instance.SetJumpTimeMax(Level >= 2 ? 2 : 1);
+        OfflinePlayer.Instance.SetJumpTimeMax(Level >= 2 ? 2 : 1);
     }
 
 

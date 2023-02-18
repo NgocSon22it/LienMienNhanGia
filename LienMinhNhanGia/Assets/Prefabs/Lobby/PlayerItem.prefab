@@ -717,6 +717,8 @@ MonoBehaviour:
   SkillI_LevelTxt: {fileID: 1552113490198235452}
   SkillO_Image: {fileID: 1552113489298035221}
   SkillO_LevelTxt: {fileID: 1552113490419201254}
+  IsReadyGameobject: {fileID: 1552113489739106193}
+  NotReadyGameobject: {fileID: 1552113488813313242}
 --- !u!1 &1552113489980149365
 GameObject:
   m_ObjectHideFlags: 0

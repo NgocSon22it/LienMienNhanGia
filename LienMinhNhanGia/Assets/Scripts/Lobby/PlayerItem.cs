@@ -13,6 +13,7 @@ public class PlayerItem : MonoBehaviourPunCallbacks
     [Header("UI")]
     [SerializeField] TMP_Text PlayerNameTxt;
     [SerializeField] TMP_Text PlayerLevelTxt;
+
     [SerializeField] Image SkillU_Image;
     [SerializeField] TMP_Text SkillU_LevelTxt;
     [SerializeField] Image SkillI_Image;
@@ -20,6 +21,10 @@ public class PlayerItem : MonoBehaviourPunCallbacks
     [SerializeField] Image SkillO_Image;
     [SerializeField] TMP_Text SkillO_LevelTxt;
 
+    [SerializeField] GameObject IsReadyGameobject;
+    [SerializeField] GameObject NotReadyGameobject;
+
+    bool IsReady;
     Player player;
 
     public void SetUp(Player _player)
@@ -37,8 +42,6 @@ public class PlayerItem : MonoBehaviourPunCallbacks
             SetPLayerData(targetPlayer);
         }
     }
-
-
     public void SetPLayerData(Player player)
     {
         PlayerNameTxt.text = player.NickName;
@@ -56,8 +59,21 @@ public class PlayerItem : MonoBehaviourPunCallbacks
         AccountSkillEntity Account_SkillI = JsonUtility.FromJson<AccountSkillEntity>(Account_SkillI_json);
         AccountSkillEntity Account_SkillO = JsonUtility.FromJson<AccountSkillEntity>(Account_SkillO_json);
 
+        IsReady = (bool) player.CustomProperties["IsReady"];
 
         PlayerLevelTxt.text = "Level " + Account.Level.ToString();
+
+        if (IsReady)
+        {
+            IsReadyGameobject.SetActive(true);
+            NotReadyGameobject.SetActive(false);
+        }
+        else
+        {
+            IsReadyGameobject.SetActive(false);
+            NotReadyGameobject.SetActive(true);
+        }
+
         if (Account_SkillU != null)
         {
             SkillU_Image.sprite = Resources.Load<Sprite>("Skill/" + Account_SkillU.SkillID);

@@ -32,7 +32,7 @@ public class AccountDAO : MonoBehaviour
                         Name = dr["Name"].ToString(),
                         Username = dr["Username"].ToString(),
                         Password = dr["Password"].ToString(),
-                        Role = dr["Role"].ToString(),
+                        Role = Convert.ToInt32(dr["Role"]),
                         Avatar = dr["Avatar"].ToString(),
                         Coin = Convert.ToInt32(dr["Coin"]),
                         Experience = Convert.ToInt32(dr["Experience"]),

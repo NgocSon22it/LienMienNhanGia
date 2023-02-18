@@ -8,7 +8,7 @@ public class Trap : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerOffLine>().TakeDamage(1);
+            collision.GetComponent<OfflinePlayer>().TakeDamage(1);
         }
     }
 }

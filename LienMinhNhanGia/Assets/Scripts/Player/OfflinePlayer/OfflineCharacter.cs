@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class OfflineCharacter : MonoBehaviour
 {
     #region Common Value
     [Header("Common Value")]
@@ -54,8 +54,8 @@ public class Character : MonoBehaviour
     #region Hard Value
     [Header("Hard Value")]
     float XInput, YInput;
-    int Combo;
-    bool CanCombo, IsFacingRight = true;
+    protected int Combo;
+    protected bool CanCombo, IsFacingRight = true;
 
     #endregion
 
@@ -105,15 +105,12 @@ public class Character : MonoBehaviour
         TotalChakra = 10;
         CurrentChakra = TotalChakra;
     }
-
     #endregion
-
     public void SetUpSpeedAndJumpPower(int Speed, int Jump)
     {
         MovementSpeed = Speed;
         JumpPower = Jump;
     }
-
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
@@ -273,13 +270,11 @@ public class Character : MonoBehaviour
     {
         this.JumpTimeMax = Amount;
     }
-
     public int GetJumpTimeMax()
     {
         return JumpTimeMax;
     }
     #endregion
-
     public void Fall()
     {
         IsFalling = true;

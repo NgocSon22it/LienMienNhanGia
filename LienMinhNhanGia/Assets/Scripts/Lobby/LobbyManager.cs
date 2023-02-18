@@ -21,6 +21,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("In Room")]
     [SerializeField] TMP_Text RoomNameTxt;
+    [SerializeField] GameObject StartBtn;
+    [SerializeField] GameObject ReadyBtn;
+    [SerializeField] GameObject UnReadyBtn;
 
 
     [Header("Create Room")]
@@ -28,6 +31,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [SerializeField] TMP_InputField CreateRoomNameInput;
     [SerializeField] TMP_Dropdown DropDownNumberPlayerJoin;
+
 
     [Header("Test")]
     [SerializeField] TMP_InputField TestId;
@@ -58,6 +62,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     AccountSkillEntity Account_SkillU;
     AccountSkillEntity Account_SkillI;
     AccountSkillEntity Account_SkillO;
+    bool IsReady;
 
     List<BossEntity> bossEntities = new List<BossEntity>();
     private static Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
@@ -166,6 +171,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             Instantiate(PlayerItem, PlayerContent).GetComponent<PlayerItem>().SetUp(players[i]);
         }
+
+        StartBtn.SetActive(PhotonNetwork.IsMasterClient);
+        ReadyBtn.SetActive(!PhotonNetwork.IsMasterClient);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        StartBtn.SetActive(PhotonNetwork.IsMasterClient);
+        ReadyBtn.SetActive(!PhotonNetwork.IsMasterClient);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -204,6 +218,29 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
+    public void StartGame()
+    {
+        PhotonNetwork.LoadLevel("TestOnline");
+    }
+
+    public void Onclick_Ready()
+    {
+        IsReady = true;
+        ReadyBtn.gameObject.SetActive(false);
+        UnReadyBtn.gameObject.SetActive(true);
+        customProperties["IsReady"] = IsReady;
+        PhotonNetwork.SetPlayerCustomProperties(customProperties);
+    }
+
+    public void Onclick_UnReady()
+    {
+        IsReady = false;
+        ReadyBtn.gameObject.SetActive(true);
+        UnReadyBtn.gameObject.SetActive(false);
+        customProperties["IsReady"] = IsReady;
+        PhotonNetwork.SetPlayerCustomProperties(customProperties);
+    }
+
     public override void OnLeftRoom()
     {
         cachedRoomList.Clear();
@@ -212,13 +249,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CloseCreateRoomPanel();
         Debug.Log("LeftRoom");
     }
-
     public void SetUpAccountData()
     {
-        Account = DAOManager.GetComponent<AccountDAO>().GetAccountByID(Convert.ToInt32(TestId.text));
-        Account_SkillU = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(Convert.ToInt32(TestId.text), 1);
-        Account_SkillI = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(Convert.ToInt32(TestId.text), 2);
-        Account_SkillO = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(Convert.ToInt32(TestId.text), 3);
+        AccountManager.AccountID = Convert.ToInt32(TestId.text);
+
+        Account = DAOManager.GetComponent<AccountDAO>().GetAccountByID(AccountManager.AccountID);
+        Account_SkillU = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
+        Account_SkillI = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);
+        Account_SkillO = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 3);
 
         PhotonNetwork.NickName = Account.Name;
         // Convert the object to a JSON string
@@ -227,6 +265,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         string Account_SkillI_Json = JsonUtility.ToJson(Account_SkillI);
         string Account_SkillO_Json = JsonUtility.ToJson(Account_SkillO);
 
+        customProperties["IsReady"] = IsReady;
 
         customProperties["Account_SkillU"] = Account_SkillU_Json;
         customProperties["Account_SkillI"] = Account_SkillI_Json;
@@ -235,7 +274,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         customProperties["Account"] = AccountJson;
         PhotonNetwork.SetPlayerCustomProperties(customProperties);
     }
-
     public void ResetCreateRoomData()
     {
         CreateRoomNameInput.text = "";

@@ -10,7 +10,7 @@ public class PlayerUIManager : MonoBehaviour
     public static PlayerUIManager Instance;
 
     [Header("Player")]
-    [SerializeField] PlayerOffLine Player;
+    [SerializeField] OfflinePlayer Player;
 
     [Header("Health UI")]
     [SerializeField] Image Health;

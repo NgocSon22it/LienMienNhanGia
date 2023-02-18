@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Skill_Item : MonoBehaviour , IPointerClickHandler
 {
-    public SkillEntity Skill;
+    SkillEntity Skill;
 
     [SerializeField] Image SkillImage;
     [SerializeField] GameObject EquipStatusMenu;

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] PlayerOffLine Player;
+    [SerializeField] OfflinePlayer Player;
 
     [Header("All Panel For PauseGame")]
     [SerializeField] GameObject MissionPanel;

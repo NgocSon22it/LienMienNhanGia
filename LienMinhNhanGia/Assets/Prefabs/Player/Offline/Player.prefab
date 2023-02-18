@@ -241,10 +241,10 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 10
-  m_Material: {fileID: 6200000, guid: 2d13d8a52f5e4eb4b8ae971c0e257275, type: 2}
-  m_Interpolate: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &941887472259081783
 MonoBehaviour:
@@ -260,13 +260,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JumpAbleLayer:
     serializedVersion: 2
-    m_Bits: 256
-  DetectGroundVector: {x: 0.26, y: 0.1}
+    m_Bits: 65792
+  NotFallingLayer:
+    serializedVersion: 2
+    m_Bits: 65536
+  DetectGroundVector: {x: 1.3, y: 0.1}
   DetectGroundTransform: {fileID: 941887470606723563}
   DetectGroundDistance: 0.06
-  a: 7
-  b: 5
-  c: 0.5
+  IsFalling: 0
 --- !u!70 &1859257291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -276,7 +277,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 941887472259081776}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2d13d8a52f5e4eb4b8ae971c0e257275, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0

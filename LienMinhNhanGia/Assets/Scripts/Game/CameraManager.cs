@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Photon.Realtime;
+using Photon.Pun;
 
 public class CameraManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class CameraManager : MonoBehaviour
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
         channelPerlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
+
 
     public void StartShakeScreen(int AmplitudeGain, int FrequencyGain, float Duration)
     {

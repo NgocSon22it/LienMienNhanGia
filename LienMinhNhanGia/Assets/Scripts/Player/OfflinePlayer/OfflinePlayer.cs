@@ -5,10 +5,10 @@ using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 
-public class PlayerOffLine : Character
+public class OfflinePlayer : OfflineCharacter
 {
     [Header("Instance")]
-    public static PlayerOffLine Instance;
+    public static OfflinePlayer Instance;
 
     private void Awake()
     {

@@ -2,30 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IsFalling : StateMachineBehaviour
+public class OnlinePlayer_Falling : StateMachineBehaviour
 {
-    PlayerOffLine Player;
-
-
+    OnlinePlayer onlinePlayer;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerOffLine>();
-        Player.Fall();
+        onlinePlayer = animator.GetComponent<OnlinePlayer>();
+        onlinePlayer.Fall();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+
+    }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Player.NotFall();
-
+        onlinePlayer.NotFall();
     }
-
-
 }

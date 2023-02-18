@@ -8,7 +8,7 @@ public class AccountEntity
     public string Name;
     public string Username;
     public string Password;
-    public string Role;
+    public int Role;
     public string Avatar;
     public int Coin;
     public int Experience;
