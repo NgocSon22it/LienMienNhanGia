@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 09fba0ff0985e424abccf9ee0fd38989
+guid: 3e6184341ee4292469f3a0dad5a8ec50
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,13 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sasuke Idle_0
+      name: BackGround_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 218
-        width: 127
-        height: 183
+        x: 9
+        y: 332
+        width: 2534
+        height: 1096
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,50 +119,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aebc85dedf702d54bb9fd4acb5050799
-      internalID: -1895352365
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sasuke Idle_1
-      rect:
-        serializedVersion: 2
-        x: 207
-        y: 215
-        width: 137
-        height: 184
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f187b5a928adef246a4fa331a1cfcee5
-      internalID: -1546151771
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sasuke Idle_2
-      rect:
-        serializedVersion: 2
-        x: 412
-        y: 209
-        width: 127
-        height: 184
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8a4fe095bd352a04b90cec4e67393c0a
-      internalID: 1989043274
+      spriteID: c1e3514763755b94887cbfa1003fc102
+      internalID: -673161902
       vertices: []
       indices: 
       edges: []
@@ -178,9 +136,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Sasuke Idle_0: -1895352365
-      Sasuke Idle_2: 1989043274
-      Sasuke Idle_1: -1546151771
+      BackGround_0: -673161902
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

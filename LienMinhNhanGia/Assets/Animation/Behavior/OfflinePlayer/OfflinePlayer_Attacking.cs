@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OffLinePlayer_Falling : StateMachineBehaviour
+public class OfflinePlayer_Attacking : StateMachineBehaviour
 {
     OfflinePlayer offlinePlayer;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         offlinePlayer = animator.GetComponent<OfflinePlayer>();
-        offlinePlayer.Amation_SetUpFall(true);
+        offlinePlayer.Amation_SetUpWalk(false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -21,6 +21,6 @@ public class OffLinePlayer_Falling : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        offlinePlayer.Amation_SetUpFall(false);
+        offlinePlayer.Amation_SetUpWalk(true);
     }
 }

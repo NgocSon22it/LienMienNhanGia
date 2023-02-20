@@ -1613,7 +1613,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 34882171}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45, y: -82, z: -10}
+  m_LocalPosition: {x: -110, y: -6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28495,7 +28495,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969679094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45, y: -82, z: -10}
+  m_LocalPosition: {x: -91.83951, y: -6.51858, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44286,29 +44286,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1859257291, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 2d13d8a52f5e4eb4b8ae971c0e257275, type: 2}
     - target: {fileID: 941887472259081776, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081778, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -400189530, guid: 7170ffd8698884a44aaa5335b2681d96, type: 3}
     - target: {fileID: 941887472259081781, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 941887472259081781, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45
+      value: -110
       objectReference: {fileID: 0}
     - target: {fileID: 941887472259081781, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -82
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 941887472259081781, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -44341,42 +44333,6 @@ PrefabInstance:
     - target: {fileID: 941887472259081781, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081782, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081782, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081782, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081783, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: a
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081783, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: DetectGroundDistance
-      value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081783, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: DetectGroundVector.x
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081783, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: DetectGroundVector.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081783, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: JumpAbleLayer.m_Bits
-      value: 65792
-      objectReference: {fileID: 0}
-    - target: {fileID: 941887472259081783, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
-      propertyPath: NotFallingLayer.m_Bits
-      value: 65536
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}

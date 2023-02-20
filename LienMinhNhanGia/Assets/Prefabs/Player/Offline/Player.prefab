@@ -215,7 +215,7 @@ Animator:
   m_GameObject: {fileID: 941887472259081776}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 93f0ddc9f0f136441b88e5fc8142667c, type: 2}
+  m_Controller: {fileID: 9100000, guid: ab25aa6469ee1084bae95f752553e72e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -267,7 +267,6 @@ MonoBehaviour:
   DetectGroundVector: {x: 1.3, y: 0.1}
   DetectGroundTransform: {fileID: 941887470606723563}
   DetectGroundDistance: 0.06
-  IsFalling: 0
 --- !u!70 &1859257291
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

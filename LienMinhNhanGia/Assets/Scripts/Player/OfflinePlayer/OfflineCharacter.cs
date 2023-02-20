@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class OfflineCharacter : MonoBehaviour
 {
-    #region Common Value
     [Header("Common Value")]
     protected string Name;
     protected int TotalHealth;
@@ -13,51 +12,40 @@ public class OfflineCharacter : MonoBehaviour
     protected int TotalChakra;
     protected int CurrentChakra;
     protected int MovementSpeed;
-    #endregion
 
-    #region Component
     [Header("Component")]
     protected Rigidbody2D rigidbody2d;
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
     protected BoxCollider2D boxCollider2d;
-    #endregion
 
-    #region Enviroment Interaction
     [Header("Enviroment Interaction")]
     [SerializeField] protected LayerMask JumpAbleLayer;
     [SerializeField] protected LayerMask NotFallingLayer;
     [SerializeField] protected Vector2 DetectGroundVector;
     [SerializeField] protected Transform DetectGroundTransform;
     [SerializeField] protected float DetectGroundDistance;
-    #endregion
 
-    #region Account Bonus
-
-    #endregion
-
-    #region ScreenShake Control
     [Header("On hit")]
     protected int Strong, Frequency;
     protected float Duration;
-    #endregion
 
-    #region Value Change
+
     [Header("Change Value For Level Up")]
     protected int JumpPower;
     protected int JumpTime, JumpTimeMax = 1;
-    public bool IsFalling;
+    protected bool IsFalling;
+    protected bool IsWalking;
+    protected bool CanWalking;
+    protected bool IsGround, IsTouchSlope;
+    protected float VelocityY;
 
-
-    #endregion
-
-    #region Hard Value
     [Header("Hard Value")]
     float XInput, YInput;
     protected int Combo;
     protected bool CanCombo, IsFacingRight = true;
 
-    #endregion
+
 
 
     public void Start()
@@ -70,10 +58,22 @@ public class OfflineCharacter : MonoBehaviour
 
     public void Update()
     {
-        XInput = Input.GetAxis("Horizontal");
+        if (CanWalking)
+        {
+            XInput = Input.GetAxis("Horizontal");
+            IsWalking = Mathf.Abs(XInput) > 0;
+        }
+        else
+        {
+            XInput = 0f;
+            IsWalking = false;
+        }
 
+        VelocityY = rigidbody2d.velocity.y;
+        IsGround = CheckIsGround();
+        IsTouchSlope = CheckIsTouchSlope();
 
-        if (IsGround())
+        if (IsGround)
         {
             JumpTime = 1;
         }
@@ -81,13 +81,13 @@ public class OfflineCharacter : MonoBehaviour
         Jump();
         NormalAttack();
         Walk();
-        animator.SetBool("IsGround", IsGround());
-        animator.SetBool("TouchSlope", IsTouchSlope());
-        animator.SetBool("Falling", rigidbody2d.velocity.y < 0); 
-        animator.SetBool("FallingFromHighPlace", rigidbody2d.velocity.y < -10);
+
+        animator.SetBool("IsGround", IsGround);
+        animator.SetBool("TouchSlope", IsTouchSlope);
+        animator.SetBool("Falling", VelocityY < 0);
+        animator.SetBool("FallingFromHighPlace", VelocityY < -10);
     }
 
-    #region Set Up Player
 
     public void SetUpPlayer()
     {
@@ -105,7 +105,6 @@ public class OfflineCharacter : MonoBehaviour
         TotalChakra = 10;
         CurrentChakra = TotalChakra;
     }
-    #endregion
     public void SetUpSpeedAndJumpPower(int Speed, int Jump)
     {
         MovementSpeed = Speed;
@@ -118,8 +117,6 @@ public class OfflineCharacter : MonoBehaviour
         CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
         PlayerUIManager.Instance.SetUpPlayerUI();
     }
-
-    #region Health
     public void SetCurrentHealth(int Health)
     {
         CurrentHealth = Health;
@@ -137,9 +134,7 @@ public class OfflineCharacter : MonoBehaviour
     {
         return TotalHealth;
     }
-    #endregion
 
-    #region Chakra
     public void SetCurrentChakra(int Chakra)
     {
         CurrentChakra = Chakra;
@@ -157,15 +152,13 @@ public class OfflineCharacter : MonoBehaviour
     {
         return TotalChakra;
     }
-    #endregion
 
-    #region Normal Control
     public void Jump()
     {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (IsGround())
+            if (IsGround)
             {
                 JumpHandle(JumpPower);
             }
@@ -179,7 +172,7 @@ public class OfflineCharacter : MonoBehaviour
                 }
 
             }
-        }  
+        }
     }
 
     public void JumpHandle(float jumpPower)
@@ -202,6 +195,7 @@ public class OfflineCharacter : MonoBehaviour
         {
             Flip();
         }
+        animator.SetBool("Walking", IsWalking);
     }
     public void Flip()
     {
@@ -229,18 +223,16 @@ public class OfflineCharacter : MonoBehaviour
         CanCombo = false;
         Combo = 0;
     }
-    public bool IsGround()
+    public bool CheckIsGround()
     {
         return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, JumpAbleLayer);
     }
 
-    public bool IsTouchSlope()
+    public bool CheckIsTouchSlope()
     {
         return Physics2D.BoxCast(DetectGroundTransform.position, DetectGroundVector, 0, -DetectGroundTransform.up, DetectGroundDistance, NotFallingLayer);
     }
-    #endregion
 
-    #region MovementSpeed
     public void SetMovementSpeed(int Speed)
     {
         MovementSpeed = Speed;
@@ -251,9 +243,7 @@ public class OfflineCharacter : MonoBehaviour
         return MovementSpeed;
     }
 
-    #endregion
 
-    #region JumpPower
     public void SetJumpPower(int JumpPower)
     {
         this.JumpPower = JumpPower;
@@ -263,9 +253,7 @@ public class OfflineCharacter : MonoBehaviour
     {
         return JumpPower;
     }
-    #endregion
 
-    #region DoubleJump
     public void SetJumpTimeMax(int Amount)
     {
         this.JumpTimeMax = Amount;
@@ -274,14 +262,16 @@ public class OfflineCharacter : MonoBehaviour
     {
         return JumpTimeMax;
     }
-    #endregion
-    public void Fall()
+
+
+    public void Amation_SetUpFall(bool value)
     {
-        IsFalling = true;
+        IsFalling = value;
     }
-    public void NotFall()
+
+    public void Amation_SetUpWalk(bool value)
     {
-        IsFalling = false;
+        CanWalking = value;
     }
 
 }

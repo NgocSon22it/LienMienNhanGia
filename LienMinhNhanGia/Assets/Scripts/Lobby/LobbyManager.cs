@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -32,6 +32,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] TMP_InputField CreateRoomNameInput;
     [SerializeField] TMP_Dropdown DropDownNumberPlayerJoin;
 
+    [Header("Join Room")]
+    [SerializeField] GameObject RoomPasswordPanel;
+    [SerializeField] TMP_InputField RoomPasswordInput;
+    [SerializeField] TMP_Text WrongPasswordMessageTxt;
+    RoomInfo SelectedRoom;
 
     [Header("Test")]
     [SerializeField] TMP_InputField TestId;
@@ -114,6 +119,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
 
     }
+
+
     public void CreateRoom()
     {
         if (CreateRoomWithPassword)
@@ -129,7 +136,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             roomOptions.BroadcastPropsChangeToAll = true;
 
             roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
-            roomOptions.CustomRoomProperties.Add("password", roomPassword);
+            roomOptions.CustomRoomPropertiesForLobby = new string[] { "Password", "Creator" };
+            roomOptions.CustomRoomProperties.Add("Password", roomPassword);
+            roomOptions.CustomRoomProperties.Add("Creator", PhotonNetwork.NickName);
             PhotonNetwork.CreateRoom(roomName, roomOptions);
         }
         else
@@ -147,10 +156,39 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void JoinRoom(RoomInfo info)
+    public void JoinRoom(RoomInfo Room)
     {
-        PhotonNetwork.JoinRoom(info.Name);
-        Debug.Log("Join Room");
+
+        if (Room.CustomProperties.ContainsKey("Password"))
+        {
+            OpenRoomPasswordPanel();
+            SelectedRoom = Room;
+            Debug.Log("Join Room");
+        }
+        else
+        {
+            PhotonNetwork.JoinRoom(Room.Name);
+            Debug.Log("Join Room");
+        }
+
+    }
+
+    public void OnSubmitRoomPassword()
+    {
+        if (SelectedRoom.CustomProperties.ContainsKey("Password"))
+        {
+            if (SelectedRoom.CustomProperties["Password"].ToString() == RoomPasswordInput.text)
+            {
+                // Join the room
+                PhotonNetwork.JoinRoom(SelectedRoom.Name);
+            }
+            else
+            {
+                // Show an error message
+                WrongPasswordMessageTxt.text = "Sai mật khẩu!";
+            }
+        }
+
     }
 
     public override void OnJoinedRoom()
@@ -247,6 +285,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         NotInroomPanel.SetActive(true);
         InRoomPanel.SetActive(false);
         CloseCreateRoomPanel();
+        CloseRoomPasswordPanel();       
         Debug.Log("LeftRoom");
     }
     public void SetUpAccountData()
@@ -279,13 +318,28 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CreateRoomNameInput.text = "";
         CreateRoomPasswordInput.text = "";
         DropDownNumberPlayerJoin.value = 0;
+    }
+    public void ResetRoomPasswordData()
+    {
+        WrongPasswordMessageTxt.text = "";
+        RoomPasswordInput.text = "";
+    }
+
+    public void OpenRoomPasswordPanel()
+    {
+        ResetRoomPasswordData();
+        RoomPasswordPanel.gameObject.SetActive(true);
+    }
+    public void CloseRoomPasswordPanel()
+    {
+        RoomPasswordPanel.gameObject.SetActive(false);
 
     }
     public void OpenCreateRoomPanel()
     {
         PasswordToggle.isOn = false;
         CreateRoomPanel.SetActive(true);
-        ResetCreateRoomData();        
+        ResetCreateRoomData();
         SetUpPassword(false);
     }
     public void CloseCreateRoomPanel()

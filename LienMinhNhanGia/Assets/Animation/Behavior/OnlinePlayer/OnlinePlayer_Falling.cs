@@ -9,7 +9,7 @@ public class OnlinePlayer_Falling : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         onlinePlayer = animator.GetComponent<OnlinePlayer>();
-        onlinePlayer.Fall();
+        onlinePlayer.Amation_SetUpFall(true);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -21,6 +21,6 @@ public class OnlinePlayer_Falling : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        onlinePlayer.NotFall();
+        onlinePlayer.Amation_SetUpFall(false);
     }
 }

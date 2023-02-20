@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using TMPro;
+
 public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 {
     [Header("Common Value")]
@@ -36,14 +38,19 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     protected int JumpTime, JumpTimeMax = 1;
     protected bool IsFalling, IsGround, IsTouchSlope;
     protected float VelocityY;
+    protected bool IsWalking;
+    protected bool CanWalking;
 
     [Header("Hard Value")]
     float XInput, YInput;
     protected int Combo;
     protected bool CanCombo, IsFacingRight = true;
 
-    [Header("Camera")]
-    [SerializeField] GameObject Camera;
+    [Header("Online Show")]
+    [SerializeField] GameObject OnlineCamera;
+    [SerializeField] GameObject PlayerUI;
+    [SerializeField] TMP_Text PlayerNameTxt;
+    [SerializeField] Vector3 Offset;
 
     Vector3 realPosition;
     Quaternion realRotation;
@@ -60,17 +67,33 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         animator = GetComponent<Animator>();
         boxCollider2d = GetComponent<BoxCollider2D>();
         PV = GetComponent<PhotonView>();
+        PlayerNameTxt.text = PV.Owner.NickName;
         SetUpPlayer();
         if (PV.IsMine)
         {
-            GameObject a = Instantiate(Camera);
-            a.GetComponent<CinemachineVirtualCamera>().m_Follow = gameObject.transform;
+            GameObject OnlineCameraFollow = Instantiate(OnlineCamera);
+            OnlineCameraFollow.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = Online_GameManager.Instance.GetSkyBoxCollider();
+            OnlineCameraFollow.GetComponent<CinemachineVirtualCamera>().m_Follow = gameObject.transform;
+        }
+        else
+        {
+
         }
     }
 
     public void Update()
     {
-        XInput = Input.GetAxis("Horizontal");
+        if (CanWalking)
+        {
+            XInput = Input.GetAxis("Horizontal");
+            IsWalking = Mathf.Abs(XInput) > 0;
+        }
+        else
+        {
+            XInput = 0f;
+            IsWalking = false;
+        }
+        PlayerNameTxt.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
         VelocityY = rigidbody2d.velocity.y;
         IsGround = CheckIsGround();
         IsTouchSlope = CheckIsTouchSlope();
@@ -83,7 +106,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         if (PV.IsMine)
         {
             Jump();
-            NormalAttack();
+            PV.RPC(nameof(NormalAttack), RpcTarget.AllBuffered);
             Walk();
         }
 
@@ -231,12 +254,15 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         {
             Flip();
         }
+        animator.SetBool("Walking", IsWalking);
     }
     public void Flip()
     {
         IsFacingRight = !IsFacingRight;
         transform.Rotate(0, 180, 0);
     }
+
+    [PunRPC]
     public void NormalAttack()
     {
         if (Input.GetKeyDown(KeyCode.J) && !CanCombo)
@@ -296,13 +322,14 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     {
         return JumpTimeMax;
     }
-    public void Fall()
+    public void Amation_SetUpFall(bool value)
     {
-        IsFalling = true;
+        IsFalling = value;
     }
-    public void NotFall()
+
+    public void Amation_SetUpWalk(bool value)
     {
-        IsFalling = false;
+        CanWalking = value;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -313,6 +340,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             stream.SendNext(transform.rotation);
 
             stream.SendNext(IsFalling);
+            stream.SendNext(CanWalking);
             stream.SendNext(IsGround);
             stream.SendNext(IsTouchSlope);
             stream.SendNext(VelocityY);
@@ -325,6 +353,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
 
             IsFalling = (bool)stream.ReceiveNext();
+            CanWalking = (bool)stream.ReceiveNext();
             IsGround = (bool)stream.ReceiveNext();
             IsTouchSlope = (bool)stream.ReceiveNext();
             VelocityY = (float)stream.ReceiveNext();
