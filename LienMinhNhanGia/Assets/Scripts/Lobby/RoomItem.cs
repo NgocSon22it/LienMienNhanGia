@@ -8,6 +8,7 @@ public class RoomItem : MonoBehaviour
 {
     [SerializeField] TMP_Text RoomNameTxt;
     [SerializeField] TMP_Text NumberPlayerTxt;
+    [SerializeField] TMP_Text BossNameTxt;
 
     [SerializeField] GameObject LockIcon;
 
@@ -18,15 +19,9 @@ public class RoomItem : MonoBehaviour
     public void SetUp(RoomInfo _Roominformation)
     {
         Roominformation = _Roominformation;
-        if (Roominformation.CustomProperties.ContainsKey("Creator"))
-        {
-            RoomNameTxt.text = "Phòng " + Roominformation.Name + " của " + Roominformation.CustomProperties["Creator"].ToString();
-        }
-        else
-        {
-            RoomNameTxt.text = "Phòng " + Roominformation.Name + "0";
-        }
+        RoomNameTxt.text = "Phòng " + Roominformation.Name + " của " + Roominformation.CustomProperties["Creator"].ToString();
         NumberPlayerTxt.text = Roominformation.PlayerCount + " / " + Roominformation.MaxPlayers;
+        BossNameTxt.text = Roominformation.CustomProperties["BossName"].ToString();
 
         if (Roominformation.CustomProperties.ContainsKey("Password"))
         {

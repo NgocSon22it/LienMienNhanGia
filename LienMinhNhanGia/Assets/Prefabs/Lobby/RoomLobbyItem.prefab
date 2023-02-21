@@ -526,6 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RoomNameTxt: {fileID: 6435685293672982279}
   NumberPlayerTxt: {fileID: 6435685294068115091}
+  BossNameTxt: {fileID: 6435685293253157047}
   LockIcon: {fileID: 3988563363354604996}
 --- !u!114 &627746861612462906
 MonoBehaviour:

@@ -5,10 +5,20 @@ using UnityEngine;
 public class BossEntity
 {
     public string BossID;
-    public string BossName;
+    public string Name;
+    public int Health;
+    public int Speed;
+    public int Coin_Bonus;
+    public int Experience_Bonus;
+    public int Point_Skill;
+    public int Percent_Bonus;
+    public string Description;
+    public string Link_image;
+    public bool Delete;
 
-    public BossEntity(string BossID, string BossName)
+
+    public BossEntity()
     {
-        this.BossID = BossID; this.BossName = BossName;
+
     }
 }
