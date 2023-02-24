@@ -29,7 +29,7 @@ public class PlayerItem : MonoBehaviourPunCallbacks
 
     public void SetUp(Player _player)
     {
-        player = _player;
+        player = _player;   
         SetPLayerData(player);
 
     }
@@ -60,7 +60,7 @@ public class PlayerItem : MonoBehaviourPunCallbacks
         AccountSkillEntity Account_SkillO = JsonUtility.FromJson<AccountSkillEntity>(Account_SkillO_json);
 
         IsReady = (bool) player.CustomProperties["IsReady"];
-
+        
         PlayerLevelTxt.text = "Level " + Account.Level.ToString();
 
         if (IsReady)

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using TMPro;
+using UnityEngine.UI;
+using Photon.Pun.Demo.PunBasics;
+using Photon.Realtime;
+using System;
 
 public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 {
@@ -48,9 +52,14 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
     [Header("Online Show")]
     [SerializeField] GameObject OnlineCamera;
-    [SerializeField] GameObject PlayerUI;
-    [SerializeField] TMP_Text PlayerNameTxt;
+    [SerializeField] TMP_Text PlayerNameUITxt;
     [SerializeField] Vector3 Offset;
+    [SerializeField] GameObject PlayerUI;
+    [SerializeField] Image PlayerCurrentHealthUI;
+    [SerializeField] Image PlayerCurrentChakraUI;
+    [SerializeField] TMP_Text PlayerCurrentHealthNumberUI;
+    [SerializeField] TMP_Text PlayerCurrentChakraNumberUI;
+    GameObject OnlineCameraFollow;
 
     Vector3 realPosition;
     Quaternion realRotation;
@@ -67,13 +76,16 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         animator = GetComponent<Animator>();
         boxCollider2d = GetComponent<BoxCollider2D>();
         PV = GetComponent<PhotonView>();
-        PlayerNameTxt.text = PV.Owner.NickName;
+        PlayerNameUITxt.text = PV.Owner.NickName;
         SetUpPlayer();
         if (PV.IsMine)
         {
-            GameObject OnlineCameraFollow = Instantiate(OnlineCamera);
+            
+            OnlineCameraFollow = Instantiate(OnlineCamera);
             OnlineCameraFollow.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = Online_GameManager.Instance.GetSkyBoxCollider();
             OnlineCameraFollow.GetComponent<CinemachineVirtualCamera>().m_Follow = gameObject.transform;
+            PlayerCurrentHealthUI.fillAmount = 1f;
+            PlayerCurrentChakraUI.fillAmount = 1f;
         }
         else
         {
@@ -93,7 +105,8 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             XInput = 0f;
             IsWalking = false;
         }
-        PlayerNameTxt.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
+        PlayerNameUITxt.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
+        PlayerUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,5,0));
         VelocityY = rigidbody2d.velocity.y;
         IsGround = CheckIsGround();
         IsTouchSlope = CheckIsTouchSlope();
@@ -108,6 +121,11 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             Jump();
             PV.RPC(nameof(NormalAttack), RpcTarget.AllBuffered);
             Walk();
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                PV.RPC(nameof(TakeDamage), RpcTarget.AllBuffered, 1);
+                Debug.Log(CurrentHealth);
+            }
         }
 
         animator.SetBool("IsGround", IsGround);
@@ -142,9 +160,24 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
     public void SetUpPlayer()
     {
-        //SetUpHealth();
-        //SetUpChakra();
+        SetUpHealth();
+        SetUpChakra();
         SetUpSpeedAndJumpPower(27, 50);
+    }
+
+    [PunRPC]
+    public void SetUpHealthUI()
+    {
+        PlayerCurrentHealthNumberUI.text = GetCurrentHealth() + " / " + GetTotalHealth();      
+        PlayerCurrentHealthUI.fillAmount = (float)GetCurrentHealth() / (float)GetTotalHealth();
+        Debug.Log(GetCurrentHealth() + "/" + GetTotalHealth());
+    }
+    [PunRPC]
+    public void SetUpChakraUI()
+    {
+        PlayerCurrentChakraNumberUI.text = GetCurrentChakra() + " / " + GetTotalChakra();
+        PlayerCurrentChakraUI.fillAmount = (float)GetCurrentChakra() / (float)GetTotalChakra();
+        Debug.Log(GetCurrentChakra() + "/" + GetTotalChakra());
     }
     public void SetUpHealth()
     {
@@ -161,13 +194,17 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         MovementSpeed = Speed;
         JumpPower = Jump;
     }
+
+    [PunRPC]
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
         CurrentChakra -= damage;
-        CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
-        PlayerUIManager.Instance.SetUpPlayerUI();
+        PV.RPC(nameof(SetUpHealthUI), RpcTarget.AllBuffered);
+        PV.RPC(nameof(SetUpChakraUI), RpcTarget.AllBuffered);
     }
+
+
 
     public void SetCurrentHealth(int Health)
     {
@@ -274,7 +311,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     public void Startcombo()
     {
         CanCombo = false;
-        if (Combo < 3)
+        if (Combo < 2)
         {
             Combo++;
         }
@@ -344,7 +381,8 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             stream.SendNext(IsGround);
             stream.SendNext(IsTouchSlope);
             stream.SendNext(VelocityY);
-
+            stream.SendNext(CurrentHealth);
+            stream.SendNext(CurrentChakra);
         }
         else
         {
@@ -357,6 +395,8 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             IsGround = (bool)stream.ReceiveNext();
             IsTouchSlope = (bool)stream.ReceiveNext();
             VelocityY = (float)stream.ReceiveNext();
+            CurrentHealth = (int)stream.ReceiveNext();
+            CurrentChakra = (int)stream.ReceiveNext();
 
             //Lag compensation
             currentTime = 0.0f;

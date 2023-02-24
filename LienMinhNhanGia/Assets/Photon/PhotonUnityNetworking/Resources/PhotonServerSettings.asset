@@ -15,7 +15,7 @@ MonoBehaviour:
   AppSettings:
     AppIdRealtime: f46ac831-335d-47c2-812f-63b39ef7e4e3
     AppIdFusion: 
-    AppIdChat: 
+    AppIdChat: c6399a00-dfc3-4242-9131-ac0f7df47bec
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
@@ -42,6 +42,9 @@ MonoBehaviour:
   - SetTriggerJump
   - SyncPosition
   - NormalAttack
+  - TakeDamage
+  - SetUpChakraUI
+  - SetUpHealthUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

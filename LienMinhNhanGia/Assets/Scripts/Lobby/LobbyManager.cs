@@ -7,6 +7,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using System.Linq;
+
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [Header("Instance")]
@@ -169,6 +171,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (roomName.Length > 0)
         {
+            CreateRoom_ErrorRoomNameMessage.text = "";
             if (CreateRoomWithPassword)
             {
 
@@ -249,8 +252,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         InRoomPanel.SetActive(true);
         RoomNameTxt.text = PhotonNetwork.CurrentRoom.Name;
         Debug.Log("JoinRoom");
-
-
+        ChatManager.Instance.ConnectToChat();
+            
 
         Player[] players = PhotonNetwork.PlayerList;
 
@@ -264,12 +267,41 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             Instantiate(PlayerItem, PlayerContent).GetComponent<PlayerItem>().SetUp(players[i]);
         }
 
-        StartBtn.SetActive(PhotonNetwork.IsMasterClient);
-        ReadyBtn.SetActive(!PhotonNetwork.IsMasterClient);
+        SetUpMasterClient();
+    }
+
+    public bool IsEveryOneReady()
+    {
+        var players = PhotonNetwork.CurrentRoom.Players;
+        foreach (var player in players.Values)
+        {
+            object isPlayerReady;
+            if (player.CustomProperties.TryGetValue("IsReady", out isPlayerReady))
+            {
+                if ((bool)isPlayerReady == false)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
+        SetUpMasterClient();
+    }
+
+    public void SetUpMasterClient()
+    {
+        customProperties["IsReady"] = PhotonNetwork.IsMasterClient;
+        PhotonNetwork.SetPlayerCustomProperties(customProperties);
+
         StartBtn.SetActive(PhotonNetwork.IsMasterClient);
         ReadyBtn.SetActive(!PhotonNetwork.IsMasterClient);
     }
@@ -312,7 +344,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        PhotonNetwork.LoadLevel(PhotonNetwork.CurrentRoom.CustomProperties["Map"].ToString());
+        bool IsAllReady = IsEveryOneReady();
+
+        if (IsAllReady)
+        {
+            PhotonNetwork.LoadLevel(PhotonNetwork.CurrentRoom.CustomProperties["Map"].ToString());
+        }
+
+        
     }
 
     public void Onclick_Ready()
@@ -372,6 +411,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CreateRoom_NameInput.text = "";
         CreateRoom_PasswordInput.text = "";
         CreateRoom_DropDownNumberPlayerJoin.value = 0;
+        CreateRoom_ErrorPasswordMessage.text = "";
+        CreateRoom_ErrorRoomNameMessage.text = "";
     }
     public void ResetRoomPasswordData()
     {
