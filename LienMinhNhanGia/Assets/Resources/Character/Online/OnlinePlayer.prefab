@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1128117751248322559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7093264958725520153}
+  m_Layer: 3
+  m_Name: PlaceSkill
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7093264958725520153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128117751248322559}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.468, y: 0.293, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5073702659610270649}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1333204633365635539
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,8 +672,8 @@ GameObject:
   - component: {fileID: 5438984981058747975}
   - component: {fileID: 5782341847174927646}
   - component: {fileID: -6681986962997781505}
-  - component: {fileID: -3559460189028401401}
   - component: {fileID: -7140578603161225943}
+  - component: {fileID: -4262861126346731489}
   m_Layer: 3
   m_Name: OnlinePlayer
   m_TagString: Player
@@ -665,6 +696,7 @@ Transform:
   - {fileID: 5073702658226082919}
   - {fileID: 5438984980685827825}
   - {fileID: 6545181402175557179}
+  - {fileID: 7093264958725520153}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -798,6 +830,7 @@ MonoBehaviour:
   DetectGroundVector: {x: 1.3, y: 0.1}
   DetectGroundTransform: {fileID: 5073702658226082919}
   DetectGroundDistance: 0.06
+  Place_ExecuteSkill: {fileID: 7093264958725520153}
   OnlineCamera: {fileID: 660473019859205129, guid: add13d35049f96a49ab0f8e2299eb156, type: 3}
   PlayerNameUITxt: {fileID: 4865828885264606798}
   Offset: {x: 0, y: 6, z: 0}
@@ -826,53 +859,11 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 5782341847174927646}
-  - {fileID: -3559460189028401401}
   - {fileID: -7140578603161225943}
+  - {fileID: -4262861126346731489}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-3559460189028401401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5073702659610270652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 9
-    SynchronizeType: 1
-    Name: Jump
-  - Type: 4
-    SynchronizeType: 1
-    Name: IsGround
-  - Type: 9
-    SynchronizeType: 1
-    Name: Attack0
-  - Type: 9
-    SynchronizeType: 1
-    Name: Attack1
-  - Type: 4
-    SynchronizeType: 1
-    Name: Falling
-  - Type: 4
-    SynchronizeType: 1
-    Name: FallingFromHighPlace
-  - Type: 4
-    SynchronizeType: 1
-    Name: TouchSlope
-  - Type: 4
-    SynchronizeType: 1
-    Name: Walking
-  m_SynchronizeLayers:
-  - SynchronizeType: 1
-    LayerIndex: 0
 --- !u!114 &-7140578603161225943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,6 +880,48 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-4262861126346731489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073702659610270652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsGround
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack0
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack1
+  - Type: 4
+    SynchronizeType: 1
+    Name: Falling
+  - Type: 4
+    SynchronizeType: 1
+    Name: FallingFromHighPlace
+  - Type: 4
+    SynchronizeType: 1
+    Name: TouchSlope
+  - Type: 4
+    SynchronizeType: 1
+    Name: Walking
+  m_SynchronizeLayers:
+  - SynchronizeType: 1
+    LayerIndex: 0
 --- !u!1 &5438984980685827824
 GameObject:
   m_ObjectHideFlags: 0

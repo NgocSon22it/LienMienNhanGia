@@ -26,10 +26,13 @@ public class OfflineCharacter : MonoBehaviour
     [SerializeField] protected Transform DetectGroundTransform;
     [SerializeField] protected float DetectGroundDistance;
 
-    [Header("On hit")]
-    protected int Strong, Frequency;
-    protected float Duration;
+    [Header("Skill Interaction")]
+    [SerializeField] public Transform Place_ExecuteSkill;
 
+    [Header("On hit")]
+    public int Strong, Frequency;
+    public float Duration;
+    bool IsHurt;
 
     [Header("Change Value For Level Up")]
     protected int JumpPower;
@@ -45,7 +48,9 @@ public class OfflineCharacter : MonoBehaviour
     protected int Combo;
     protected bool CanCombo, IsFacingRight = true;
 
-
+    [Header("Knockback")]
+    public float KnockBackForce = 10f;
+    public float KnockBackForceUp = 2f;
 
 
     public void Start()
@@ -54,6 +59,7 @@ public class OfflineCharacter : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         boxCollider2d = GetComponent<BoxCollider2D>();
+        SetUpPlayer();
     }
 
     public void Update()
@@ -110,12 +116,29 @@ public class OfflineCharacter : MonoBehaviour
         MovementSpeed = Speed;
         JumpPower = Jump;
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Transform t)
     {
+        if (IsHurt) { return; }
         CurrentHealth -= damage;
         CurrentChakra -= damage;
         CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
         PlayerUIManager.Instance.SetUpPlayerUI();
+        KnockBack(t);
+        StartCoroutine(DamageAnimation());
+    }
+    public IEnumerator DamageAnimation()
+    {
+        IsHurt = true;
+        for (int i = 0; i < 10; i++)
+        {
+            spriteRenderer.color = Color.red;
+
+            yield return new WaitForSeconds(.1f);
+
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(.1f);
+        }
+        IsHurt = false;
     }
     public void SetCurrentHealth(int Health)
     {
@@ -273,5 +296,12 @@ public class OfflineCharacter : MonoBehaviour
     {
         CanWalking = value;
     }
+
+    public void KnockBack(Transform t)
+    {
+        Vector2 direction = new Vector2(transform.position.x - t.position.x, 0);
+        rigidbody2d.velocity = new Vector2(direction.x, KnockBackForceUp) * KnockBackForce;
+    }
+
 
 }

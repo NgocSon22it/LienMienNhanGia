@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,13 +7,24 @@ using UnityEngine;
 
 public class OnlinePlayer : OnlineCharacter
 {
-    [Header("Instance")]
-    public static OnlinePlayer Instance;
-
-    private void Awake()
+    public static OnlinePlayer LocalPlayerInstance
     {
-        Instance = this;
+        get
+        {
+            if (PhotonNetwork.LocalPlayer == null) return null;
+
+            foreach (PhotonView photonView in PhotonView.FindObjectsOfType<PhotonView>())
+            {
+                if (photonView.IsMine && photonView.gameObject.GetComponent<OnlinePlayer>() != null)
+                {
+                    return photonView.gameObject.GetComponent<OnlinePlayer>();
+                }
+            }
+
+            return null;
+        }
     }
+
     new void Start()
     {
         base.Start();
@@ -21,12 +33,12 @@ public class OnlinePlayer : OnlineCharacter
     // Update is called once per frame
     new void Update()
     {
-      base.Update();    
+        base.Update();
     }
     new void FixedUpdate()
     {
         base.FixedUpdate();
-        
+
     }
 
     private void OnDrawGizmos()
@@ -37,5 +49,5 @@ public class OnlinePlayer : OnlineCharacter
 
 
 
-    
+
 }

@@ -13,6 +13,7 @@ public class Online_GameManager : MonoBehaviour
     public static Online_GameManager Instance;
 
 
+
     private void Awake()
     {
         Instance = this;

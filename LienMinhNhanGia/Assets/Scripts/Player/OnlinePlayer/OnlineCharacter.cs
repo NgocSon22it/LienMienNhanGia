@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Photon.Pun.Demo.PunBasics;
 using Photon.Realtime;
 using System;
+using Unity.Burst.Intrinsics;
 
 public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 {
@@ -36,6 +37,9 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     [Header("On hit")]
     protected int Strong, Frequency;
     protected float Duration;
+
+    [Header("Skill Interaction")]
+    [SerializeField] public Transform Place_ExecuteSkill;
 
     [Header("Change Value For Level Up")]
     protected int JumpPower;
@@ -105,6 +109,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             XInput = 0f;
             IsWalking = false;
         }
+
         PlayerNameUITxt.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
         PlayerUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,5,0));
         VelocityY = rigidbody2d.velocity.y;
@@ -119,13 +124,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         if (PV.IsMine)
         {
             Jump();
-            PV.RPC(nameof(NormalAttack), RpcTarget.AllBuffered);
-            Walk();
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                PV.RPC(nameof(TakeDamage), RpcTarget.AllBuffered, 1);
-                Debug.Log(CurrentHealth);
-            }
+            NormalAttack();
         }
 
         animator.SetBool("IsGround", IsGround);
@@ -200,11 +199,9 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     {
         CurrentHealth -= damage;
         CurrentChakra -= damage;
-        PV.RPC(nameof(SetUpHealthUI), RpcTarget.AllBuffered);
-        PV.RPC(nameof(SetUpChakraUI), RpcTarget.AllBuffered);
+        PV.RPC(nameof(SetUpHealthUI), RpcTarget.All);
+        PV.RPC(nameof(SetUpChakraUI), RpcTarget.All);
     }
-
-
 
     public void SetCurrentHealth(int Health)
     {
@@ -265,7 +262,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     public void JumpHandle(float jumpPower)
     {
         rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, jumpPower);
-        PV.RPC(nameof(SetTriggerJump), RpcTarget.AllBuffered);
+        PV.RPC(nameof(SetTriggerJump), RpcTarget.All);
         Finishcombo();
     }
 
@@ -275,6 +272,12 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     public void SetTriggerJump()
     {
         animator.SetTrigger("Jump");
+    }
+
+    [PunRPC]
+    public void SetTriggerAttack()
+    {
+        animator.SetTrigger("Attack" + Combo);
     }
 
     #endregion
@@ -298,14 +301,13 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         IsFacingRight = !IsFacingRight;
         transform.Rotate(0, 180, 0);
     }
-
-    [PunRPC]
+   
     public void NormalAttack()
     {
         if (Input.GetKeyDown(KeyCode.J) && !CanCombo)
         {
             CanCombo = true;
-            animator.SetTrigger("Attack" + Combo);
+            PV.RPC(nameof(SetTriggerAttack), RpcTarget.All);
         }
     }
     public void Startcombo()
@@ -378,11 +380,14 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
             stream.SendNext(IsFalling);
             stream.SendNext(CanWalking);
+            stream.SendNext(IsWalking);
             stream.SendNext(IsGround);
             stream.SendNext(IsTouchSlope);
             stream.SendNext(VelocityY);
             stream.SendNext(CurrentHealth);
             stream.SendNext(CurrentChakra);
+            stream.SendNext(Combo);
+            stream.SendNext(CanCombo);
         }
         else
         {
@@ -392,11 +397,14 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
             IsFalling = (bool)stream.ReceiveNext();
             CanWalking = (bool)stream.ReceiveNext();
+            IsWalking = (bool)stream.ReceiveNext();
             IsGround = (bool)stream.ReceiveNext();
             IsTouchSlope = (bool)stream.ReceiveNext();
             VelocityY = (float)stream.ReceiveNext();
             CurrentHealth = (int)stream.ReceiveNext();
             CurrentChakra = (int)stream.ReceiveNext();
+            Combo = (int)stream.ReceiveNext();
+            CanCombo = (bool)stream.ReceiveNext();
 
             //Lag compensation
             currentTime = 0.0f;

@@ -30,6 +30,10 @@ public class Online_SkillManager : MonoBehaviour
     private void Start()
     {
         LoadAccountSkillList();
+        foreach (Online_SkillSlot skill in listSkillSlot)
+        {
+            skill.SetUpSlot();
+        }
     }
 
     public void LoadAccountSkillList()

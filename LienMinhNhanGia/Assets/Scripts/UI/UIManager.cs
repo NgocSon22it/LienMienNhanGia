@@ -48,6 +48,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0f;
         IsPause = true;
         IsPlaying = false;
+        SkillManager.Instance.CanUseSkill = false;
     }
 
     public void ResumeGame()
@@ -56,6 +57,7 @@ public class UIManager : MonoBehaviour
         IsPause = false;
         IsPlaying = true;
         KeyCheck = KeyCode.None;
+        SkillManager.Instance.CanUseSkill = true;
     }
 
     private void Update()
@@ -103,7 +105,9 @@ public class UIManager : MonoBehaviour
         {
             AllTabPanel[i].SetActive(false);
         }
+
         AllTabPanel[tab - 1].SetActive(true);
+        
     }
 
 

@@ -299,7 +299,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void SetUpMasterClient()
     {
-        customProperties["IsReady"] = PhotonNetwork.IsMasterClient;
+        IsReady = PhotonNetwork.IsMasterClient;
+        customProperties["IsReady"] = IsReady;
         PhotonNetwork.SetPlayerCustomProperties(customProperties);
 
         StartBtn.SetActive(PhotonNetwork.IsMasterClient);
@@ -348,6 +349,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         if (IsAllReady)
         {
+            PhotonNetwork.CurrentRoom.IsVisible = false;
             PhotonNetwork.LoadLevel(PhotonNetwork.CurrentRoom.CustomProperties["Map"].ToString());
         }
 
@@ -379,6 +381,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         InRoomPanel.SetActive(false);
         CloseCreateRoomPanel();
         CloseRoomPasswordPanel();
+        Onclick_UnReady();
         Debug.Log("LeftRoom");
     }
     public void SetUpAccountData()

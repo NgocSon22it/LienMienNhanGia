@@ -26,7 +26,6 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
     {
         SetUpSlot();
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if (Online_SkillManager.Instance.SkillSelected != null)
@@ -37,20 +36,6 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void Update()
-    {
-        ExecuteSkill();
-    }
-
-    public void ExecuteSkill()
-    {
-        if (Skill == null) return;
-
-        if (Input.GetKeyDown(SlotKey))
-        {
-            Skill_Hold_Manager.Instance.CallMethodFromHold(Skill.MethodName);
-        }
-    }
     public void SetUpSlot()
     {
         AccountSkillEntity accountSkillEntity =

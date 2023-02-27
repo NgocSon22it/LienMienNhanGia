@@ -17,6 +17,8 @@ TagManager:
   - BossDoor
   - BossDoorUp
   - Slope
+  - Skill
+  - Summon
   layers:
   - Default
   - TransparentFX
@@ -83,4 +85,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3882615129
+    locked: 0
+  - name: PlayerSkill
+    uniqueID: 3095085969
     locked: 0
