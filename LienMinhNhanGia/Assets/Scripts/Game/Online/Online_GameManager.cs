@@ -12,19 +12,20 @@ public class Online_GameManager : MonoBehaviour
 
     public static Online_GameManager Instance;
 
-
+    [SerializeField] GameObject[] playerPrefab;
+    [SerializeField] GameObject[] playerPrefabCharacter;
+    [SerializeField] GameObject dice;
+    GameObject[] parentOb = new GameObject[3];
+    private void Start()
+    {
+        PhotonNetwork.Instantiate(Path.Combine("Character/Online/", Character.name), SpawnPoint.position, SpawnPoint.rotation);
+    }
 
     private void Awake()
     {
         Instance = this;
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        PhotonNetwork.Instantiate(Path.Combine("Character/Online/", Character.name), SpawnPoint.position, SpawnPoint.rotation);
-    }
 
     public PolygonCollider2D GetSkyBoxCollider()
     {

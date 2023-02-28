@@ -45,8 +45,6 @@ public class SkillManager : MonoBehaviour
 
     bool StatusEquip;
 
-    public bool CanUseSkill;
-
     private void Awake()
     {
         Instance = this;
@@ -57,14 +55,6 @@ public class SkillManager : MonoBehaviour
         foreach (Skill_Slot skill in listSkillSlot)
         {
             skill.SetUpSlot();
-        }
-    }
-
-    private void Update()
-    {
-        foreach(Skill_Slot skill in listSkillSlot)
-        {
-            skill.ExecuteSkill();
         }
     }
 

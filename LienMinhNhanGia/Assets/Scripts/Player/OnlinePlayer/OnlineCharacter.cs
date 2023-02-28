@@ -39,7 +39,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     protected float Duration;
 
     [Header("Skill Interaction")]
-    [SerializeField] public Transform Place_ExecuteSkill;
+    [SerializeField] public Transform Skill_WaterBall_Transform;
 
     [Header("Change Value For Level Up")]
     protected int JumpPower;
@@ -280,6 +280,17 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         animator.SetTrigger("Attack" + Combo);
     }
 
+    [PunRPC]
+    public void SetTriggerSkill_WaterBall()
+    {
+        animator.SetTrigger("Skill_WaterBall");
+    }
+
+    public void CallTrigger(string TriggerName)
+    {
+        PV.RPC(TriggerName, RpcTarget.All);
+    }
+
     #endregion
 
     public void Walk()
@@ -369,6 +380,19 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     public void Amation_SetUpWalk(bool value)
     {
         CanWalking = value;
+    }
+    
+
+    public void Spawn_WaterBall()
+    {
+        GameObject waterball = Skill_Pool.Instance.GetWaterBallFromPool();
+
+        if (waterball != null)
+        {
+            waterball.transform.position = Skill_WaterBall_Transform.position;
+            waterball.transform.rotation = Skill_WaterBall_Transform.rotation;
+            waterball.SetActive(true);
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -8,8 +8,6 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
 {
     public static Online_Skill_Hold_Manager Instance;
 
-    [SerializeField] PhotonView PV;
-
     AccountSkillEntity AccountSkill_U;
     AccountSkillEntity AccountSkill_I;
     AccountSkillEntity AccountSkill_O;
@@ -20,14 +18,16 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
     [SerializeField] GameObject DAOManager;
 
     OnlinePlayer localPlayer;
+    PhotonView PV;
     private void Awake()
     {
         Instance = this;
     }
     private void Start()
     {
+        localPlayer = GetComponent<OnlinePlayer>();
+        PV = GetComponent<PhotonView>();
         OnlineSetUpListSkill();
-        localPlayer = OnlinePlayer.LocalPlayerInstance;
     }
 
     private void Update()
@@ -40,16 +40,7 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
 
     public void WaterBall()
     {
-        GameObject waterball = Skill_Pool.Instance.GetWaterBallFromPool();
-
-        if (waterball != null)
-        {
-            waterball.transform.position = localPlayer.Place_ExecuteSkill.position;
-            waterball.transform.rotation = localPlayer.Place_ExecuteSkill.rotation;
-            waterball.SetActive(true);
-        }
-
-
+        localPlayer.CallTrigger("SetTriggerSkill_WaterBall");
     }
 
     public void WaterSword()

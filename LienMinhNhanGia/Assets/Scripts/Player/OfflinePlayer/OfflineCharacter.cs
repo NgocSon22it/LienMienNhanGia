@@ -14,9 +14,11 @@ public class OfflineCharacter : MonoBehaviour
     protected int MovementSpeed;
 
     [Header("Component")]
+    
     protected Rigidbody2D rigidbody2d;
     protected SpriteRenderer spriteRenderer;
-    protected Animator animator;
+    [HideInInspector]
+    public Animator animator;
     protected BoxCollider2D boxCollider2d;
 
     [Header("Enviroment Interaction")]
@@ -27,7 +29,8 @@ public class OfflineCharacter : MonoBehaviour
     [SerializeField] protected float DetectGroundDistance;
 
     [Header("Skill Interaction")]
-    [SerializeField] public Transform Place_ExecuteSkill;
+    [SerializeField] public Transform Skill_WaterBall_Transform;
+    [SerializeField] public Transform Skill_WaterSlash_Transform;
 
     [Header("On hit")]
     public int Strong, Frequency;
@@ -303,5 +306,27 @@ public class OfflineCharacter : MonoBehaviour
         rigidbody2d.velocity = new Vector2(direction.x, KnockBackForceUp) * KnockBackForce;
     }
 
+    public void Skill_WaterBall()
+    {
+        GameObject waterball = Skill_Pool.Instance.GetWaterBallFromPool();
+
+        if (waterball != null)
+        {
+            waterball.transform.position = Skill_WaterBall_Transform.position;
+            waterball.transform.rotation = Skill_WaterBall_Transform.rotation;
+            waterball.SetActive(true);
+        }
+    }
+    public void Skill_WaterSlash()
+    {
+        GameObject waterslash = Skill_Pool.Instance.GetWaterSlashFromPool();
+
+        if (waterslash != null)
+        {
+            waterslash.transform.position = Skill_WaterSlash_Transform.position;
+            waterslash.transform.rotation = Skill_WaterSlash_Transform.rotation;
+            waterslash.SetActive(true);
+        }
+    }
 
 }

@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 6858324467141534061}
   - component: {fileID: 231086598176900912}
   - component: {fileID: 6260533360734813779}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Kisame_WaterBall
-  m_TagString: Untagged
+  m_TagString: PlayerSkill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

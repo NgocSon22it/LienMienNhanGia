@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9059735501077298730}
   - component: {fileID: 4592045389686323}
   - component: {fileID: 1748188659128455729}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Kisame_WaterBallExplosion
-  m_TagString: Untagged
+  m_TagString: PlayerSkill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

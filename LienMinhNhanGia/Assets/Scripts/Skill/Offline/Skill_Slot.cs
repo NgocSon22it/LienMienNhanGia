@@ -11,7 +11,6 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] Image SkillImage;
     [SerializeField] int SlotIndex;
-    [SerializeField] KeyCode SlotKey;
 
     [Header("Slot Manager")]
     [SerializeField] GameObject Empty;
@@ -22,19 +21,6 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 
     [Header("Extension")]
     string Extension = "Skill/";
-
-    public void ExecuteSkill()
-    {
-        if (!SkillManager.Instance.CanUseSkill) return;
-
-        if (Skill == null ) return;
-
-        if (Input.GetKeyDown(SlotKey))
-        {
-            Skill_Hold_Manager.Instance.CallMethodFromHold(Skill.MethodName);
-        }
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if (SkillManager.Instance.SkillSelected != null)
@@ -80,7 +66,7 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
     {
         AccountSkillEntity accountSkillEntity =
         DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, SlotIndex);
-
+        Skill_Hold_Manager.Instance.SetUpSkill(accountSkillEntity, SlotIndex);
         if (accountSkillEntity != null)
         {
             SkillEntity skillEntity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
