@@ -25,9 +25,11 @@ public class OfflinePlayer : OfflineCharacter
         base.Update();
     }
 
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawCube(DetectGroundTransform.position - DetectGroundTransform.up * DetectGroundDistance, DetectGroundVector);
+        Gizmos.DrawWireSphere(AttackPoint.position , AttackRange);
     }
 }

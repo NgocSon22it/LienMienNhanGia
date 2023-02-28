@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,6 +31,11 @@ public class OfflineCharacter : MonoBehaviour
     [Header("Skill Interaction")]
     [SerializeField] public Transform Skill_WaterBall_Transform;
     [SerializeField] public Transform Skill_WaterSlash_Transform;
+
+
+    [SerializeField] public Transform AttackPoint;
+    [SerializeField] LayerMask LayerToAttack;
+    [SerializeField] public float AttackRange;
 
     [Header("On hit")]
     public int Strong, Frequency;
@@ -197,6 +202,26 @@ public class OfflineCharacter : MonoBehaviour
                     JumpTime++;
                 }
 
+            }
+        }
+    }
+
+    public void NormalAttackDamage()
+    {
+        Collider2D[] HitEnemy = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, LayerToAttack);
+
+        if (HitEnemy != null)
+        {
+            foreach (Collider2D Enemy in HitEnemy)
+            {             
+                if (Enemy.gameObject.CompareTag("Enemy"))
+                {
+                    Enemy.GetComponent<Animator>().SetTrigger("Hurt");
+                }
+                if (Enemy.gameObject.CompareTag("BreakItem"))
+                {
+                    Enemy.GetComponent<BreakItem>().Break();
+                }
             }
         }
     }
