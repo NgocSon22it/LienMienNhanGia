@@ -8,6 +8,7 @@ public class WaterSlash : MonoBehaviour
 
     [SerializeField] List<string> ListTag = new List<string>();
     [SerializeField] int Speed;
+    GameObject Explosion;
     private void OnEnable()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -29,7 +30,14 @@ public class WaterSlash : MonoBehaviour
     {
         if (ListTag.Contains(collision.gameObject.tag))
         {
-            Debug.Log("Ok");
+            Explosion = Skill_Pool.Instance.GetWaterSlashExplosionFromPool();
+
+            if (Explosion != null)
+            {
+                Explosion.transform.position = transform.position;
+                Explosion.transform.rotation = transform.rotation;
+                Explosion.SetActive(true);
+            }         
         }
     }
 }

@@ -19,6 +19,9 @@ public class Skill_Pool : MonoBehaviour
     [SerializeField] GameObject WaterSlash;
     List<GameObject> ListWaterSlash = new List<GameObject>();
 
+    [SerializeField] GameObject WaterSlashExplosion;
+    List<GameObject> ListWaterSlashExplosion = new List<GameObject>();
+
     private void Awake()
     {
         Instance = this;
@@ -47,6 +50,13 @@ public class Skill_Pool : MonoBehaviour
             obj = Instantiate(WaterSlash);
             obj.SetActive(false);
             ListWaterSlash.Add(obj);
+        }
+
+        for (int i = 0; i < AmountSkill * 3; i++)
+        {
+            obj = Instantiate(WaterSlashExplosion);
+            obj.SetActive(false);
+            ListWaterSlashExplosion.Add(obj);
         }
     }
 
@@ -81,6 +91,18 @@ public class Skill_Pool : MonoBehaviour
             if (!ListWaterSlash[i].activeInHierarchy)
             {
                 return ListWaterSlash[i];
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetWaterSlashExplosionFromPool()
+    {
+        for (int i = 0; i < ListWaterSlashExplosion.Count; i++)
+        {
+            if (!ListWaterSlashExplosion[i].activeInHierarchy)
+            {
+                return ListWaterSlashExplosion[i];
             }
         }
         return null;
