@@ -81,7 +81,7 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
         if (Input.GetKeyDown(key) && accountSkillEntity != null)
         {
             Skill = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
-            OnlineCallMethodName(Skill.MethodName);
+            OnlineCallMethodName(Skill.SkillID);
         }
     }
 

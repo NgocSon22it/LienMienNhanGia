@@ -36,7 +36,6 @@ public class SkillDAO : MonoBehaviour
                         Coin = Convert.ToInt32(dr["Coin"]),
                         LevelUnlock = Convert.ToInt32(dr["Level_Unlock"]),
                         Update_Coin = Convert.ToInt32(dr["Update_Coin"]),
-                        MethodName = dr["Method_Name"].ToString(),
                         Description = dr["Description"].ToString(),
                         Link_Image = dr["Link_Image"].ToString(),
                         Delete = Convert.ToBoolean(dr["Delete"])
@@ -81,7 +80,6 @@ public class SkillDAO : MonoBehaviour
                         Coin = Convert.ToInt32(dr["Coin"]),
                         LevelUnlock = Convert.ToInt32(dr["Level_Unlock"]),
                         Update_Coin = Convert.ToInt32(dr["Update_Coin"]),
-                        MethodName = dr["Method_Name"].ToString(),
                         Description = dr["Description"].ToString(),
                         Link_Image = dr["Link_Image"].ToString(),
                         Delete = Convert.ToBoolean(dr["Delete"])

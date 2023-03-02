@@ -33,7 +33,6 @@ public class SkillManager : MonoBehaviour
     [SerializeField] GameObject UpgradePetPanel;*/
 
     [Header("SKILL SLOT MANAGER")]
-    List<AccountSkillEntity> ListAccountSkill = new List<AccountSkillEntity>();
     [SerializeField] List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
 
     [SerializeField] GameObject SelectedSkillCircle;
@@ -60,13 +59,13 @@ public class SkillManager : MonoBehaviour
 
     public void LoadAccountSkillList()
     {
-        ListAccountSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAllSkillForAccount(AccountManager.AccountID);
+        AccountManager.UpdateListAccountSkill();
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
         }
 
-        foreach (AccountSkillEntity Skill in ListAccountSkill)
+        foreach (AccountSkillEntity Skill in AccountManager.ListAccountSkill)
         {
             SkillEntity skillentity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(Skill.SkillID);
 

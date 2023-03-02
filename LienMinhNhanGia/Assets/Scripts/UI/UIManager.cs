@@ -1,14 +1,18 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Photon.Pun.UtilityScripts.TabViewManager;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] OfflinePlayer Player;
+
+    GameObject Player;
 
     [Header("All Panel For PauseGame")]
     [SerializeField] GameObject MissionPanel;
+    [SerializeField] GameObject ShopPanel;
     [SerializeField] GameObject PausePanel;
     [SerializeField] GameObject CommonPanel;
 
@@ -18,6 +22,16 @@ public class UIManager : MonoBehaviour
     [Header("Logic")]
     bool IsPause, IsPlaying = true;
     KeyCode KeyCheck = KeyCode.None;
+    public bool IsPlayerNearShop;
+
+
+    [Header("Handle Map Tab")]
+    [SerializeField] GameObject Map;
+    [SerializeField] TMP_Text DoNotHaveMapTxt;
+    [SerializeField] Camera MainCamera;
+    AccountItemEntity accountItemEntity;
+    string MiniMapID = "Item_Minimap";
+    string LocateID = "Item_Locate";
 
 
     [Header("DAOManager")]
@@ -33,14 +47,14 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
         SetUpUI();
         PlayerBagManager.Instance.InitialManager();
-        ShopManager.Instance.InitialManager();
     }
 
     public void SetUpUI()
     {
-        Player.SetUpPlayer();
+        Player.GetComponent<OfflineCharacter>().SetUpPlayer();
     }
 
     public void PauseGame()
@@ -86,27 +100,83 @@ public class UIManager : MonoBehaviour
         {
             ControlPauseGame(PausePanel, KeyCode.Escape);
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.E) && !IsPlayerNearShop)
         {
             ControlPauseGame(MissionPanel, KeyCode.E);
         }
         else if (Input.GetKeyDown(KeyCode.Tab))
         {
             ControlPauseGame(CommonPanel, KeyCode.Tab);
+            ResetCommonUIData();
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && IsPlayerNearShop)
+        {
+            ControlPauseGame(ShopPanel, KeyCode.E);
         }
 
     }
 
-    public void OpenTabPanel(int tab)
+    public void OpenTabPanel(string tabName)
     {
         for (int i = 0; i < AllTabPanel.Count; i++)
         {
             AllTabPanel[i].SetActive(false);
         }
 
-        AllTabPanel[tab - 1].SetActive(true);
-        
+        foreach (GameObject obj in AllTabPanel)
+        {
+            if (obj.name == tabName)
+            {
+                obj.gameObject.SetActive(true);
+            }
+        }
+
+        switch (tabName)
+        {
+            case "Bag":
+                PlayerBagManager.Instance.LoadAccountItem();
+                break;
+            case "Skill":
+                
+                break;
+            case "Map":
+                SetUpMiniMap();
+                SetUpLocate();
+                break;
+        }
     }
 
+    public void SetUpMiniMap()
+    {
+        accountItemEntity = DAOManager.GetComponent<Account_ItemDAO>().GetAccountItemByItemID(AccountManager.AccountID, MiniMapID);
+        if (accountItemEntity != null)
+        {
+            DoNotHaveMapTxt.text = "";
+            Map.SetActive(true);
+        }
+        else
+        {
+            DoNotHaveMapTxt.text = "Bạn chưa sở hữu Bản Đồ!";
+            Map.SetActive(false);
+        }
+    }
+
+    public void SetUpLocate()
+    {
+        accountItemEntity = DAOManager.GetComponent<Account_ItemDAO>().GetAccountItemByItemID(AccountManager.AccountID, LocateID);
+        if (accountItemEntity != null)
+        {
+            Player.gameObject.transform.Find("MinimapIcon").gameObject.SetActive(true);
+        }
+        else
+        {
+            Player.gameObject.transform.Find("MinimapIcon").gameObject.SetActive(false);
+        }
+    }
+
+    public void ResetCommonUIData()
+    {
+        OpenTabPanel("Bag");      
+    }
 
 }

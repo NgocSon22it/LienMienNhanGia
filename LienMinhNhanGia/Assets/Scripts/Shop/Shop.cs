@@ -7,10 +7,9 @@ public class Shop : MonoBehaviour
     [SerializeField] GameObject GuidePanel;
     [SerializeField] GameObject ShopPanel;
     [SerializeField] Vector3 Offset;
-    bool NearPlayer;
     private void Update()
     {
-        if(NearPlayer) 
+        if(UIManager.Instance.IsPlayerNearShop == true)
         {
             GuidePanel.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
             if (Input.GetKeyDown(KeyCode.W))
@@ -23,7 +22,7 @@ public class Shop : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            NearPlayer= true;
+            UIManager.Instance.IsPlayerNearShop = true;
             GuidePanel.SetActive(true);
             Debug.Log("In");
         }
@@ -32,10 +31,9 @@ public class Shop : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            NearPlayer = false;
+            UIManager.Instance.IsPlayerNearShop = false;
             GuidePanel.SetActive(false);
             Debug.Log("Out");
-
         }
     }
 }

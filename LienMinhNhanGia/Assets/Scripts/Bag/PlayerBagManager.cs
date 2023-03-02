@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBagManager : MonoBehaviour
 {
@@ -10,9 +12,17 @@ public class PlayerBagManager : MonoBehaviour
     [SerializeField] GameObject MainItem;
     [SerializeField] Transform Content;
 
+    [Header("Item Information")]
+    [SerializeField] GameObject InformationPanel;
+    [SerializeField] TMP_Text ItemNameTxt;
+    [SerializeField] TMP_Text ItemDescriptionTxt;
+    [SerializeField] Image ItemImage;
+    [SerializeField] Scrollbar scrollbar;
 
     [Header("DAOManager")]
     [SerializeField] GameObject DAOManager;
+
+    string ItemExtension = "Item/";
 
     private void Awake()
     {
@@ -20,9 +30,8 @@ public class PlayerBagManager : MonoBehaviour
     }
 
     public void LoadAccountItem()
-    {     
-        AccountManager.ListAccountItem = 
-        DAOManager.GetComponent<Account_ItemDAO>().GetAllItemForAccount(AccountManager.AccountID);
+    {
+        AccountManager.UpdateListAccountItem();
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
@@ -33,7 +42,6 @@ public class PlayerBagManager : MonoBehaviour
             ItemEntity itemEntity = DAOManager.GetComponent<ItemDAO>().GetItembyId(Item.ItemID);
             Instantiate(MainItem, Content).GetComponent<PlayerBag_MainItem>().SetUp(itemEntity);
         }
-
     }
 
     public void InitialManager()
@@ -41,4 +49,22 @@ public class PlayerBagManager : MonoBehaviour
         LoadAccountItem();
     }
 
+    public void ShowSelectedItemInformation(ItemEntity itemEntity)
+    {
+        InformationPanel.SetActive(true);
+        ItemNameTxt.text = itemEntity.ItemName;
+        ItemDescriptionTxt.text = itemEntity.Description;
+        ItemImage.sprite = Resources.Load<Sprite>(ItemExtension + itemEntity.ItemID);
+
+    }
+
+    public void ResetBagData()
+    {
+        InformationPanel.SetActive(false);      
+    }
+
+    public void ResetItemInformationData()
+    {
+        scrollbar.value = 1f;
+    }
 }

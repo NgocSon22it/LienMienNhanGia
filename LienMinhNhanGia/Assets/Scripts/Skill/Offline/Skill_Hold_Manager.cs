@@ -23,25 +23,25 @@ public class Skill_Hold_Manager : MonoBehaviour
         ExecuteSkill();
     }
 
-    public void WaterBall()
+    public void Skill_WaterBall()
     {
         OfflinePlayer.Instance.animator.SetTrigger("Skill_WaterBall");
     }
-    public void WaterSlash()
+    public void Skill_WaterSlash()
     {
         OfflinePlayer.Instance.animator.SetTrigger("Skill_WaterSlash");
 
     }
-    public void WaterSword()
+    public void Skill_WaterSword()
     {
         Debug.Log("WaterSword");
     }
-    public void WaterDragon()
+    public void Skill_WaterDragon()
     {
         Debug.Log("WaterDragon");
     }
 
-    public void WaterShark()
+    public void Skill_WaterShark()
     {
         Debug.Log("WaterShark");
     }
@@ -72,7 +72,7 @@ public class Skill_Hold_Manager : MonoBehaviour
         if (Input.GetKeyDown(key) && accountSkillEntity != null)
         {
             Skill = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
-            CallMethodName(Skill.MethodName);
+            CallMethodName(Skill.SkillID);
 
         }
     }

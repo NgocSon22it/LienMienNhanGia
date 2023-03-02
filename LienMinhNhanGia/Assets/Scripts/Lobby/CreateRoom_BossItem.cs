@@ -29,7 +29,7 @@ public class CreateRoom_BossItem : MonoBehaviour, IPointerDownHandler
 
     public void SetUpSelected()
     {
-        if (LobbyManager.Instance.CreateRoom_BossSelected.BossID.Equals(bossEntity.BossID))
+        if (LobbyManager.Instance.CreateRoom_BossSelected.Equals(bossEntity))
         {
             SelectedSquare.SetActive(true);
         }

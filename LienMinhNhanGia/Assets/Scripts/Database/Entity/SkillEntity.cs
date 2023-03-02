@@ -18,7 +18,6 @@ public class SkillEntity
     public bool Delete;
 
     //Logic
-    public string MethodName;
     public Sprite SkillImage;
 
 

@@ -17,47 +17,50 @@ public class ShopManager : MonoBehaviour
     [SerializeField] GameObject MainItem;
     [SerializeField] Transform Content;
 
-
     [Header("Selected Item")]
     [SerializeField] Image ItemImage;
     [SerializeField] TMP_Text ItemNameTxt;
     [SerializeField] TMP_Text ItemCoinTxt;
     [SerializeField] TMP_Text ItemDescriptionTxt;
-    [SerializeField] GameObject SelectedSquare;
-    ItemEntity MainItemSelected;
     [SerializeField] GameObject CanBuyPanel;
     [SerializeField] GameObject NotBuyPanel;
 
     [Header("Account Information")]
     [SerializeField] TMP_Text AccountCoinTxt;
 
-    List<ItemEntity> ListMainItem = new List<ItemEntity>();
+    string ItemExtension = "Item/";
+
+    public ItemEntity MainItemSelected;
 
     private void Awake()
     {
         Instance = this;
     }
 
+    private void Start()
+    {
+        SetUpSelectedMainItem(GetDataManager.ListShopItem[0]);
+        LoadShopMainItemList();      
+    }
+
     public void LoadShopMainItemList()
     {
-        AccountCoinTxt.text = AccountManager.AccountCoin.ToString();
-        ListMainItem = DAOManager.GetComponent<ItemDAO>().GetAllItem();        
+        AccountCoinTxt.text = AccountManager.Account.Coin.ToString();      
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
         }
 
-        foreach (ItemEntity Item in ListMainItem)
+        foreach (ItemEntity Item in GetDataManager.ListShopItem)
         {
             Instantiate(MainItem, Content).GetComponent<ShopMainItem>().SetUp(Item);
         }
-
     }
 
     public void SetUpSelectedMainItem(ItemEntity mainItem)
     {
         MainItemSelected = mainItem;
-        ItemImage.sprite = Resources.Load<Sprite>(mainItem.ItemID);
+        ItemImage.sprite = Resources.Load<Sprite>(ItemExtension + mainItem.ItemID);
         ItemNameTxt.text = mainItem.ItemName;
         ItemCoinTxt.text = mainItem.ItemCoin.ToString();
         ItemDescriptionTxt.text = mainItem.Description;
@@ -86,27 +89,14 @@ public class ShopManager : MonoBehaviour
         return false;
     }
 
-    public void SetUpSelectedSquare(Vector3 transform)
-    {
-        SelectedSquare.transform.position = transform;
-    }
-
     public void BuySelectedMainItem()
     {
+        
         DAOManager.GetComponent<ItemDAO>().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
+        AccountManager.UpdateListAccountItem();
+        AccountManager.Account.Coin -= MainItemSelected.ItemCoin;
         LoadShopMainItemList();
         SetUpSelectedMainItem(MainItemSelected);
-
     }
-
-    public void InitialManager()
-    {
-        LoadShopMainItemList();
-        if (ListMainItem.Count > 0)
-        {
-            SetUpSelectedMainItem(ListMainItem[0]);
-        }
-    }
-
 
 }
