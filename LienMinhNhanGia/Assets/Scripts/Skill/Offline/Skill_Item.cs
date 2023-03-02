@@ -5,21 +5,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Skill_Item : MonoBehaviour , IPointerClickHandler
+
+public class Skill_Item : MonoBehaviour
 {
     SkillEntity Skill;
 
     [SerializeField] Image SkillImage;
     [SerializeField] GameObject EquipStatusMenu;
     [SerializeField] GameObject SelectedCircle;
+    [SerializeField] GameObject HoverMenu;
 
     [Header("Extension")]
     string Extension = "Skill/";
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        SkillManager.Instance.SetUpSelectedSkill(Skill, transform.position);
-        //SkillManager.Instance.ShowInformationHoverSkill(Skill);
-    }
+
+
     public void SetUp(SkillEntity Skill, bool IsEquiped)
     {
         this.Skill = Skill;
@@ -34,17 +33,24 @@ public class Skill_Item : MonoBehaviour , IPointerClickHandler
         {
             EquipStatusMenu.SetActive(false);
         }
+        //SetUpSelected();
     }
-    /*public void SetUpSelected()
+
+    public void SetUpSelected()
     {
-        if (ShopManager.Instance.MainItemSelected.ItemID.Equals(ItemEntity.ItemID))
+        if (SkillManager.Instance.SkillSelected.SkillID.Equals(Skill.SkillID))
         {
-            SelectedSquare.SetActive(true);
+            SelectedCircle.SetActive(true);
         }
         else
         {
-            SelectedSquare.SetActive(false);
+            SelectedCircle.SetActive(false);
         }
-    }*/
+    }
+
+    public void Onlick_SelectedSkill()
+    {
+        SkillManager.Instance.SetUpSelectedSkill(Skill);
+    }
 
 }

@@ -35,8 +35,6 @@ public class SkillManager : MonoBehaviour
     [Header("SKILL SLOT MANAGER")]
     [SerializeField] List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
 
-    [SerializeField] GameObject SelectedSkillCircle;
-
     public SkillEntity SkillSelected;
 
     [Header("DAO Manager")]
@@ -130,12 +128,11 @@ public class SkillManager : MonoBehaviour
         UpgradeSelectedSkill(SkillSelected);
     }*/
 
-    public void SetUpSelectedSkill(SkillEntity Skill,Vector3 transform)
+    public void SetUpSelectedSkill(SkillEntity Skill)
     {
         if (Skill != null)
         {
             SkillSelected = Skill;
-            SelectedSkillCircle.transform.position = transform;
         }
     }
 
