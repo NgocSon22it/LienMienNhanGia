@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class TrucThu : MonoBehaviour
 {
-    string MissionID = "Map1_NV";   
-
+    [SerializeField] List<string> ListMissionID;   
     [SerializeField] GameObject MissionPanel;
     [SerializeField] GameObject DAOManager;
 
@@ -17,15 +16,16 @@ public class TrucThu : MonoBehaviour
     private void Start()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
-        ListAccountMission = DAOManager.GetComponent<Account_MissionDAO>().GetAllMissionForAccount(1);
+        ListAccountMission = DAOManager.GetComponent<Account_MissionDAO>().GetAllMissionForAccount(AccountManager.AccountID);
         if(ListAccountMission.Count > 0)
         {
             foreach(AccountMissionEntity missionEntity in ListAccountMission)
             {
-                if(missionEntity.MissionID.Equals(MissionID + "1")) 
+                if(ListMissionID.Contains(missionEntity.MissionID)) 
                 {
                     boxCollider2D.enabled = false;
                     gameObject.SetActive(false);
+                    break;
                 }
             }
         }
@@ -33,10 +33,11 @@ public class TrucThu : MonoBehaviour
 
     public void AddMissionToAccount()
     {
-        for(int i = 1; i <= 3; i++)
+        foreach(string a in  ListMissionID)
         {
-            DAOManager.GetComponent<Account_MissionDAO>().AddMissionToAccount(1, MissionID + i);
+            DAOManager.GetComponent<Account_MissionDAO>().AddMissionToAccount(1, a);
         }
+
         MissionManager.Instance.LoadMissionList();
     }
     private void OnTriggerEnter2D(Collider2D collision)

@@ -43,7 +43,7 @@ public class BossCamera : MonoBehaviour
         BossFightCamera.GetComponent<Camera>().orthographicSize = 30;
         Move = true;
         boxCollider.enabled = false;
-        BossDoor.GetComponent<BossDoor>().CloseDoor();
+        BossDoor.GetComponent<Boss_Gate>().CloseDoor();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
