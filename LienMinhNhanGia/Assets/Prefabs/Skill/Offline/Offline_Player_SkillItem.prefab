@@ -384,7 +384,6 @@ MonoBehaviour:
   SkillImage: {fileID: 467487272028543558}
   EquipStatusMenu: {fileID: 2512668176240517192}
   SelectedCircle: {fileID: 1771199426539971290}
-  HoverMenu: {fileID: 0}
 --- !u!1 &1177111891321867747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1002,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 475371710581517518}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -9102812720815428900}
+        m_TargetAssemblyTypeName: Skill_Item, Assembly-CSharp
+        m_MethodName: Onlick_DetailedSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6172600873269775303
 GameObject:
   m_ObjectHideFlags: 0

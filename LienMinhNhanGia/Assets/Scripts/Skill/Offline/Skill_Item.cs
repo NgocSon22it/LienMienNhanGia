@@ -13,7 +13,6 @@ public class Skill_Item : MonoBehaviour
     [SerializeField] Image SkillImage;
     [SerializeField] GameObject EquipStatusMenu;
     [SerializeField] GameObject SelectedCircle;
-    [SerializeField] GameObject HoverMenu;
 
     [Header("Extension")]
     string Extension = "Skill/";
@@ -33,12 +32,12 @@ public class Skill_Item : MonoBehaviour
         {
             EquipStatusMenu.SetActive(false);
         }
-        //SetUpSelected();
+        SetUpSelected();
     }
 
     public void SetUpSelected()
     {
-        if (SkillManager.Instance.SkillSelected.SkillID.Equals(Skill.SkillID))
+        if (SkillManager.Instance.SkillSelected != null && SkillManager.Instance.SkillSelected.SkillID.Equals(Skill.SkillID))
         {
             SelectedCircle.SetActive(true);
         }
@@ -51,6 +50,13 @@ public class Skill_Item : MonoBehaviour
     public void Onlick_SelectedSkill()
     {
         SkillManager.Instance.SetUpSelectedSkill(Skill);
+        SetUpSelected();
+    }
+
+    public void Onlick_DetailedSkill()
+    {
+        SkillManager.Instance.ShowInformationSelectedSkill(Skill);
+        SetUpSelected();
     }
 
 }

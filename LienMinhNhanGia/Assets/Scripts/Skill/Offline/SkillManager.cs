@@ -12,33 +12,33 @@ public class SkillManager : MonoBehaviour
     [SerializeField] GameObject SkillItem;
     [SerializeField] Transform Content;
 
-    /*[Header("SHOW HOVER SKILL")]
+    [Header("SHOW HOVER SKILL")]
     [SerializeField] Image SkillImage;
     [SerializeField] TMP_Text SkillDescription;
+    [SerializeField] GameObject InformationPanel;
 
     [Header("SKILL UPGRADE")]
     [SerializeField] TMP_Text CurrentLevel;
     [SerializeField] TMP_Text CurrentDamage;
     [SerializeField] TMP_Text CurrentChakra;
+    [SerializeField] TMP_Text CurrentCooldown;
 
     [Header("CAN UPGRADE")]
     [SerializeField] TMP_Text NextLevel;
     [SerializeField] TMP_Text NextDamage;
     [SerializeField] TMP_Text NextChakra;
+    [SerializeField] TMP_Text NextCooldown;
     [SerializeField] TMP_Text UpgradeCost;
 
     [Header("UPGRADE MANAGER")]
     [SerializeField] GameObject CanUpgradePanel;
     [SerializeField] GameObject MaxLevelPanel;
-    [SerializeField] GameObject UpgradePetPanel;*/
 
     [Header("SKILL SLOT MANAGER")]
     [SerializeField] List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
 
     public SkillEntity SkillSelected;
-
-    [Header("DAO Manager")]
-    [SerializeField] GameObject DAOManager;
+    int MaxSkillLevel = 3;
 
     bool StatusEquip;
 
@@ -65,7 +65,7 @@ public class SkillManager : MonoBehaviour
 
         foreach (AccountSkillEntity Skill in AccountManager.ListAccountSkill)
         {
-            SkillEntity skillentity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(Skill.SkillID);
+            SkillEntity skillentity = new SkillDAO().GetSkillbyID(Skill.SkillID);
 
             StatusEquip = Skill.SlotIndex != 0 ? true : false;
             Instantiate(SkillItem, Content).GetComponent<Skill_Item>().SetUp(skillentity, StatusEquip);
@@ -81,25 +81,31 @@ public class SkillManager : MonoBehaviour
     }
 
 
-    /*public void ShowInformationHoverSkill(SkillEntity skill)
+    public void ShowInformationSelectedSkill(SkillEntity skill)
     {
+        InformationPanel.SetActive(true);
         SkillSelected = skill;
-        SkillImage.sprite = skill.SkillImage;
-        SkillDescription.text = "- " + skill.Name;
-        CurrentDamage.text = skill.Damage.ToString();
+        AccountSkillEntity accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID , skill.SkillID);
+        SkillImage.sprite = Resources.Load<Sprite>("Skill/" + skill.SkillID);
+        SkillDescription.text = skill.Description;
+        CurrentDamage.text = (accountSkillEntity.CurrentLevel * skill.Damage).ToString();
         CurrentChakra.text = skill.Chakra.ToString();
-        CurrentLevel.text = "Level " + skill.Level.ToString();
+        CurrentLevel.text = "Level: " + accountSkillEntity.CurrentLevel.ToString();
+        LoadAccountSkillList();
         SetUpStatusForUpgrade(skill);
     }
+
     public void SetUpStatusForUpgrade(SkillEntity skill)
     {
-        if (skill.Level < 3)
+        AccountSkillEntity accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
+        if (accountSkillEntity.CurrentLevel < MaxSkillLevel)
         {
             MaxLevelPanel.SetActive(false);
             CanUpgradePanel.SetActive(true);
-            NextLevel.text = (skill.Level + 1).ToString();
+            NextLevel.text = "Level: " + (accountSkillEntity.CurrentLevel + 1).ToString();
             NextDamage.text = (skill.Damage + (skill.Damage * 30 / 100)).ToString();
             NextChakra.text = (skill.Chakra - (skill.Chakra * 30 / 100)).ToString();
+            NextCooldown.text = (skill.Cooldown - (skill.Cooldown * 30 / 100)).ToString();
         }
         else
         {
@@ -107,7 +113,7 @@ public class SkillManager : MonoBehaviour
             CanUpgradePanel.SetActive(false);
 
         }
-    }*/
+    }
 
     /*public void UpgradeSelectedSkill(SkillEntity skill)
     {
@@ -133,6 +139,7 @@ public class SkillManager : MonoBehaviour
         if (Skill != null)
         {
             SkillSelected = Skill;
+            LoadAccountSkillList();
         }
     }
 
