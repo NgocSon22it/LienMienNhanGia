@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Data;
 using UnityEngine;
 
-public class SkillDAO : MonoBehaviour
+public class SkillDAO
 {
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();
     public List<SkillEntity> GetAllSkill()
@@ -31,7 +31,7 @@ public class SkillDAO : MonoBehaviour
                         CharacterID = dr["Character_ID"].ToString(),
                         Name = dr["Name"].ToString(),
                         Chakra = Convert.ToInt32(dr["Chakra"]),
-                        Cooldown = (float) dr["Cooldown"],
+                        Cooldown = (float)dr["Cooldown"],
                         Damage = Convert.ToInt32(dr["Damage"]),
                         Coin = Convert.ToInt32(dr["Coin"]),
                         LevelUnlock = Convert.ToInt32(dr["Level_Unlock"]),
@@ -61,7 +61,7 @@ public class SkillDAO : MonoBehaviour
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "Select * from Skill where Skill_ID = '" + SkillID +"'";
+                cmd.CommandText = "Select * from Skill where Skill_ID = '" + SkillID + "'";
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -97,5 +97,19 @@ public class SkillDAO : MonoBehaviour
 
         return null;
     }
+    public void BuySkill(int AccountID, string SkillID)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "Insert Into Account_Skill values(@accountid,@skillid,1,0,0)";
+            cmd.Parameters.AddWithValue("@accountid", AccountID);
+            cmd.Parameters.AddWithValue("@skillid", SkillID);
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
 
+    
 }

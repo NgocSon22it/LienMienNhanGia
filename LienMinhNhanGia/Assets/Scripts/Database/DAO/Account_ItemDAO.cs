@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using UnityEngine;
 
-public class Account_ItemDAO : MonoBehaviour
+public class Account_ItemDAO 
 {
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();
     public List<AccountItemEntity> GetAllItemForAccount(int AccountID)

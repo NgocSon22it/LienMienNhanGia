@@ -39,6 +39,7 @@ public class SkillManager : MonoBehaviour
 
     public SkillEntity SkillSelected;
     int MaxSkillLevel = 3;
+    float LevelUpBonusPercent = 30;
 
     bool StatusEquip;
 
@@ -85,14 +86,20 @@ public class SkillManager : MonoBehaviour
     {
         InformationPanel.SetActive(true);
         SkillSelected = skill;
-        AccountSkillEntity accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID , skill.SkillID);
-        SkillImage.sprite = Resources.Load<Sprite>("Skill/" + skill.SkillID);
-        SkillDescription.text = skill.Description;
-        CurrentDamage.text = (accountSkillEntity.CurrentLevel * skill.Damage).ToString();
-        CurrentChakra.text = skill.Chakra.ToString();
-        CurrentLevel.text = "Level: " + accountSkillEntity.CurrentLevel.ToString();
-        LoadAccountSkillList();
-        SetUpStatusForUpgrade(skill);
+
+        AccountSkillEntity accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
+        if (accountSkillEntity != null)
+        {
+            SkillImage.sprite = Resources.Load<Sprite>("Skill/" + skill.SkillID);
+            SkillDescription.text = skill.Description;
+            CurrentDamage.text = (skill.Damage + ((accountSkillEntity.CurrentLevel - 1 ) * (LevelUpBonusPercent / 100f)  * skill.Damage)).ToString();
+            CurrentChakra.text = (skill.Chakra - (accountSkillEntity.CurrentLevel - 1)).ToString();
+            CurrentCooldown.text = (skill.Cooldown - (accountSkillEntity.CurrentLevel - 1)).ToString();
+            CurrentLevel.text = "Level: " + accountSkillEntity.CurrentLevel.ToString();
+
+            LoadAccountSkillList();
+            SetUpStatusForUpgrade(skill);
+        }
     }
 
     public void SetUpStatusForUpgrade(SkillEntity skill)
@@ -103,36 +110,38 @@ public class SkillManager : MonoBehaviour
             MaxLevelPanel.SetActive(false);
             CanUpgradePanel.SetActive(true);
             NextLevel.text = "Level: " + (accountSkillEntity.CurrentLevel + 1).ToString();
-            NextDamage.text = (skill.Damage + (skill.Damage * 30 / 100)).ToString();
-            NextChakra.text = (skill.Chakra - (skill.Chakra * 30 / 100)).ToString();
-            NextCooldown.text = (skill.Cooldown - (skill.Cooldown * 30 / 100)).ToString();
+            NextDamage.text = (skill.Damage + (accountSkillEntity.CurrentLevel * (LevelUpBonusPercent / 100f) * skill.Damage)).ToString();
+            NextChakra.text = (skill.Chakra - (accountSkillEntity.CurrentLevel)).ToString();
+            NextCooldown.text = (skill.Cooldown - (accountSkillEntity.CurrentLevel)).ToString();
         }
         else
         {
             MaxLevelPanel.SetActive(true);
             CanUpgradePanel.SetActive(false);
-
         }
     }
 
-    /*public void UpgradeSelectedSkill(SkillEntity skill)
+    public void UpgradeSelectedSkill(SkillEntity skill)
     {
-        skill.Damage += skill.Damage * 30 / 100;
-        skill.Chakra -= (skill.Chakra * 30 / 100);
-        skill.Level += 1;
+        AccountSkillEntity accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
+        if (accountSkillEntity.CurrentLevel < MaxSkillLevel)
+        {
+            new Account_SkillDAO().UpgradeAccountSkillLevel(AccountManager.AccountID, accountSkillEntity.SkillID);
+            CurrentDamage.text = (accountSkillEntity.CurrentLevel * skill.Damage).ToString();
+            CurrentChakra.text = skill.Chakra.ToString();
+            CurrentCooldown.text = skill.Cooldown.ToString();
+            CurrentLevel.text = "Level: " + accountSkillEntity.CurrentLevel.ToString();
+            ShowInformationSelectedSkill(skill);
+            SetUpStatusForUpgrade(skill);
+            LoadAccountSkillList();
+        }
 
-        CurrentLevel.text = "Level " + skill.Level;
-        CurrentDamage.text = skill.Damage.ToString();
-        CurrentChakra.text = skill.Chakra.ToString();
+    }
 
-        SetUpStatusForUpgrade(skill);
-        LoadAccountSkillList();
-    }*/
-
-    /*public void UpgradeDisplaySkill()
+    public void UpgradeDisplaySkill()
     {
         UpgradeSelectedSkill(SkillSelected);
-    }*/
+    }
 
     public void SetUpSelectedSkill(SkillEntity Skill)
     {

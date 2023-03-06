@@ -17,8 +17,6 @@ public class MissionManager : MonoBehaviour
 
     public int MissionCount;
 
-    [Header("DAO")]
-    [SerializeField] GameObject DAOManager;
     private void Awake()
     {
         Instance = this;
@@ -33,7 +31,7 @@ public class MissionManager : MonoBehaviour
 
     public void LoadMissionList()
     {
-        ListAccountMission = DAOManager.GetComponent<Account_MissionDAO>().GetAllMissionForAccount(AccountManager.AccountID);
+        ListAccountMission = new Account_MissionDAO().GetAllMissionForAccount(AccountManager.AccountID);
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
@@ -41,21 +39,21 @@ public class MissionManager : MonoBehaviour
 
         foreach (AccountMissionEntity accountMission in ListAccountMission)
         {
-            MissionEntity mission = DAOManager.GetComponent<MissionDAO>().GetMissionbyId(accountMission.MissionID);
+            MissionEntity mission = new MissionDAO().GetMissionbyId(accountMission.MissionID);
             Instantiate(MissionItem, Content).GetComponent<MissionItem>().SetUp(mission, accountMission.Current, accountMission.State);
         }
     }
 
     public void IncreaseCurrentMission(string MissionID)
     {
-        DAOManager.GetComponent<Account_MissionDAO>().UpdateAccountMissionCurrent(AccountManager.AccountID, MissionID);
+        new Account_MissionDAO().UpdateAccountMissionCurrent(AccountManager.AccountID, MissionID);
         LoadMissionList();
     }
 
     public void ClaimRewardSelectedMission(MissionEntity missionEntity)
     {
 
-        DAOManager.GetComponent<Account_MissionDAO>().UpdateAccountMissionState(AccountManager.AccountID, missionEntity.MissionID, 1);
+        new Account_MissionDAO().UpdateAccountMissionState(AccountManager.AccountID, missionEntity.MissionID, 1);
         LevelManager.Instance.AddExperience(missionEntity.ExperienceBonus);
         LoadMissionList();
 

@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Data;
 using UnityEngine;
 
-public class AccountDAO : MonoBehaviour
+public class AccountDAO
 {
 
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();

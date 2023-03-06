@@ -6,7 +6,7 @@ using System.Data;
 using UnityEngine;
 using Unity.VisualScripting;
 
-public class Account_SkillDAO : MonoBehaviour
+public class Account_SkillDAO
 {
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();
 
@@ -128,7 +128,6 @@ public class Account_SkillDAO : MonoBehaviour
 
         return null;
     }
-
     public void UpdateAccountSkillSlotIndex(int AccountID, string SkillID, int SlotIndex)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -136,6 +135,20 @@ public class Account_SkillDAO : MonoBehaviour
             SqlCommand cmd = connection.CreateCommand();
             cmd.CommandText = "Update Account_Skill set Slot_Index = @slotindex where Skill_ID = @skillid and Account_ID = " + AccountID;
             cmd.Parameters.AddWithValue("@slotindex", SlotIndex);
+            cmd.Parameters.AddWithValue("@skillid", SkillID);
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+
+    public void UpgradeAccountSkillLevel(int AccountID, string SkillID)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "Update Account_Skill set Current_Level = Current_Level + 1 where Account_ID = @accountid and Skill_ID = @skillid";
+            cmd.Parameters.AddWithValue("@accountid", AccountID);
             cmd.Parameters.AddWithValue("@skillid", SkillID);
             connection.Open();
             cmd.ExecuteNonQuery();

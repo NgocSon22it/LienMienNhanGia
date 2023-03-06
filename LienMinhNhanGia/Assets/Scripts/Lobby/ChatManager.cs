@@ -19,7 +19,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     string CurrentChat;
     string privateRecive;
 
-    [SerializeField] GameObject DAOManager;
 
     public static ChatManager Instance;
 
@@ -110,7 +109,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     {
         isConnected = true;
         chatClient = new ChatClient(this);
-        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(DAOManager.GetComponent<AccountDAO>().GetAccountByID(AccountManager.AccountID).Name));
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(new AccountDAO().GetAccountByID(AccountManager.AccountID).Name));
         Debug.Log("Connecting");
     }
 

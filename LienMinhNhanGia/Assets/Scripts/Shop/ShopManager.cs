@@ -10,10 +10,7 @@ public class ShopManager : MonoBehaviour
     [Header("Instance")]
     public static ShopManager Instance;
 
-    [Header("DAOManager")]
-    [SerializeField] GameObject DAOManager;
-
-
+    [Header("Item")]
     [SerializeField] GameObject MainItem;
     [SerializeField] Transform Content;
 
@@ -22,15 +19,33 @@ public class ShopManager : MonoBehaviour
     [SerializeField] TMP_Text ItemNameTxt;
     [SerializeField] TMP_Text ItemCoinTxt;
     [SerializeField] TMP_Text ItemDescriptionTxt;
-    [SerializeField] GameObject CanBuyPanel;
-    [SerializeField] GameObject NotBuyPanel;
+    [SerializeField] GameObject ItemCanBuyPanel;
+    [SerializeField] GameObject ItemNotBuyPanel;
+
+    [Header("Skill")]
+    [SerializeField] GameObject SkillItem;
+    [SerializeField] Transform SkillContent;
+
+    [Header("Selected Skill")]
+    [SerializeField] Image SkillImage;
+    [SerializeField] TMP_Text SkillNameTxt;
+    [SerializeField] TMP_Text SkillCoinTxt;
+    [SerializeField] TMP_Text SkillDescriptionTxt;
+    [SerializeField] GameObject SkillCanBuyPanel;
+    [SerializeField] GameObject SkillNotBuyPanel;
+
 
     [Header("Account Information")]
     [SerializeField] TMP_Text AccountCoinTxt;
 
+    [Header("All Tab Panel")]
+    [SerializeField] List<GameObject> AllTabPanel;
+
     string ItemExtension = "Item/";
+    string SkillExtension = "Skill/";
 
     public ItemEntity MainItemSelected;
+    public SkillEntity SkillSelected;
 
     private void Awake()
     {
@@ -40,6 +55,7 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         SetUpSelectedMainItem(GetDataManager.ListShopItem[0]);
+        SetUpSelectedSkill(GetDataManager.ListShopSkill[0]);
         LoadShopMainItemList();      
     }
 
@@ -57,6 +73,20 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public void LoadShopSkillList()
+    {
+        AccountCoinTxt.text = AccountManager.Account.Coin.ToString();
+        foreach (Transform trans in SkillContent)
+        {
+            Destroy(trans.gameObject);
+        }
+
+        foreach (SkillEntity Skill in GetDataManager.ListShopSkill)
+        {
+            Instantiate(SkillItem, SkillContent).GetComponent<ShopSkill>().SetUp(Skill);
+        }
+    }
+
     public void SetUpSelectedMainItem(ItemEntity mainItem)
     {
         MainItemSelected = mainItem;
@@ -67,13 +97,32 @@ public class ShopManager : MonoBehaviour
 
         if (CheckMainItemOwned())
         {
-            CanBuyPanel.gameObject.SetActive(false);
-            NotBuyPanel.gameObject.SetActive(true);
+            ItemCanBuyPanel.gameObject.SetActive(false);
+            ItemNotBuyPanel.gameObject.SetActive(true);
         }
         else
         {
-            CanBuyPanel.gameObject.SetActive(true);
-            NotBuyPanel.gameObject.SetActive(false);
+            ItemCanBuyPanel.gameObject.SetActive(true);
+            ItemNotBuyPanel.gameObject.SetActive(false);
+        }
+    }
+    public void SetUpSelectedSkill(SkillEntity skillEntity)
+    {
+        SkillSelected = skillEntity;
+        SkillImage.sprite = Resources.Load<Sprite>(SkillExtension + skillEntity.SkillID);
+        SkillNameTxt.text = skillEntity.Name;
+        SkillCoinTxt.text = skillEntity.Coin.ToString();
+        SkillDescriptionTxt.text = skillEntity.Description;
+
+        if (CheckSkillOwned())
+        {
+            SkillCanBuyPanel.gameObject.SetActive(false);
+            SkillNotBuyPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            SkillCanBuyPanel.gameObject.SetActive(true);
+            SkillNotBuyPanel.gameObject.SetActive(false);
         }
     }
 
@@ -89,14 +138,59 @@ public class ShopManager : MonoBehaviour
         return false;
     }
 
-    public void BuySelectedMainItem()
+    public bool CheckSkillOwned()
     {
-        
-        DAOManager.GetComponent<ItemDAO>().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
+        foreach (AccountSkillEntity skillEntity in AccountManager.ListAccountSkill)
+        {
+            if (skillEntity.SkillID.Equals(SkillSelected.SkillID))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void BuySelectedMainItem()
+    {   
+        new ItemDAO().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
         AccountManager.UpdateListAccountItem();
         AccountManager.Account.Coin -= MainItemSelected.ItemCoin;
         LoadShopMainItemList();
         SetUpSelectedMainItem(MainItemSelected);
+    }
+    public void BuySelectedSkill()
+    {
+        new SkillDAO().BuySkill(AccountManager.AccountID, SkillSelected.SkillID);
+        AccountManager.UpdateListAccountSkill();
+        AccountManager.Account.Coin -= SkillSelected.Coin;
+        LoadShopSkillList();
+        SetUpSelectedSkill(SkillSelected);
+    }
+
+    public void OpenTabPanel(string tabName)
+    {
+        for (int i = 0; i < AllTabPanel.Count; i++)
+        {
+            AllTabPanel[i].SetActive(false);
+        }
+
+        foreach (GameObject obj in AllTabPanel)
+        {
+            if (obj.name == tabName)
+            {
+                obj.gameObject.SetActive(true);
+            }
+        }
+
+        switch (tabName)
+        {
+            case "Item":
+                LoadShopMainItemList();
+                break;
+            case "Skill":
+                LoadShopSkillList();
+                break;
+        }
     }
 
 }

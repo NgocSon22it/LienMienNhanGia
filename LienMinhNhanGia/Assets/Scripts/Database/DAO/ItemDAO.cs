@@ -6,7 +6,7 @@ using System.Data;
 using UnityEngine;
 using Unity.VisualScripting;
 
-public class ItemDAO : MonoBehaviour
+public class ItemDAO
 {
     string ConnectionStr = new LienMinhNhanGiaConnect().GetConnectLienMinhNhanGia();
 

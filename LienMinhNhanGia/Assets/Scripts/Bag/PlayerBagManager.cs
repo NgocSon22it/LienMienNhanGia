@@ -19,8 +19,6 @@ public class PlayerBagManager : MonoBehaviour
     [SerializeField] Image ItemImage;
     [SerializeField] Scrollbar scrollbar;
 
-    [Header("DAOManager")]
-    [SerializeField] GameObject DAOManager;
 
     string ItemExtension = "Item/";
 
@@ -39,7 +37,7 @@ public class PlayerBagManager : MonoBehaviour
 
         foreach (AccountItemEntity Item in AccountManager.ListAccountItem)
         {
-            ItemEntity itemEntity = DAOManager.GetComponent<ItemDAO>().GetItembyId(Item.ItemID);
+            ItemEntity itemEntity = new ItemDAO().GetItembyId(Item.ItemID);
             Instantiate(MainItem, Content).GetComponent<PlayerBag_MainItem>().SetUp(itemEntity);
         }
     }

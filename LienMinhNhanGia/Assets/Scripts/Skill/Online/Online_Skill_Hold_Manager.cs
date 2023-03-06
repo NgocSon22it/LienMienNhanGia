@@ -14,9 +14,6 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
 
     SkillEntity Skill;
 
-    [Header("DAO Manager")]
-    [SerializeField] GameObject DAOManager;
-
     OnlinePlayer localPlayer;
     PhotonView PV;
     private void Awake()
@@ -71,16 +68,16 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
 
     public void OnlineSetUpListSkill()
     {
-        AccountSkill_U = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
-        AccountSkill_I = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);
-        AccountSkill_O = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 3);
+        AccountSkill_U = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
+        AccountSkill_I = new Account_SkillDAO  ().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);
+        AccountSkill_O = new Account_SkillDAO  ().GetAccountSkillbySlotIndex(AccountManager.AccountID, 3);
     }
 
     public void OnlineControlSkill(KeyCode key, AccountSkillEntity accountSkillEntity)
     {
         if (Input.GetKeyDown(key) && accountSkillEntity != null)
         {
-            Skill = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
+            Skill = new SkillDAO().GetSkillbyID(accountSkillEntity.SkillID);
             OnlineCallMethodName(Skill.SkillID);
         }
     }

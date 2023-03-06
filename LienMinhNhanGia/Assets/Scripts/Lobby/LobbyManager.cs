@@ -65,9 +65,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text FindRoomNameTxt;
     [SerializeField] TMP_Dropdown DropDownBoss;
 
-    [Header("DAO Manager")]
-    [SerializeField] GameObject DAOManager;
-
     [Header("Extension")]
     string BossExtension = "Boss/";
 
@@ -91,7 +88,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         ConnectServer();
         PhotonNetwork.JoinLobby();
         Debug.Log("JoinLobby");
-        bossEntities = DAOManager.GetComponent<BossDAO>().GetAllBoss();
+        bossEntities = new BossDAO().GetAllBoss();
         CreateRoom_BossSelected = bossEntities[0];
         FindRoom_LoadDropDownBoss();
     }
@@ -388,10 +385,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         AccountManager.AccountID = Convert.ToInt32(TestId.text);
 
-        Account = DAOManager.GetComponent<AccountDAO>().GetAccountByID(AccountManager.AccountID);
-        Account_SkillU = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
-        Account_SkillI = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);
-        Account_SkillO = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, 3);
+        Account = new AccountDAO().GetAccountByID(AccountManager.AccountID);
+        Account_SkillU = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
+        Account_SkillI = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);
+        Account_SkillO = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 3);
 
         PhotonNetwork.NickName = Account.Name;
         // Convert the object to a JSON string

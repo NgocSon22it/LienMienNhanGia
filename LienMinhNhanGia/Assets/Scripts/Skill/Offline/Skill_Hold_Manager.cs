@@ -12,8 +12,6 @@ public class Skill_Hold_Manager : MonoBehaviour
 
     SkillEntity Skill;
 
-    [Header("DAO Manager")]
-    [SerializeField] GameObject DAOManager;
     private void Awake()
     {
         Instance = this;
@@ -53,7 +51,7 @@ public class Skill_Hold_Manager : MonoBehaviour
 
     public void SetUpSkill(AccountSkillEntity accountSkillEntity ,int slot)
     {
-        accountSkillEntity = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, slot);
+        accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, slot);
 
         switch (slot)
         {
@@ -71,7 +69,7 @@ public class Skill_Hold_Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(key) && accountSkillEntity != null)
         {
-            Skill = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
+            Skill = new SkillDAO().GetSkillbyID(accountSkillEntity.SkillID);
             CallMethodName(Skill.SkillID);
 
         }

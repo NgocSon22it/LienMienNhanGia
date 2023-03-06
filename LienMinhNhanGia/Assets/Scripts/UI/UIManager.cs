@@ -33,10 +33,6 @@ public class UIManager : MonoBehaviour
     string MiniMapID = "Item_Minimap";
     string LocateID = "Item_Locate";
 
-
-    [Header("DAOManager")]
-    [SerializeField] GameObject DAOManager;
-
     [Header("Instance")]
     public static UIManager Instance;
 
@@ -137,7 +133,7 @@ public class UIManager : MonoBehaviour
                 PlayerBagManager.Instance.LoadAccountItem();
                 break;
             case "Skill":
-                
+                SkillManager.Instance.LoadAccountSkillList();
                 break;
             case "Map":
                 SetUpMiniMap();
@@ -148,7 +144,7 @@ public class UIManager : MonoBehaviour
 
     public void SetUpMiniMap()
     {
-        accountItemEntity = DAOManager.GetComponent<Account_ItemDAO>().GetAccountItemByItemID(AccountManager.AccountID, MiniMapID);
+        accountItemEntity = new Account_ItemDAO ().GetAccountItemByItemID(AccountManager.AccountID, MiniMapID);
         if (accountItemEntity != null)
         {
             DoNotHaveMapTxt.text = "";
@@ -163,7 +159,7 @@ public class UIManager : MonoBehaviour
 
     public void SetUpLocate()
     {
-        accountItemEntity = DAOManager.GetComponent<Account_ItemDAO>().GetAccountItemByItemID(AccountManager.AccountID, LocateID);
+        accountItemEntity = new Account_ItemDAO().GetAccountItemByItemID(AccountManager.AccountID, LocateID);
         if (accountItemEntity != null)
         {
             Player.gameObject.transform.Find("MinimapIcon").gameObject.SetActive(true);

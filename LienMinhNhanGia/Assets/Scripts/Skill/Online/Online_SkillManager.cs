@@ -18,9 +18,6 @@ public class Online_SkillManager : MonoBehaviour
 
     public SkillEntity SkillSelected;
 
-    [Header("DAO Manager")]
-    [SerializeField] GameObject DAOManager;
-
     bool StatusEquip;
 
     private void Awake()
@@ -38,7 +35,7 @@ public class Online_SkillManager : MonoBehaviour
 
     public void LoadAccountSkillList()
     {
-        ListAccountSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAllSkillForAccount(AccountManager.AccountID);
+        ListAccountSkill = new Account_SkillDAO().GetAllSkillForAccount(AccountManager.AccountID);
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
@@ -46,7 +43,7 @@ public class Online_SkillManager : MonoBehaviour
 
         foreach (AccountSkillEntity Skill in ListAccountSkill)
         {
-            SkillEntity skillentity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(Skill.SkillID);
+            SkillEntity skillentity = new SkillDAO().GetSkillbyID(Skill.SkillID);
 
             StatusEquip = Skill.SlotIndex != 0 ? true : false;
             Instantiate(SkillItem, Content).GetComponent<Online_Skill_Item>().SetUp(skillentity, StatusEquip);

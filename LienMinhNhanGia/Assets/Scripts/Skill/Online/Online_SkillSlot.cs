@@ -16,8 +16,6 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] GameObject Empty;
     [SerializeField] GameObject Full;
 
-    [Header("DAO")]
-    [SerializeField] GameObject DAOManager;
 
     [Header("Extension")]
     string Extension = "Skill/";
@@ -39,11 +37,11 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
     public void SetUpSlot()
     {
         AccountSkillEntity accountSkillEntity =
-        DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySlotIndex(AccountManager.AccountID, SlotIndex);
+        new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, SlotIndex);
 
         if (accountSkillEntity != null)
         {
-            SkillEntity skillEntity = DAOManager.GetComponent<SkillDAO>().GetSkillbyID(accountSkillEntity.SkillID);
+            SkillEntity skillEntity = new SkillDAO().GetSkillbyID(accountSkillEntity.SkillID);
 
             Skill = skillEntity;
             SkillImage.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);
@@ -69,16 +67,16 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
     {
         if (Skill == null)
         {
-            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, skill.SkillID, SlotIndex);
+            new Account_SkillDAO().UpdateAccountSkillSlotIndex(AccountManager.AccountID, skill.SkillID, SlotIndex);
         }
         else
         {
-            AccountSkillEntity CurrentSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySkillID(AccountManager.AccountID, Skill.SkillID);
-            AccountSkillEntity SelectSkill = DAOManager.GetComponent<Account_SkillDAO>().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
+            AccountSkillEntity CurrentSkill = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID, Skill.SkillID);
+            AccountSkillEntity SelectSkill = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
 
             int SlotCheck = CurrentSkill.SlotIndex;
-            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, CurrentSkill.SkillID, SelectSkill.SlotIndex);
-            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, SelectSkill.SkillID, SlotCheck);
+            new Account_SkillDAO  ().UpdateAccountSkillSlotIndex(AccountManager.AccountID, CurrentSkill.SkillID, SelectSkill.SlotIndex);
+            new Account_SkillDAO  ().UpdateAccountSkillSlotIndex(AccountManager.AccountID, SelectSkill.SkillID, SlotCheck);
         }
 
         SetUpSlot();
@@ -89,7 +87,7 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
     {
         if (Skill != null)
         {
-            DAOManager.GetComponent<Account_SkillDAO>().UpdateAccountSkillSlotIndex(AccountManager.AccountID, Skill.SkillID, 0);
+            new Account_SkillDAO  ().UpdateAccountSkillSlotIndex(AccountManager.AccountID, Skill.SkillID, 0);
         }
 
         SetUpSlot();
