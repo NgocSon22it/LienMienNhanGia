@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
 using UnityEngine.TextCore.Text;
 
 public class Shukaku : MonoBehaviour
@@ -122,6 +121,15 @@ public class Shukaku : MonoBehaviour
         {
             GameObject BulletIns = Instantiate(SecondSkillObjectFall, Place2End.position, Quaternion.identity);
             BulletIns.GetComponent<Rigidbody2D>().AddForce(Vector2.right * i);
+        }
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.GetComponent<OfflineCharacter>().TakeDamage(1, transform);
         }
     }
 }

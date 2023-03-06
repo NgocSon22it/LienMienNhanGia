@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,7 +14,7 @@ public class OfflineCharacter : MonoBehaviour
     protected int MovementSpeed;
 
     [Header("Component")]
-    
+
     protected Rigidbody2D rigidbody2d;
     protected SpriteRenderer spriteRenderer;
     [HideInInspector]
@@ -59,6 +59,8 @@ public class OfflineCharacter : MonoBehaviour
     [Header("Knockback")]
     public float KnockBackForce = 10f;
     public float KnockBackForceUp = 2f;
+    bool IsKnockBack;
+
 
 
     public void Start()
@@ -72,7 +74,7 @@ public class OfflineCharacter : MonoBehaviour
 
     public void Update()
     {
-        if (CanWalking)
+        if (CanWalking && !IsKnockBack)
         {
             XInput = Input.GetAxis("Horizontal");
             IsWalking = Mathf.Abs(XInput) > 0;
@@ -101,7 +103,6 @@ public class OfflineCharacter : MonoBehaviour
         animator.SetBool("Falling", VelocityY < 0);
         animator.SetBool("FallingFromHighPlace", VelocityY < -10);
     }
-
 
     public void SetUpPlayer()
     {
@@ -213,7 +214,7 @@ public class OfflineCharacter : MonoBehaviour
         if (HitEnemy != null)
         {
             foreach (Collider2D Enemy in HitEnemy)
-            {             
+            {
                 if (Enemy.gameObject.CompareTag("Enemy"))
                 {
                     Enemy.GetComponent<Animator>().SetTrigger("Hurt");
@@ -329,6 +330,7 @@ public class OfflineCharacter : MonoBehaviour
     {
         Vector2 direction = new Vector2(transform.position.x - t.position.x, 0);
         rigidbody2d.velocity = new Vector2(direction.x, KnockBackForceUp) * KnockBackForce;
+        StartCoroutine(Knockback());
     }
 
     public void Skill_WaterBall()
@@ -354,4 +356,10 @@ public class OfflineCharacter : MonoBehaviour
         }
     }
 
+    public IEnumerator Knockback()
+    {
+        IsKnockBack = true;
+        yield return new WaitForSeconds(.5f);
+        IsKnockBack = false;
+    }
 }

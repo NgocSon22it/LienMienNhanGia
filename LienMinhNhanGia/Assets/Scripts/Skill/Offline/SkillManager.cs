@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,6 +33,7 @@ public class SkillManager : MonoBehaviour
     [Header("UPGRADE MANAGER")]
     [SerializeField] GameObject CanUpgradePanel;
     [SerializeField] GameObject MaxLevelPanel;
+    [SerializeField] TMP_Text UpgradeSkillErrorTxt;
 
     [Header("SKILL SLOT MANAGER")]
     [SerializeField] List<Skill_Slot> listSkillSlot = new List<Skill_Slot>();
@@ -86,7 +87,7 @@ public class SkillManager : MonoBehaviour
     {
         InformationPanel.SetActive(true);
         SkillSelected = skill;
-
+        ResetUIData();
         AccountSkillEntity accountSkillEntity = new Account_SkillDAO().GetAccountSkillbySkillID(AccountManager.AccountID, skill.SkillID);
         if (accountSkillEntity != null)
         {
@@ -140,7 +141,18 @@ public class SkillManager : MonoBehaviour
 
     public void UpgradeDisplaySkill()
     {
-        UpgradeSelectedSkill(SkillSelected);
+        if(AccountManager.Account.Coin >= SkillSelected.Update_Coin)
+        {
+            AccountManager.Account.Coin -= SkillSelected.Update_Coin;
+            UpgradeSelectedSkill(SkillSelected);
+            UpgradeSkillErrorTxt.text = "";
+            UIManager.Instance.UpdateAccountUIData();
+        }
+        else
+        {
+            UpgradeSkillErrorTxt.text = "Bạn không đủ xu!";
+        }
+        
     }
 
     public void SetUpSelectedSkill(SkillEntity Skill)
@@ -152,6 +164,10 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+    public void ResetUIData()
+    {
+        UpgradeSkillErrorTxt.text = "";
+    }
 }
 
 

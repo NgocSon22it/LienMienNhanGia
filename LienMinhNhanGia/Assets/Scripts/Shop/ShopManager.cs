@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -21,6 +21,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] TMP_Text ItemDescriptionTxt;
     [SerializeField] GameObject ItemCanBuyPanel;
     [SerializeField] GameObject ItemNotBuyPanel;
+    [SerializeField] TMP_Text BuyItemErrorTxt;
 
     [Header("Skill")]
     [SerializeField] GameObject SkillItem;
@@ -33,6 +34,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] TMP_Text SkillDescriptionTxt;
     [SerializeField] GameObject SkillCanBuyPanel;
     [SerializeField] GameObject SkillNotBuyPanel;
+    [SerializeField] TMP_Text BuySkillErrorTxt;
 
 
     [Header("Account Information")]
@@ -52,16 +54,9 @@ public class ShopManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        SetUpSelectedMainItem(GetDataManager.ListShopItem[0]);
-        SetUpSelectedSkill(GetDataManager.ListShopSkill[0]);
-        LoadShopMainItemList();      
-    }
-
     public void LoadShopMainItemList()
     {
-        AccountCoinTxt.text = AccountManager.Account.Coin.ToString();      
+        AccountCoinTxt.text = AccountManager.Account.Coin.ToString();
         foreach (Transform trans in Content)
         {
             Destroy(trans.gameObject);
@@ -94,7 +89,7 @@ public class ShopManager : MonoBehaviour
         ItemNameTxt.text = mainItem.ItemName;
         ItemCoinTxt.text = mainItem.ItemCoin.ToString();
         ItemDescriptionTxt.text = mainItem.Description;
-
+        ResetErrorMessage();
         if (CheckMainItemOwned())
         {
             ItemCanBuyPanel.gameObject.SetActive(false);
@@ -113,7 +108,7 @@ public class ShopManager : MonoBehaviour
         SkillNameTxt.text = skillEntity.Name;
         SkillCoinTxt.text = skillEntity.Coin.ToString();
         SkillDescriptionTxt.text = skillEntity.Description;
-
+        ResetErrorMessage();
         if (CheckSkillOwned())
         {
             SkillCanBuyPanel.gameObject.SetActive(false);
@@ -151,22 +146,41 @@ public class ShopManager : MonoBehaviour
     }
 
     public void BuySelectedMainItem()
-    {   
-        new ItemDAO().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
-        AccountManager.UpdateListAccountItem();
-        AccountManager.Account.Coin -= MainItemSelected.ItemCoin;
-        LoadShopMainItemList();
-        SetUpSelectedMainItem(MainItemSelected);
+    {
+        if (AccountManager.Account.Coin >= SkillSelected.Coin)
+        {
+            new ItemDAO().BuyItem(AccountManager.AccountID, MainItemSelected.ItemID, 1);
+            AccountManager.UpdateListAccountItem();
+            AccountManager.Account.Coin -= MainItemSelected.ItemCoin;
+            LoadShopMainItemList();
+            SetUpSelectedMainItem(MainItemSelected);
+            BuyItemErrorTxt.text = "";
+        }
+        else
+        {
+            BuyItemErrorTxt.text = "Bạn không đủ xu để mua!";
+        }
     }
     public void BuySelectedSkill()
     {
-        new SkillDAO().BuySkill(AccountManager.AccountID, SkillSelected.SkillID);
-        AccountManager.UpdateListAccountSkill();
-        AccountManager.Account.Coin -= SkillSelected.Coin;
-        LoadShopSkillList();
-        SetUpSelectedSkill(SkillSelected);
-    }
+        if (AccountManager.Account.Coin >= SkillSelected.Coin)
+        {
+            new SkillDAO().BuySkill(AccountManager.AccountID, SkillSelected.SkillID);
+            AccountManager.UpdateListAccountSkill();
+            AccountManager.Account.Coin -= SkillSelected.Coin;
+            LoadShopSkillList();
+            SetUpSelectedSkill(SkillSelected);
 
+            BuySkillErrorTxt.text = "";
+        }
+        else
+        {
+            BuySkillErrorTxt.text = "Bạn không đủ xu để mua!";
+        }
+
+
+
+    }
     public void OpenTabPanel(string tabName)
     {
         for (int i = 0; i < AllTabPanel.Count; i++)
@@ -185,12 +199,33 @@ public class ShopManager : MonoBehaviour
         switch (tabName)
         {
             case "Item":
+                UpdateSelected();
                 LoadShopMainItemList();
+                ResetErrorMessage();
                 break;
             case "Skill":
+                UpdateSelected();
                 LoadShopSkillList();
+                ResetErrorMessage();
                 break;
         }
     }
+
+    public void UpdateSelected()
+    {
+        if (GetDataManager.ListShopItem.Count > 0 && GetDataManager.ListShopItem.Count > 0)
+        {
+            SetUpSelectedMainItem(GetDataManager.ListShopItem[0]);
+            SetUpSelectedSkill(GetDataManager.ListShopSkill[0]);
+        }
+        
+    }
+
+    public void ResetErrorMessage()
+    {
+        BuyItemErrorTxt.text = "";
+        BuySkillErrorTxt.text = "";
+    }
+
 
 }

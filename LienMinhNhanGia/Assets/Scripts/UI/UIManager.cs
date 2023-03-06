@@ -33,6 +33,10 @@ public class UIManager : MonoBehaviour
     string MiniMapID = "Item_Minimap";
     string LocateID = "Item_Locate";
 
+
+    [Header("AccountInformation")]
+    [SerializeField] TMP_Text AccountCoinTxt;
+
     [Header("Instance")]
     public static UIManager Instance;
 
@@ -108,12 +112,14 @@ public class UIManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.E) && IsPlayerNearShop)
         {
             ControlPauseGame(ShopPanel, KeyCode.E);
+            ShopManager.Instance.OpenTabPanel("Item");
         }
 
     }
 
     public void OpenTabPanel(string tabName)
     {
+        UpdateAccountUIData();
         for (int i = 0; i < AllTabPanel.Count; i++)
         {
             AllTabPanel[i].SetActive(false);
@@ -173,6 +179,12 @@ public class UIManager : MonoBehaviour
     public void ResetCommonUIData()
     {
         OpenTabPanel("Bag");      
+    }
+
+
+    public void UpdateAccountUIData()
+    {
+        AccountCoinTxt.text = AccountManager.Account.Coin.ToString();
     }
 
 }
