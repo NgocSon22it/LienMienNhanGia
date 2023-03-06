@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ItemForMission : MonoBehaviour
@@ -7,14 +8,22 @@ public class ItemForMission : MonoBehaviour
     [SerializeField] string MissionID;
 
     int MissionState;
+    AccountMissionEntity accountMissionEntity;
+    MissionEntity missionEntity;
     private void Start()
     {
-        MissionState =
-        new Account_MissionDAO().GetAccountMissionByMissionID(AccountManager.AccountID, MissionID).State;
+        accountMissionEntity =
+        new Account_MissionDAO().GetAccountMissionByMissionID(AccountManager.AccountID, MissionID);
 
-        if (MissionState == 1)
+        if (accountMissionEntity != null)
         {
-            gameObject.SetActive(false);
+            missionEntity = new MissionDAO().GetMissionbyId(accountMissionEntity.MissionID);
+
+            MissionState = accountMissionEntity.State;
+            if (MissionState == 1 || (accountMissionEntity.Current == missionEntity.Target))
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 

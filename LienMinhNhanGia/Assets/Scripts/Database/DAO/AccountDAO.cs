@@ -57,4 +57,31 @@ public class AccountDAO
 
         return null;
     }
+
+    public void UpdateAccountCheckPoint(int AccountID, string CheckPointID)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "Update Account set Check_Point = @checkpointid where Account_ID = " + AccountID;
+            cmd.Parameters.AddWithValue("@checkpointid", CheckPointID);
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+
+    public void UpdateAccountCoinNLevel(int AccountID, int CoinAmount, int ExperinenceAmount, int Level)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "Update Account set Coin = Coin + @coinamount, Experience = Experience + @expamount where Account_ID = " + AccountID;
+            cmd.Parameters.AddWithValue("@coinamount", CoinAmount);
+            cmd.Parameters.AddWithValue("@expamount", ExperinenceAmount);
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
 }

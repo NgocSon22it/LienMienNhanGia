@@ -55,6 +55,7 @@ public class MissionManager : MonoBehaviour
 
         new Account_MissionDAO().UpdateAccountMissionState(AccountManager.AccountID, missionEntity.MissionID, 1);
         LevelManager.Instance.AddExperience(missionEntity.ExperienceBonus);
+        AccountManager.Account.Coin += missionEntity.CoinBonus;
         LoadMissionList();
 
     }

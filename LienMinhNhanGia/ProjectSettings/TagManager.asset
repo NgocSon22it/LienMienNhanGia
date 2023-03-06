@@ -67,6 +67,9 @@ TagManager:
   - name: BackGroundAttack
     uniqueID: 3397247059
     locked: 0
+  - name: CheckPoint
+    uniqueID: 3240159631
+    locked: 0
   - name: Topographic (Minimap)
     uniqueID: 2547597367
     locked: 0

@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class CheckPoint : MonoBehaviour
 {
-    [SerializeField] int CheckPointID;
+    [SerializeField] string CheckPointID;
 
-    public int GetCheckPointID()
+    public string GetCheckPointID()
     {
         return CheckPointID;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            new AccountDAO().UpdateAccountCheckPoint(AccountManager.AccountID, CheckPointID);
+        }
+    }
+
 }

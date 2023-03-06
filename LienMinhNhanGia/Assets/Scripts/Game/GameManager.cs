@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     
-    [SerializeField] GameObject Player;
-
-    [Header("Spawn Player Manager")]
-    [SerializeField] Transform SpawnPoint;
+    OfflinePlayer Player;
 
     [Header("CheckPoint")]
     CheckPoint checkPoint;
@@ -17,39 +15,25 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<OfflinePlayer>();
+        checkPoint = GetSaveCheckPointByID(new AccountDAO().GetAccountByID(AccountManager.AccountID).CheckPoint);
+        Debug.Log(checkPoint.transform.position);
+        Player.transform.position = checkPoint.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            int a = Random.Range(0, 4);
-            checkPoint = GetSaveCheckPointByID(a);
-            Player.transform.position = checkPoint.transform.position;
-             Debug.Log("checkpoint: " + a + "   " + checkPoint.transform.position);
-
-        }
-    }
-
-    public CheckPoint GetSaveCheckPointByID(int CheckPointID)
+    public CheckPoint GetSaveCheckPointByID(string CheckPointID)
     {
         CheckPoint checkPoint = null;
         CheckPoint[] allCheckPoint = GameObject.FindObjectsOfType<CheckPoint>();
 
         foreach (CheckPoint currentCheckPoint in allCheckPoint)
         {
-            if (currentCheckPoint.GetCheckPointID() == CheckPointID)
+            if (currentCheckPoint.GetCheckPointID().Equals(CheckPointID))
             {
                 checkPoint = currentCheckPoint;
             }
         }
         return checkPoint;
     }
-
-
 
 }

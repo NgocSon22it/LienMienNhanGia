@@ -7,6 +7,8 @@ public class Boss_Gate : MonoBehaviour
     [SerializeField] GameObject GuidePanel;
     [SerializeField] int MaxVertical, MinVertical;
     [SerializeField] BoxCollider2D TriggerPlayer;
+    [SerializeField] int MapIndex;
+    [SerializeField] int NumberMission;
 
 
     bool isOpen;
@@ -20,7 +22,7 @@ public class Boss_Gate : MonoBehaviour
     }
     private void Update()
     {
-        if (isDetectPlayer && !isOpen /*&& MissionManager.Instance.MissionCount == 3 */)
+        if (isDetectPlayer && !isOpen && MissionManager.Instance.MissionCount == NumberMission)
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
