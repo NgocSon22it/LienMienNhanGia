@@ -21,6 +21,7 @@ TagManager:
   - Summon
   - PlayerSkill
   - BreakItem
+  - Trap
   layers:
   - Default
   - TransparentFX
@@ -42,7 +43,7 @@ TagManager:
   - PlayerSkill
   - BreakItem
   - PlayerLocate
-  - 
+  - Trap
   - 
   - 
   - 

@@ -9,7 +9,6 @@ public class Trap : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.GetComponent<OfflinePlayer>().TakeDamage(1, transform);
-
         }
     }
 }

@@ -70,6 +70,7 @@ public class OfflineCharacter : MonoBehaviour
         animator = GetComponent<Animator>();
         boxCollider2d = GetComponent<BoxCollider2D>();
         SetUpPlayer();
+        InvokeRepeating(nameof(RegenChakra), 1f, 10f);
     }
 
     public void Update()
@@ -104,6 +105,19 @@ public class OfflineCharacter : MonoBehaviour
         animator.SetBool("FallingFromHighPlace", VelocityY < -10);
     }
 
+    public void RegenChakra()
+    {
+        if (CurrentChakra >= TotalChakra)
+        {
+            CurrentChakra = TotalChakra;
+        }
+        else
+        {
+            CurrentChakra += 1;
+        }
+        PlayerUIManager.Instance.UpdatePlayerChakraUI();
+    }
+
     public void SetUpPlayer()
     {
         SetUpHealth();
@@ -125,14 +139,13 @@ public class OfflineCharacter : MonoBehaviour
         MovementSpeed = Speed;
         JumpPower = Jump;
     }
-    public void TakeDamage(int damage, Transform t)
+    public void TakeDamage(int damage, Transform transform)
     {
         if (IsHurt) { return; }
         CurrentHealth -= damage;
-        CurrentChakra -= damage;
         CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
-        PlayerUIManager.Instance.SetUpPlayerUI();
-        KnockBack(t);
+        PlayerUIManager.Instance.UpdatePlayerHealthUI();
+        KnockBack(transform);
         StartCoroutine(DamageAnimation());
     }
     public IEnumerator DamageAnimation()

@@ -9,6 +9,8 @@ public class WaterBall : MonoBehaviour
     [SerializeField] List<string> ListTag = new List<string>();
     [SerializeField] int Speed;
     GameObject Explosion;
+    int Damage;
+
     private void OnEnable()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -30,8 +32,11 @@ public class WaterBall : MonoBehaviour
     {
         if (ListTag.Contains(collision.gameObject.tag))
         {
-            Explosion = Skill_Pool.Instance.GetWaterBallExplosionFromPool();
-            
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log("damage");
+            }
+            Explosion = Skill_Pool.Instance.GetWaterBallExplosionFromPool();         
             if (Explosion != null)
             {
                 Explosion.transform.position = transform.position;

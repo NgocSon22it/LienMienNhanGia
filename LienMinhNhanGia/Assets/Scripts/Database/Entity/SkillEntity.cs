@@ -8,7 +8,6 @@ public class SkillEntity
     public string CharacterID;
     public string Name;
     public int Chakra;
-    public float Cooldown;
     public int Damage;
     public int Coin;
     public int LevelUnlock;
@@ -19,7 +18,6 @@ public class SkillEntity
 
     //Logic
     public Sprite SkillImage;
-
 
     public SkillEntity() { }
 

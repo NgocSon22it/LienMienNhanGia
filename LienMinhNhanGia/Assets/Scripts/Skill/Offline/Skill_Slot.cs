@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] Image SkillImage;
     [SerializeField] int SlotIndex;
+
+    [SerializeField] Image ImageUI; 
+    [SerializeField] TMP_Text CostUI;
 
     [Header("Slot Manager")]
     [SerializeField] GameObject Empty;
@@ -63,20 +67,27 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
     {
         AccountSkillEntity accountSkillEntity =
         new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, SlotIndex);
-        Skill_Hold_Manager.Instance.SetUpSkill(accountSkillEntity, SlotIndex);
+
+        Skill_Hold_Manager.Instance.SetUpSkill(SlotIndex);
+
         if (accountSkillEntity != null)
         {
             SkillEntity skillEntity = new SkillDAO().GetSkillbyID(accountSkillEntity.SkillID);
+            ImageUI.gameObject.SetActive(true);
+            CostUI.gameObject.SetActive(true);
 
             Skill = skillEntity;
-            SkillImage.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);
-
+            CostUI.text = (Skill.Chakra - accountSkillEntity.CurrentLevel).ToString();
+            ImageUI.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);
+            SkillImage.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);         
             SetUpStatusPanel(false, true);
         }
         else
         {
             Skill = null;
-            SkillImage.sprite = null;
+            ImageUI.gameObject.SetActive(false);
+            CostUI.gameObject.SetActive(false);
+            SkillImage.sprite = null;          
             SetUpStatusPanel(true, false);
         }
 

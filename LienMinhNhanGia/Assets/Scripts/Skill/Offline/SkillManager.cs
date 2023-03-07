@@ -95,7 +95,6 @@ public class SkillManager : MonoBehaviour
             SkillDescription.text = skill.Description;
             CurrentDamage.text = (skill.Damage + ((accountSkillEntity.CurrentLevel - 1 ) * (LevelUpBonusPercent / 100f)  * skill.Damage)).ToString();
             CurrentChakra.text = (skill.Chakra - (accountSkillEntity.CurrentLevel - 1)).ToString();
-            CurrentCooldown.text = (skill.Cooldown - (accountSkillEntity.CurrentLevel - 1)).ToString();
             CurrentLevel.text = "Level: " + accountSkillEntity.CurrentLevel.ToString();
 
             LoadAccountSkillList();
@@ -113,7 +112,6 @@ public class SkillManager : MonoBehaviour
             NextLevel.text = "Level: " + (accountSkillEntity.CurrentLevel + 1).ToString();
             NextDamage.text = (skill.Damage + (accountSkillEntity.CurrentLevel * (LevelUpBonusPercent / 100f) * skill.Damage)).ToString();
             NextChakra.text = (skill.Chakra - (accountSkillEntity.CurrentLevel)).ToString();
-            NextCooldown.text = (skill.Cooldown - (accountSkillEntity.CurrentLevel)).ToString();
         }
         else
         {
@@ -130,7 +128,6 @@ public class SkillManager : MonoBehaviour
             new Account_SkillDAO().UpgradeAccountSkillLevel(AccountManager.AccountID, accountSkillEntity.SkillID);
             CurrentDamage.text = (accountSkillEntity.CurrentLevel * skill.Damage).ToString();
             CurrentChakra.text = skill.Chakra.ToString();
-            CurrentCooldown.text = skill.Cooldown.ToString();
             CurrentLevel.text = "Level: " + accountSkillEntity.CurrentLevel.ToString();
             ShowInformationSelectedSkill(skill);
             SetUpStatusForUpgrade(skill);

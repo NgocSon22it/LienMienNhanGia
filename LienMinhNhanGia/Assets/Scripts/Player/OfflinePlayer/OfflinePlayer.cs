@@ -25,7 +25,6 @@ public class OfflinePlayer : OfflineCharacter
         base.Update();
     }
 
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

@@ -12,7 +12,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] TMP_Text NextLevelExpTxt;
     [SerializeField] Image CurrentExpBar;
 
-
     [Header("Level Variable")]
     private int Level;
     private float Expercience, ExpercienceToNextLevel;

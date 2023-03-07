@@ -10,17 +10,34 @@ public class PlayerUIManager : MonoBehaviour
     public static PlayerUIManager Instance;
 
     [Header("Player")]
-    [SerializeField] OfflinePlayer Player;
+    OfflinePlayer Player;
 
     [Header("Health UI")]
     [SerializeField] Image Health;
     [SerializeField] TMP_Text CurrentHealthTxt;
     [SerializeField] TMP_Text TotalHealthTxt;
 
-    [Header("Health UI")]
+    [Header("Chakra UI")]
     [SerializeField] Image Chakra;
     [SerializeField] TMP_Text CurrentChakraTxt;
     [SerializeField] TMP_Text TotalChakraTxt;
+
+    [Header("Skill UI")]
+    [SerializeField] Image Skill_U_Image;
+    [SerializeField] TMP_Text Skill_U_CostTxt;
+
+    [SerializeField] Image Skill_I_Image;
+    [SerializeField] TMP_Text Skill_I_CostTxt;
+
+    [SerializeField] Image Skill_O_Image;
+    [SerializeField] TMP_Text Skill_O_CostTxt;
+
+    SkillEntity Skill_U;
+    SkillEntity Skill_I;
+    SkillEntity Skill_O;
+
+    string Extension = "Skill/";
+
 
     private void Awake()
     {
@@ -30,6 +47,7 @@ public class PlayerUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<OfflinePlayer>();
         Health.fillAmount = 1f;
         Chakra.fillAmount = 1f;
     }
@@ -48,9 +66,15 @@ public class PlayerUIManager : MonoBehaviour
         Chakra.fillAmount = (float)Player.GetCurrentChakra() / (float)Player.GetTotalChakra();
     }
 
-    public void SetUpPlayerUI()
+    public void UpdatePlayerHealthUI()
     {
         SetUpHealth();
+    }
+
+    public void UpdatePlayerChakraUI()
+    {
         SetUpChakra();
     }
+
+
 }
