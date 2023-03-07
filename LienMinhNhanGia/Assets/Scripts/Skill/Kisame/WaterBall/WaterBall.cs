@@ -34,7 +34,7 @@ public class WaterBall : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                Debug.Log("damage");
+                collision.GetComponent<Monster>().TakeDamage(0);
             }
             Explosion = Skill_Pool.Instance.GetWaterBallExplosionFromPool();         
             if (Explosion != null)

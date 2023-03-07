@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class BossHealthBar : MonoBehaviour
 {
-    [SerializeField] Enemy Boss;
     [SerializeField] Image CurrentHealth;
     // Start is called before the first frame update
     void Start()
@@ -16,6 +15,5 @@ public class BossHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CurrentHealth.fillAmount = Boss.CurrentHealthPoint / (float)Boss.TotalHealthPoint;
     }
 }

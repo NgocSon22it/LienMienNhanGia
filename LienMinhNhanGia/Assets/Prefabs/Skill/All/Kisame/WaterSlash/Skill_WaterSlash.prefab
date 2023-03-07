@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4073469771875993265}
   - component: {fileID: 4073469771875993264}
   - component: {fileID: 4073469771875993167}
-  - component: {fileID: 4073469771875993266}
   - component: {fileID: 1958566197180553031}
   - component: {fileID: 7095221035971203678}
+  - component: {fileID: -5870549490609488200}
   m_Layer: 17
   m_Name: Skill_WaterSlash
   m_TagString: PlayerSkill
@@ -111,41 +111,8 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1199881327
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 0
---- !u!68 &4073469771875993266
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4073469771875993166}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.48480844, y: 3.184705}
-  - {x: 0.18728638, y: 2.5276375}
-  - {x: 0.5106697, y: 1.9360161}
-  - {x: 0.7456207, y: 1.071167}
-  - {x: 0.06627655, y: 0.45170975}
-  - {x: -1.0270844, y: 0.067165375}
-  - {x: 0.08092499, y: 0.10942078}
-  - {x: 0.92160606, y: 0.42652893}
-  - {x: 1.2305107, y: 0.83971405}
-  - {x: 1.4394588, y: 1.234642}
-  - {x: 1.280035, y: 1.6930542}
-  - {x: 0.2599144, y: 2.900875}
-  - {x: -0.48188782, y: 3.1847126}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!50 &1958566197180553031
 Rigidbody2D:
   serializedVersion: 4
@@ -183,4 +150,31 @@ MonoBehaviour:
   - Enemy
   - Ground
   - Slope
+  - Wall
   Speed: 40
+--- !u!61 &-5870549490609488200
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073469771875993166}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.94014835, y: 1.4552822}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.69231606, y: 1.7816505}
+  m_EdgeRadius: 0

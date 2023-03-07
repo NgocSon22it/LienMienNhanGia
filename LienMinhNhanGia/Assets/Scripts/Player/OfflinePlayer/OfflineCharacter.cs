@@ -14,7 +14,6 @@ public class OfflineCharacter : MonoBehaviour
     protected int MovementSpeed;
 
     [Header("Component")]
-
     protected Rigidbody2D rigidbody2d;
     protected SpriteRenderer spriteRenderer;
     [HideInInspector]
@@ -230,7 +229,7 @@ public class OfflineCharacter : MonoBehaviour
             {
                 if (Enemy.gameObject.CompareTag("Enemy"))
                 {
-                    Enemy.GetComponent<Animator>().SetTrigger("Hurt");
+                    Enemy.GetComponent<Monster>().TakeDamage(0);
                 }
                 if (Enemy.gameObject.CompareTag("BreakItem"))
                 {

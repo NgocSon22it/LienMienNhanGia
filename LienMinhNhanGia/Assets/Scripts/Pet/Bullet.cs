@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Enemy>().CurrentHealthPoint -= 100;
+            //collision.gameObject.GetComponent<Monster>().CurrentHealthPoint -= 100;
             gameObject.SetActive(false);
         }
     }
