@@ -22,6 +22,7 @@ TagManager:
   - PlayerSkill
   - BreakItem
   - Trap
+  - Gate
   layers:
   - Default
   - TransparentFX
@@ -44,8 +45,8 @@ TagManager:
   - BreakItem
   - PlayerLocate
   - Trap
-  - 
-  - 
+  - MonsterTrigger
+  - Gate
   - 
   - 
   - 
@@ -94,6 +95,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3882615129
+    locked: 0
+  - name: EnemySkill
+    uniqueID: 4227788015
     locked: 0
   - name: PlayerSkill
     uniqueID: 3095085969

@@ -229,7 +229,7 @@ public class OfflineCharacter : MonoBehaviour
             {
                 if (Enemy.gameObject.CompareTag("Enemy"))
                 {
-                    Enemy.GetComponent<Monster>().TakeDamage(0);
+                    Enemy.GetComponent<Monster>().TakeDamage(100);
                 }
                 if (Enemy.gameObject.CompareTag("BreakItem"))
                 {

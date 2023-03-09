@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class Tete : Monster
 {
+    EdgeCollider2D edgeCollider;
 
-    EdgeCollider2D edgeCollider2D;
-
-     void Start()
+    new void Start()
     {
         Monster_ID = "Monster_Tete";
-        edgeCollider2D = GetComponent<EdgeCollider2D>();
-        SetUpMonster();
+        FacingRight = true;
+        edgeCollider = GetComponent<EdgeCollider2D>();
+        base.Start();             
     }
 
     public void TurnOnCol()
     {
-        edgeCollider2D.enabled = true;
+        edgeCollider.enabled = true;
+        HealthBar.gameObject.SetActive(true);
     }
 
     public void TurnOffCol()
     {
-        edgeCollider2D.enabled = false;
+        edgeCollider.enabled = false;
+        HealthBar.gameObject.SetActive(false);
     }
 
 
@@ -30,6 +32,7 @@ public class Tete : Monster
         FacingRight = !FacingRight;
         transform.Rotate(0, 180, 0);
     }
+
     public void handleRotation()
     {
         if (transform.position.x > offlinePlayer.transform.position.x && FacingRight)
@@ -41,7 +44,6 @@ public class Tete : Monster
             Flip();
         }
     }
-
 
     private void OnTriggerStay2D(Collider2D collision)
     {

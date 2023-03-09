@@ -16,10 +16,10 @@ MonoBehaviour:
   - title: PARTICLES IMPACT
     position:
       serializedVersion: 2
-      x: 481.9121
-      y: -705.8456
+      x: 482
+      y: -706
       width: 690
-      height: 2132
+      height: 1306
     contents:
     - model: {fileID: 8926484042661614694}
       id: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
     x: 482
     y: -706
     width: 690
-    height: 2189
+    height: 2168
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: VFX_ExplosionGroundSlash
+  m_Name: VFX_ExplosionGroundSlash 1
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -96,7 +96,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VFX_ExplosionGroundSlash
+  m_Name: VFX_ExplosionGroundSlash 1
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -129,7 +129,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614727}
   - {fileID: 8926484042661614734}
   - {fileID: 8926484042661614788}
-  m_UIPosition: {x: 721.9121, y: -310.84558}
+  m_UIPosition: {x: 722, y: -285}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -1535,7 +1535,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614740}
-  m_UIPosition: {x: 721.9121, y: -645.8456}
+  m_UIPosition: {x: 722, y: -646}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -1604,7 +1604,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 50
+      m_SerializableObject: 500
     m_Space: 2147483647
   m_Property:
     name: Count
@@ -2046,7 +2046,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 2
     m_Space: 2147483647
   m_Property:
     name: A
@@ -2080,7 +2080,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 2
+      m_SerializableObject: 3
     m_Space: 2147483647
   m_Property:
     name: B
@@ -2630,7 +2630,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 519.9121, y: 78.15442}
+  m_UIPosition: {x: 520, y: 78}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -2793,7 +2793,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 506.9121, y: 406.15442}
+  m_UIPosition: {x: 507, y: 406}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -2981,7 +2981,7 @@ MonoBehaviour:
   m_Nodes:
   - m_Id: 0
     linkedSlots: []
-    position: {x: 552.71216, y: -573.44556}
+    position: {x: 552.8, y: -573.6}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661614785
@@ -3042,7 +3042,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614743}
   - {fileID: 8926484042661614751}
   dataType: 0
-  capacity: 32
+  capacity: 100
   stripCapacity: 16
   particlePerStripCount: 16
   needsComputeBounds: 0

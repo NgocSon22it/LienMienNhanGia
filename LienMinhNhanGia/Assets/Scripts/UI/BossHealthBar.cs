@@ -15,5 +15,6 @@ public class BossHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
     }
 }
