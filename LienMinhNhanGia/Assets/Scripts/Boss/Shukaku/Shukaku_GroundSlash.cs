@@ -6,21 +6,47 @@ public class Shukaku_GroundSlash : MonoBehaviour
 {
     Rigidbody2D rigidbody2d;
 
-    [SerializeField] GameObject Explosion;
+    [SerializeField] List<string> ListTag = new List<string>();
+    [SerializeField] int Speed;
+    GameObject Explosion;
+    int Damage;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
-        rigidbody2d.velocity = transform.right * 30;
+        rigidbody2d.velocity = transform.right * Speed;
+        Invoke(nameof(TurnOff), 10f);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
+    void TurnOff()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Gate"))
+        if (ListTag.Contains(collision.gameObject.tag))
         {
-            Instantiate(Explosion, new Vector2(transform.position.x - 5, transform.position.y + 3), Quaternion.identity);
-            Destroy(gameObject);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                collision.GetComponent<OfflineCharacter>().TakeDamage(1, transform);
+            }
+            else
+            {
+                Explosion = Boss_SkillPool.Instance.GetGroundSlashExplosionFromPool();
+                if (Explosion != null)
+                {
+                    Explosion.transform.position = transform.position;
+                    Explosion.transform.rotation = transform.rotation;
+                    Explosion.SetActive(true);
+                }
+                TurnOff();
+            }
         }
     }
 

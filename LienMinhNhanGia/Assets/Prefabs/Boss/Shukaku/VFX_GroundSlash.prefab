@@ -182,4 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbbb32dcdc1dae44fa17baefd76b6c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Explosion: {fileID: 3578904443207661607, guid: 90a5b7fca2a15b942979d8a9aec811dd, type: 3}
+  ListTag:
+  - Player
+  - Gate
+  Speed: 30

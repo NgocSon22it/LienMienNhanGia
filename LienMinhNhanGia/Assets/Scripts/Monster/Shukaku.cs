@@ -6,12 +6,10 @@ using UnityEngine.TextCore.Text;
 public class Shukaku : MonoBehaviour
 {
     Animator animator;
-    public GameObject Player;
+    GameObject Player;
     private Quaternion Rotation;
 
-    public GameObject Effect;
-    public Transform Place;
-
+    [SerializeField] Transform Transform_GroundSlash;
 
     public GameObject SecondSkillObject;
     public GameObject SecondSkillObjectFall;
@@ -28,6 +26,7 @@ public class Shukaku : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -58,9 +57,16 @@ public class Shukaku : MonoBehaviour
     }
 
 
-    public void FirstSkillEffect()
+    public void Skill_GroundSlash()
     {
-        Instantiate(Effect, Place.position, Place.rotation);
+        GameObject groundslash = Boss_SkillPool.Instance.GetGroundSlashFromPool();
+
+        if (groundslash != null)
+        {
+            groundslash.transform.position = Transform_GroundSlash.position;
+            groundslash.transform.rotation = Transform_GroundSlash.rotation;
+            groundslash.SetActive(true);
+        }
     }
 
     public void SecondSkill()
@@ -123,6 +129,7 @@ public class Shukaku : MonoBehaviour
             BulletIns.GetComponent<Rigidbody2D>().AddForce(Vector2.right * i);
         }
     }
+
 
 
     private void OnTriggerStay2D(Collider2D collision)
