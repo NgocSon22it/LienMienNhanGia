@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1159515132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1159515133}
+  m_Layer: 6
+  m_Name: Skill1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1159515133
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159515132}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: -1.352002, y: -0.719, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1965142497738684163}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1965142497335019140
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +183,6 @@ GameObject:
   - component: {fileID: 1965142497738684161}
   - component: {fileID: 1965142497738684160}
   - component: {fileID: 1965142497738684167}
-  - component: {fileID: 1965142497738683644}
   - component: {fileID: 1742846465}
   - component: {fileID: 5762491573222706124}
   m_Layer: 6
@@ -175,6 +205,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1965142499260910161}
+  - {fileID: 1159515133}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -217,7 +248,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1453609927
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f34deeaa9612ae940a8968d1a45a7599, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -296,13 +327,13 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.33, y: 0.48}
   serializedVersion: 2
   m_Radius: 0.9678052
---- !u!114 &1965142497738683644
+--- !u!114 &1742846465
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,26 +342,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965142497738684166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d87631a3a67fb54b8b68b857b7d9be9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TotalHealthPoint: 10000
-  CurrentHealthPoint: 10000
---- !u!114 &1742846465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965142497738684166}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c2a8cfae5c7fa54c870bd0cc53b74f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Effect: {fileID: 0}
-  Place: {fileID: 0}
+  Effect: {fileID: 6715648962096982885, guid: f92a0ea907274454fb732ff48be7daa6, type: 3}
+  Place: {fileID: 1159515133}
   SecondSkillObject: {fileID: 3057998679401550122, guid: 5125b201090de594784210dd16be43ea, type: 3}
   SecondSkillObjectFall: {fileID: 9035951548985870632, guid: 7a519ea951a073e4a86ff04d1bc2384c, type: 3}
   Place2: {fileID: 0}

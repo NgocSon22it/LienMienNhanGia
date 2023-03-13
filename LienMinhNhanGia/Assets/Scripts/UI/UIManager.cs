@@ -40,6 +40,8 @@ public class UIManager : MonoBehaviour
     [Header("Instance")]
     public static UIManager Instance;
 
+    public static bool OutGameToMenu;
+
     private void Awake()
     {
         Instance = this;
@@ -185,6 +187,15 @@ public class UIManager : MonoBehaviour
     public void UpdateAccountUIData()
     {
         AccountCoinTxt.text = AccountManager.Account.Coin.ToString();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("GameMenu");
+        ResumeGame();
+        OutGameToMenu = true;
+        MainMenuUI.Instance.SetUpPlayerInformation();
+
     }
 
 }

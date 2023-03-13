@@ -34,7 +34,7 @@ public class TrucThu : MonoBehaviour
     {
         foreach(string a in  ListMissionID)
         {
-            new Account_MissionDAO().AddMissionToAccount(1, a);
+            new Account_MissionDAO().AddMissionToAccount(AccountManager.AccountID, a);
         }
 
         MissionManager.Instance.LoadMissionList();

@@ -30,10 +30,13 @@ public class WaterSlash : MonoBehaviour
     {
         if (ListTag.Contains(collision.gameObject.tag))
         {
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                TurnOff();
+            }
             if (collision.gameObject.CompareTag("Enemy"))
             {
                 collision.GetComponent<Monster>().TakeDamage(0);
-                Debug.Log("Ok");
             }
 
             Explosion = Skill_Pool.Instance.GetWaterSlashExplosionFromPool();
