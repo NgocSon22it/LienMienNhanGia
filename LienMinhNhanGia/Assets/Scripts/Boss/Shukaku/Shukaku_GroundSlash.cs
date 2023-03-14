@@ -45,6 +45,7 @@ public class Shukaku_GroundSlash : MonoBehaviour
                     Explosion.transform.rotation = transform.rotation;
                     Explosion.SetActive(true);
                 }
+                CameraManager.Instance.StartShakeScreen(6, 5, 1);
                 TurnOff();
             }
         }

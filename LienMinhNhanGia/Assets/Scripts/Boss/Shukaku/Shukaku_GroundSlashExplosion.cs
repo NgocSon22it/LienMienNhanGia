@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shukaku_GroundSlashExplosion : MonoBehaviour
 {
     private void OnEnable()
-    {
+    {       
         Invoke(nameof(TurnOff), 1f);
     }
 

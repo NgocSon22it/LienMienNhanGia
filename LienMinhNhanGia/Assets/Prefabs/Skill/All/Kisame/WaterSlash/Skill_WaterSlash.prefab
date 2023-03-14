@@ -111,7 +111,7 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1199881327
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
 --- !u!50 &1958566197180553031
 Rigidbody2D:
@@ -151,6 +151,7 @@ MonoBehaviour:
   - Ground
   - Slope
   - Wall
+  - Boss
   Speed: 40
 --- !u!61 &-5870549490609488200
 BoxCollider2D:

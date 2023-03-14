@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &270921587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 270921588}
+  m_Layer: 6
+  m_Name: BeastBombTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &270921588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270921587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1965142497738684163}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1159515132
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +237,7 @@ Transform:
   m_Children:
   - {fileID: 1965142499260910161}
   - {fileID: 1159515133}
+  - {fileID: 270921588}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -345,17 +377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2a8cfae5c7fa54c870bd0cc53b74f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  Effect: {fileID: 6715648962096982885, guid: f92a0ea907274454fb732ff48be7daa6, type: 3}
-  Place: {fileID: 1159515133}
-  SecondSkillObject: {fileID: 3057998679401550122, guid: 5125b201090de594784210dd16be43ea, type: 3}
-  SecondSkillObjectFall: {fileID: 9035951548985870632, guid: 7a519ea951a073e4a86ff04d1bc2384c, type: 3}
-  Place2: {fileID: 0}
-  Place2End: {fileID: 0}
-  ThirdSkillObject: {fileID: 0}
-  Place3: {fileID: 0}
-  FouthSkillObject: {fileID: 0}
-  FouthSkillEffect: {fileID: 0}
+  Transform_GroundSlash: {fileID: 1159515133}
+  Transform_BeastBomb: {fileID: 270921588}
 --- !u!50 &5762491573222706124
 Rigidbody2D:
   serializedVersion: 4

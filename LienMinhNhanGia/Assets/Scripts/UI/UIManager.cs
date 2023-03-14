@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [Header("All Panel For PauseGame")]
     [SerializeField] GameObject MissionPanel;
     [SerializeField] GameObject ShopPanel;
+    [SerializeField] GameObject BossPanel;
     [SerializeField] GameObject PausePanel;
     [SerializeField] GameObject CommonPanel;
 
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour
     bool IsPause, IsPlaying = true;
     KeyCode KeyCheck = KeyCode.None;
     public bool IsPlayerNearShop;
+    public bool IsPlayerNearBoss;
 
 
     [Header("Handle Map Tab")]
@@ -102,7 +104,7 @@ public class UIManager : MonoBehaviour
         {
             ControlPauseGame(PausePanel, KeyCode.Escape);
         }
-        else if (Input.GetKeyDown(KeyCode.E) && !IsPlayerNearShop)
+        else if (Input.GetKeyDown(KeyCode.E) && !IsPlayerNearShop && !IsPlayerNearBoss)
         {
             ControlPauseGame(MissionPanel, KeyCode.E);
         }
@@ -115,6 +117,10 @@ public class UIManager : MonoBehaviour
         {
             ControlPauseGame(ShopPanel, KeyCode.E);
             ShopManager.Instance.OpenTabPanel("Item");
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && IsPlayerNearBoss)
+        {
+            ControlPauseGame(BossPanel, KeyCode.E);
         }
 
     }

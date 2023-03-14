@@ -38,6 +38,10 @@ public class WaterSlash : MonoBehaviour
             {
                 collision.GetComponent<Monster>().TakeDamage(0);
             }
+            if (collision.gameObject.CompareTag("Boss"))
+            {
+                collision.GetComponent<Shukaku>().TakeDamage(100);
+            }
 
             Explosion = Skill_Pool.Instance.GetWaterSlashExplosionFromPool();
 

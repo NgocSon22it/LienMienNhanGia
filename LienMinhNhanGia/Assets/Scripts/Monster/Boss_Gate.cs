@@ -10,10 +10,15 @@ public class Boss_Gate : MonoBehaviour
     [SerializeField] int MapIndex;
     [SerializeField] int NumberMission;
 
-
     bool isOpen;
     bool isDetectPlayer;
     Rigidbody2D rb;
+
+    public static Boss_Gate Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {

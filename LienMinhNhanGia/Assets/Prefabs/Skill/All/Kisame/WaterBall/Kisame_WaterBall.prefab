@@ -111,7 +111,7 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1199881327
-  m_SortingLayer: 11
+  m_SortingLayer: 14
   m_SortingOrder: 0
 --- !u!58 &6858324467141534061
 CircleCollider2D:
@@ -167,4 +167,5 @@ MonoBehaviour:
   - Ground
   - Slope
   - Wall
+  - Boss
   Speed: 35

@@ -12,10 +12,6 @@ public class Shop : MonoBehaviour
         if(UIManager.Instance.IsPlayerNearShop == true)
         {
             GuidePanel.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                ShopPanel.SetActive(true);
-            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

@@ -23,6 +23,7 @@ TagManager:
   - BreakItem
   - Trap
   - Gate
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -47,7 +48,7 @@ TagManager:
   - Trap
   - MonsterTrigger
   - Gate
-  - 
+  - Boss
   - 
   - 
   - 
