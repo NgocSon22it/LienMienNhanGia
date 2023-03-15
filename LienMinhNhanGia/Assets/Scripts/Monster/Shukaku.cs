@@ -21,6 +21,7 @@ public class Shukaku : MonoBehaviour
 
     CircleCollider2D circleCollider2D;
     Animator animator;
+    SpriteRenderer sp;
     GameObject Player;
     private Quaternion Rotation;
     public bool IsDead;
@@ -29,7 +30,19 @@ public class Shukaku : MonoBehaviour
     [SerializeField] Transform Transform_BeastBomb;
     [SerializeField] Transform Transform_EarthRock;
 
-    private void Awake()
+    private void OnEnable()
+    {
+        animator = GetComponent<Animator>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        sp = GetComponent<SpriteRenderer>();
+        Player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        StartCoroutine(StartGame());
+        obj = Boss_SkillPool.Instance.GetBeastBombFromPool();
+    }
+
+
+
+    public void SetUpBossFight()
     {
         BossEntity bossEntity = new BossDAO().GetBossByID("Boss_Shukaku");
         BossID = bossEntity.BossID;
@@ -40,17 +53,7 @@ public class Shukaku : MonoBehaviour
         Coin_Bonus = bossEntity.Coin_Bonus;
         Experience_Bonus = bossEntity.Experience_Bonus;
         Point_Skill = bossEntity.Point_Skill;
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-        circleCollider2D = GetComponent<CircleCollider2D>();
-        Player = GameObject.FindGameObjectWithTag("Player").gameObject;
         BossHealth.SetUpHealth();
-        StartCoroutine(StartGame());
     }
 
     public void TakeDamage(int damage)
@@ -65,7 +68,7 @@ public class Shukaku : MonoBehaviour
     }
     public void Die()
     {
-        GameManager.Instance.DefeatBoss();
+        GameManager.Instance.NormalCamera();
         IsDead = true;
         obj.SetActive(false);
         StopAllCoroutines();
@@ -75,7 +78,7 @@ public class Shukaku : MonoBehaviour
     }
     IEnumerator DamageAnimation()
     {
-        SpriteRenderer sp = GetComponent<SpriteRenderer>();
+
         sp.color = Color.red;
         yield return new WaitForSeconds(.2f);
         sp.color = Color.white;
@@ -198,8 +201,10 @@ public class Shukaku : MonoBehaviour
         }
     }
 
-    IEnumerator StartGame()
+    public IEnumerator StartGame()
     {
+        sp.color = Color.white;
+        SetUpBossFight();
         yield return new WaitForSeconds(2f);
         circleCollider2D.enabled = true;
         StartCoroutine(Move());

@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Level Variable")]
     private int Level;
-    private float Expercience, ExpercienceToNextLevel;
+    private int Expercience, ExpercienceToNextLevel;
 
     [Header("Instance")]
     public static LevelManager Instance;
@@ -31,9 +31,11 @@ public class LevelManager : MonoBehaviour
 
     public void SetUpExperience()
     {
-        Level = 1;
-        Expercience = 0;
-        ExpercienceToNextLevel = 100;
+
+        Level = AccountManager.Account.Level;
+        Expercience = AccountManager.Account.Experience;
+        ExpercienceToNextLevel = AccountManager.Account.Level * 100;
+        LevelUpReward();
     }
 
     public void SetUpExperienceUI()
@@ -42,6 +44,8 @@ public class LevelManager : MonoBehaviour
         CurrentExpBar.fillAmount = Expercience / ExpercienceToNextLevel;
         CurrentExpTxt.text = Expercience.ToString();
         NextLevelExpTxt.text = ExpercienceToNextLevel.ToString();
+        new AccountDAO().UpdateAccountCoinNLevel(AccountManager.AccountID, AccountManager.Account.Coin, AccountManager.Account.Experience, AccountManager.Account.Level);
+
     }
     public void AddExperience(int Amount)
     {
@@ -53,6 +57,8 @@ public class LevelManager : MonoBehaviour
             ExpercienceToNextLevel = Level * 100;
             LevelUpReward();           
         }
+        AccountManager.Account.Experience = Expercience;
+        AccountManager.Account.Level = Level;
         SetUpExperienceUI();
     }
 

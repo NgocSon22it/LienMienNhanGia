@@ -15,7 +15,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            new AccountDAO().UpdateAccountCheckPoint(AccountManager.AccountID, CheckPointID);
+            AccountManager.Account.CheckPoint = CheckPointID;
         }
     }
 

@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class Tete : Monster
 {
-    EdgeCollider2D edgeCollider;
+    [SerializeField] EdgeCollider2D edgeCollider;
+    [SerializeField] EdgeCollider2D CheckTrigger;
+
 
     new void Start()
     {
         Monster_ID = "Monster_Tete";
         FacingRight = true;
-        edgeCollider = GetComponent<EdgeCollider2D>();
         base.Start();             
     }
 
     public void TurnOnCol()
     {
         edgeCollider.enabled = true;
+        CheckTrigger.enabled = true;
         HealthBar.gameObject.SetActive(true);
     }
 
     public void TurnOffCol()
     {
         edgeCollider.enabled = false;
+        CheckTrigger.enabled = false;
         HealthBar.gameObject.SetActive(false);
     }
 

@@ -10,7 +10,7 @@ public class Boss_Gate : MonoBehaviour
     [SerializeField] int MapIndex;
     [SerializeField] int NumberMission;
 
-    bool isOpen;
+    public bool isOpen;
     bool isDetectPlayer;
     Rigidbody2D rb;
 
@@ -51,15 +51,13 @@ public class Boss_Gate : MonoBehaviour
         rb.velocity = transform.up * 10;
         TriggerPlayer.enabled = false;
         isOpen = true;
-        //CameraManager.Instance.StartShakeScreen(10, 3, 2);
     }
 
     public void CloseDoor()
     {
         rb.velocity = -transform.up * 10;
-        TriggerPlayer.enabled = false;
+        TriggerPlayer.enabled = true;
         isOpen = false;
-        //CameraManager.Instance.StartShakeScreen(10, 3, 2);
     }
 
     public void ShowGuidePanel()

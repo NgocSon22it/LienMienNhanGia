@@ -43,11 +43,6 @@ public class Black_Dog : Monster
 
     bool CanMove;
 
-    private void OnDisable()
-    {
-        animator.SetBool("Walk", false);
-    }
-
     new void Start()
     {
         Monster_ID = "Monster_Blackdog";
@@ -84,7 +79,7 @@ public class Black_Dog : Monster
                     currentTarget = new Vector2(offlinePlayer.transform.position.x, transform.position.y);
 
                     transform.position = Vector2.MoveTowards(transform.position, currentTarget, Speed * Time.fixedDeltaTime);
-
+                    animator.SetBool("Walk", true);
                     if ((direction > 0 && !FacingRight) || (direction < 0 && FacingRight))
                     {
                         Flip();
@@ -92,6 +87,10 @@ public class Black_Dog : Monster
                 }
 
             }
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
         }
 
     }

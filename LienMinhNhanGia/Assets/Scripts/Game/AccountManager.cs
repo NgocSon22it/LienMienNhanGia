@@ -22,4 +22,14 @@ public static class AccountManager
     {
         ListAccountSkill = new Account_SkillDAO().GetAllSkillForAccount(AccountID);
     }
+    public static void UpdateListAccountMission()
+    {
+        ListAccountMission = new Account_MissionDAO().GetAllMissionForAccount(AccountID);
+    }
+
+
+    public static void SaveAccountData()
+    {
+
+    }
 }

@@ -458,13 +458,4 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         CreateRoom_PasswordPanel.SetActive(status);
         CreateRoomWithPassword = status;
     }
-
-
-    /*public void GetCaptionDropdownMenuValue()
-    {
-        Sprite a = FindBossDd.options[FindBossDd.value].image;
-        Debug.Log(a.name);
-    }*/
-
-
 }

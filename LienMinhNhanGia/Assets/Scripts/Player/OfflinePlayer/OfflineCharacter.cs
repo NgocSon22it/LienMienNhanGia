@@ -60,6 +60,8 @@ public class OfflineCharacter : MonoBehaviour
     public float KnockBackForceUp = 2f;
     bool IsKnockBack;
 
+    public bool IsFightBoss;
+
 
 
     public void Start()
@@ -142,10 +144,17 @@ public class OfflineCharacter : MonoBehaviour
     {
         if (IsHurt) { return; }
         CurrentHealth -= damage;
-        CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
-        PlayerUIManager.Instance.UpdatePlayerHealthUI();
-        KnockBack(transform);
-        StartCoroutine(DamageAnimation());
+        if (CurrentHealth > 0)
+        {
+            CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
+            PlayerUIManager.Instance.UpdatePlayerHealthUI();
+            KnockBack(transform);
+            StartCoroutine(DamageAnimation());
+        }
+        if (CurrentHealth <= 0)
+        {
+            GameManager.Instance.ReturnToCheckPoint();
+        }
     }
     public IEnumerator DamageAnimation()
     {
@@ -229,11 +238,11 @@ public class OfflineCharacter : MonoBehaviour
             {
                 if (Enemy.gameObject.CompareTag("Enemy"))
                 {
-                    Enemy.GetComponent<Monster>().TakeDamage(10);
+                    Enemy.GetComponent<Monster>().TakeDamage(50);
                 }
                 if (Enemy.gameObject.CompareTag("Boss"))
                 {
-                    Enemy.GetComponent<Shukaku>().TakeDamage(1000);
+                    Enemy.GetComponent<Shukaku>().TakeDamage(50);
                 }
                 if (Enemy.gameObject.CompareTag("BreakItem"))
                 {
@@ -378,4 +387,5 @@ public class OfflineCharacter : MonoBehaviour
         yield return new WaitForSeconds(.5f);
         IsKnockBack = false;
     }
+
 }

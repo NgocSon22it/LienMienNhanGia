@@ -9,7 +9,6 @@ public class Shukaku_GroundSlash : MonoBehaviour
     [SerializeField] List<string> ListTag = new List<string>();
     [SerializeField] int Speed;
     GameObject Explosion;
-    int Damage;
 
     private void OnEnable()
     {

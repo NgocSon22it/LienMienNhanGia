@@ -10,19 +10,15 @@ public class TrucThu : MonoBehaviour
 
     BoxCollider2D boxCollider2D;
 
-    List<AccountMissionEntity> ListAccountMission;
-
     private void Start()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
-        ListAccountMission = new Account_MissionDAO().GetAllMissionForAccount(AccountManager.AccountID);
-        if(ListAccountMission.Count > 0)
+        if(AccountManager.ListAccountMission.Count > 0)
         {
-            foreach(AccountMissionEntity missionEntity in ListAccountMission)
+            foreach(AccountMissionEntity missionEntity in AccountManager.ListAccountMission)
             {
                 if(ListMissionID.Contains(missionEntity.MissionID)) 
                 {
-                    boxCollider2D.enabled = false;
+                    //boxCollider2D.enabled = false;
                     gameObject.SetActive(false);
                     break;
                 }
@@ -36,7 +32,6 @@ public class TrucThu : MonoBehaviour
         {
             new Account_MissionDAO().AddMissionToAccount(AccountManager.AccountID, a);
         }
-
         MissionManager.Instance.LoadMissionList();
     }
     private void OnTriggerEnter2D(Collider2D collision)

@@ -78,8 +78,9 @@ public class AccountDAO
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "Update Account set Coin = Coin + @coinamount, Experience = Experience + @expamount where Account_ID = " + AccountID;
+            cmd.CommandText = "Update Account set Coin = Coin, Experience = Experience, Level = @level where Account_ID = " + AccountID;
             cmd.Parameters.AddWithValue("@coinamount", CoinAmount);
+            cmd.Parameters.AddWithValue("@level", Level);
             cmd.Parameters.AddWithValue("@expamount", ExperinenceAmount);
             connection.Open();
             cmd.ExecuteNonQuery();
@@ -146,6 +147,22 @@ public class AccountDAO
             cmd.Parameters.AddWithValue("@username", account.Username);
             cmd.Parameters.AddWithValue("@password", GetMD5(account.Password));
             cmd.Parameters.AddWithValue("@name", account.Name);
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+
+    public void SaveAccountData(AccountEntity account)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "Update Account set Coin = @coin, Experience = @exp, [Level] = @level, Check_Point =@checkpoint where Account_ID = " + account.AccountID;
+            cmd.Parameters.AddWithValue("@coin", account.Coin);
+            cmd.Parameters.AddWithValue("@exp", account.Experience);
+            cmd.Parameters.AddWithValue("@level", account.Level) ;
+            cmd.Parameters.AddWithValue("@checkpoint", account.CheckPoint);
             connection.Open();
             cmd.ExecuteNonQuery();
             connection.Close();

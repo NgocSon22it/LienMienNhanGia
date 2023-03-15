@@ -71,7 +71,15 @@ public class Monster : MonoBehaviour
 
     public void Die()
     {
-        animator.SetTrigger("Die");
+        if (Monster_ID.Equals("Monster_Tete"))
+        {
+            animator.SetTrigger("Die");
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+        AccountManager.Account.Coin += Coin_Bonus;
     }
 
     public void DeactiveMonster()
