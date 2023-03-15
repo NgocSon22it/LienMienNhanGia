@@ -23,8 +23,8 @@ public class Online_GameManager : MonoBehaviour
     }
 
 
-    public PolygonCollider2D GetSkyBoxCollider()
+    /*public PolygonCollider2D GetSkyBoxCollider()
     {
         return SkyBox.GetComponent<PolygonCollider2D>();
-    }
+    }*/
 }

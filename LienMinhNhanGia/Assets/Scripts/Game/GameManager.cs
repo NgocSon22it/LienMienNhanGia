@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Camera BossFight")]
     [SerializeField] GameObject Boss;
+    [SerializeField] GameObject BossHealth;
     [SerializeField] GameObject BossShadow;
     [SerializeField] GameObject PlayerCamera;
     [SerializeField] GameObject BossFightCamera; 
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
             BossShadow.SetActive(false);
             Boss.SetActive(true);
             PlayerCamera.SetActive(true);
+            BossHealth.SetActive(true);
         }
     }
 
@@ -111,7 +113,9 @@ public class GameManager : MonoBehaviour
         PlayerCamera.GetComponent<CinemachineVirtualCamera>().m_Follow = Player.transform;
         Boss.SetActive(false);
         BossShadow.SetActive(true);
+        BossHealth.SetActive(false);
         OfflinePlayer.Instance.IsFightBoss = false;
+        Boss_Gate.Instance.OpenDoor();
     }
 
     private void OnApplicationQuit()

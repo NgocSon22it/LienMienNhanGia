@@ -245,8 +245,10 @@ GameObject:
   - component: {fileID: 1965142497738684161}
   - component: {fileID: 1965142497738684160}
   - component: {fileID: 1965142497738684167}
-  - component: {fileID: 1742846465}
   - component: {fileID: 5762491573222706124}
+  - component: {fileID: 5892934405890719459}
+  - component: {fileID: 2236413987551647297}
+  - component: {fileID: -6579997663670745290}
   m_Layer: 23
   m_Name: Shukaku
   m_TagString: Boss
@@ -397,31 +399,6 @@ CircleCollider2D:
   m_Offset: {x: 0.33, y: 0.48}
   serializedVersion: 2
   m_Radius: 0.9678052
---- !u!114 &1742846465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1965142497738684166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2a8cfae5c7fa54c870bd0cc53b74f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BossID: 
-  Name: 
-  Health: 0
-  Speed: 0
-  Coin_Bonus: 0
-  Experience_Bonus: 0
-  Point_Skill: 0
-  CurrentHealth: 0
-  BossHealth: {fileID: 0}
-  IsDead: 0
-  Transform_GroundSlash: {fileID: 1159515133}
-  Transform_BeastBomb: {fileID: 270921588}
-  Transform_EarthRock: {fileID: 1389707000}
 --- !u!50 &5762491573222706124
 Rigidbody2D:
   serializedVersion: 4
@@ -443,6 +420,70 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &5892934405890719459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965142497738684166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7dadb7fa4213749b2fbc990179795a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BossID: 
+  Name: 
+  Health: 0
+  Speed: 0
+  Coin_Bonus: 0
+  Experience_Bonus: 0
+  Point_Skill: 0
+  CurrentHealth: 0
+  BossHealth: {fileID: 0}
+  IsDead: 0
+  Transform_GroundSlash: {fileID: 0}
+  Transform_BeastBomb: {fileID: 0}
+  Transform_EarthRock: {fileID: 0}
+--- !u!114 &2236413987551647297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965142497738684166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 5892934405890719459}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-6579997663670745290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965142497738684166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters: []
+  m_SynchronizeLayers: []
 --- !u!1 &1965142497764471514
 GameObject:
   m_ObjectHideFlags: 0

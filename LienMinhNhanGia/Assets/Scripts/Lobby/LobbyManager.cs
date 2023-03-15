@@ -61,10 +61,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject PlayerItem;
     public Transform PlayerContent;
 
-    [Header("Find Room")]
-    [SerializeField] TMP_Text FindRoomNameTxt;
-    [SerializeField] TMP_Dropdown DropDownBoss;
-
     [Header("Extension")]
     string BossExtension = "Boss/";
 
@@ -90,21 +86,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("JoinLobby");
         bossEntities = new BossDAO().GetAllBoss();
         CreateRoom_BossSelected = bossEntities[0];
-        FindRoom_LoadDropDownBoss();
-    }
-
-    public void FindRoom_LoadDropDownBoss()
-    {
-        DropDownBoss.ClearOptions();
-        List<TMP_Dropdown.OptionData> ListOption = new List<TMP_Dropdown.OptionData>();
-
-        foreach (BossEntity bossEntity in bossEntities)
-        {
-            var option = new TMP_Dropdown.OptionData(bossEntity.Name, Resources.Load<Sprite>(BossExtension + bossEntity.BossID));
-            ListOption.Add(option);
-        }
-        DropDownBoss.options.Add(new TMP_Dropdown.OptionData("All"));
-        DropDownBoss.AddOptions(ListOption);
+        SetUpAccountData();
     }
 
     public override void OnConnectedToMaster()
@@ -383,8 +365,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     public void SetUpAccountData()
     {
-        AccountManager.AccountID = Convert.ToInt32(TestId.text);
-
         Account = new AccountDAO().GetAccountByID(AccountManager.AccountID);
         Account_SkillU = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
         Account_SkillI = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);

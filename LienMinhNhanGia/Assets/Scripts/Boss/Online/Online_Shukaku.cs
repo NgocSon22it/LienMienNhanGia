@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
-public class Shukaku : MonoBehaviour
+public class Online_Shukaku : MonoBehaviourPun, IPunObservable
 {
     public string BossID;
     public string Name;
@@ -16,14 +17,12 @@ public class Shukaku : MonoBehaviour
     public int CurrentHealth;
 
     GameObject obj;
-
-    [SerializeField] BossHealthUI BossHealth;
-
+    [SerializeField] Image CurrentHealthUI;
     CircleCollider2D circleCollider2D;
     Animator animator;
     SpriteRenderer sp;
+    PhotonView PV;
     GameObject Player;
-    private Quaternion Rotation;
     public bool IsDead;
 
     [SerializeField] Transform Transform_GroundSlash;
@@ -35,40 +34,46 @@ public class Shukaku : MonoBehaviour
         animator = GetComponent<Animator>();
         circleCollider2D = GetComponent<CircleCollider2D>();
         sp = GetComponent<SpriteRenderer>();
+        PV = GetComponent<PhotonView>();
         Player = GameObject.FindGameObjectWithTag("Player").gameObject;
         obj = Boss_SkillPool.Instance.GetBeastBombFromPool();
         StartCoroutine(StartGame());
+        CurrentHealthUI.fillAmount = 1f;
     }
 
-
+    
+    public void SetUpHealthUI()
+    {
+        CurrentHealthUI.fillAmount = (float)CurrentHealth / (float)Health;
+    }
 
     public void SetUpBossFight()
     {
         BossEntity bossEntity = new BossDAO().GetBossByID("Boss_Shukaku");
         BossID = bossEntity.BossID;
         Name = bossEntity.Name;
-        Health = bossEntity.Health;
+        Health = bossEntity.Health * 3;
         CurrentHealth = Health;
         Speed = bossEntity.Speed;
         Coin_Bonus = bossEntity.Coin_Bonus;
         Experience_Bonus = bossEntity.Experience_Bonus;
         Point_Skill = bossEntity.Point_Skill;
-        BossHealth.SetUpHealth();       
     }
 
     public void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        StartCoroutine(DamageAnimation());
-        BossHealth.SetUpHealth();
+        PV.RPC(nameof(DamageAnimation), RpcTarget.AllBuffered);
+        SetUpHealthUI();
         if (CurrentHealth <= 0)
         {
-            Die();
+            PV.RPC(nameof(Die), RpcTarget.AllBuffered);
         }
     }
+
+    [PunRPC]
     public void Die()
     {
-        GameManager.Instance.NormalCamera();
         IsDead = true;
         obj.SetActive(false);
         StopAllCoroutines();
@@ -76,6 +81,12 @@ public class Shukaku : MonoBehaviour
         LevelManager.Instance.AddExperience(Experience_Bonus);
 
     }
+    [PunRPC]
+    public void DamageAnimationMethod()
+    {
+        StartCoroutine(DamageAnimation());
+    }
+
     IEnumerator DamageAnimation()
     {
 
@@ -211,4 +222,8 @@ public class Shukaku : MonoBehaviour
         StartCoroutine(Move());
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        
+    }
 }

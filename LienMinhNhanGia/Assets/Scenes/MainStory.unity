@@ -7356,11 +7356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2a8cfae5c7fa54c870bd0cc53b74f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &245602519 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1965142497738684163, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-  m_PrefabInstance: {fileID: 433330532}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &246143358
 GameObject:
   m_ObjectHideFlags: 0
@@ -14035,18 +14030,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1159515132, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-      propertyPath: m_Name
-      value: GroundSlashTransform
-      objectReference: {fileID: 0}
     - target: {fileID: 1742846465, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
       propertyPath: BossHealth
       value: 
       objectReference: {fileID: 801669435}
-    - target: {fileID: 1742846465, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-      propertyPath: Transform_EarthRock
-      value: 
-      objectReference: {fileID: 1389707000}
     - target: {fileID: 1965142497738684163, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -14094,22 +14081,6 @@ PrefabInstance:
     - target: {fileID: 1965142497738684166, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
       propertyPath: m_Name
       value: Shukaku
-      objectReference: {fileID: 0}
-    - target: {fileID: 1965142497738684166, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-      propertyPath: m_Layer
-      value: 23
-      objectReference: {fileID: 0}
-    - target: {fileID: 1965142497738684166, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1965142497738684166, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-      propertyPath: m_TagString
-      value: Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 1965142497738684167, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e26bd85927808cc479abcec216ae26e3, type: 3}
@@ -24821,7 +24792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &801669435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26780,6 +26751,7 @@ MonoBehaviour:
   TriggerPlayer: {fileID: 861479422}
   MapIndex: 1
   NumberMission: 3
+  isOpen: 0
 --- !u!50 &861479421
 Rigidbody2D:
   serializedVersion: 4
@@ -37387,6 +37359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Boss: {fileID: 245602512}
+  BossHealth: {fileID: 801669434}
   BossShadow: {fileID: 1370476326}
   PlayerCamera: {fileID: 34882171}
   BossFightCamera: {fileID: 969679094}
@@ -44134,37 +44107,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1389706999
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1389707000}
-  m_Layer: 6
-  m_Name: EarthRockTransform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1389707000
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389706999}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 245602519}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1390202927
 GameObject:
   m_ObjectHideFlags: 0

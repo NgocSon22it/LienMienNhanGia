@@ -40,6 +40,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
     [Header("Skill Interaction")]
     [SerializeField] public Transform Skill_WaterBall_Transform;
+    [SerializeField] public Transform Skill_WaterSlash_Transform;
 
     [Header("Change Value For Level Up")]
     protected int JumpPower;
@@ -53,6 +54,10 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     float XInput, YInput;
     protected int Combo;
     protected bool CanCombo, IsFacingRight = true;
+
+    [SerializeField] public Transform AttackPoint;
+    [SerializeField] LayerMask LayerToAttack;
+    [SerializeField] public float AttackRange;
 
     [Header("Online Show")]
     [SerializeField] GameObject OnlineCamera;
@@ -85,9 +90,9 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         if (PV.IsMine)
         {
             
-            OnlineCameraFollow = Instantiate(OnlineCamera);
+            /*OnlineCameraFollow = Instantiate(OnlineCamera);
             OnlineCameraFollow.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = Online_GameManager.Instance.GetSkyBoxCollider();
-            OnlineCameraFollow.GetComponent<CinemachineVirtualCamera>().m_Follow = gameObject.transform;
+            OnlineCameraFollow.GetComponent<CinemachineVirtualCamera>().m_Follow = gameObject.transform;*/
             PlayerCurrentHealthUI.fillAmount = 1f;
             PlayerCurrentChakraUI.fillAmount = 1f;
         }
@@ -163,20 +168,41 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         SetUpChakra();
         SetUpSpeedAndJumpPower(27, 50);
     }
+    public void NormalAttackDamage()
+    {
+        Collider2D[] HitEnemy = Physics2D.OverlapCircleAll(AttackPoint.position, AttackRange, LayerToAttack);
+
+        if (HitEnemy != null)
+        {
+            foreach (Collider2D Enemy in HitEnemy)
+            {
+                if (Enemy.gameObject.CompareTag("Enemy"))
+                {
+                    Enemy.GetComponent<Monster>().TakeDamage(50);
+                }
+                if (Enemy.gameObject.CompareTag("Boss"))
+                {
+                    Enemy.GetComponent<Shukaku>().TakeDamage(50);
+                }
+                if (Enemy.gameObject.CompareTag("BreakItem"))
+                {
+                    Enemy.GetComponent<BreakItem>().Break();
+                }
+            }
+        }
+    }
 
     [PunRPC]
     public void SetUpHealthUI()
     {
         PlayerCurrentHealthNumberUI.text = GetCurrentHealth() + " / " + GetTotalHealth();      
         PlayerCurrentHealthUI.fillAmount = (float)GetCurrentHealth() / (float)GetTotalHealth();
-        Debug.Log(GetCurrentHealth() + "/" + GetTotalHealth());
     }
     [PunRPC]
     public void SetUpChakraUI()
     {
         PlayerCurrentChakraNumberUI.text = GetCurrentChakra() + " / " + GetTotalChakra();
         PlayerCurrentChakraUI.fillAmount = (float)GetCurrentChakra() / (float)GetTotalChakra();
-        Debug.Log(GetCurrentChakra() + "/" + GetTotalChakra());
     }
     public void SetUpHealth()
     {
