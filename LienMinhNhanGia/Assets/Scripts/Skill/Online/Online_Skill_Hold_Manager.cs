@@ -35,10 +35,6 @@ public class Online_Skill_Hold_Manager : MonoBehaviour
         }
     }
 
-    public void WaterBall()
-    {
-        localPlayer.CallTrigger("SetTriggerSkill_WaterBall");
-    }
 
     public void WaterSword()
     {

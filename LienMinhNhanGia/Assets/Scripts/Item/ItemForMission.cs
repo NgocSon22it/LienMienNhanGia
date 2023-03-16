@@ -32,7 +32,6 @@ public class ItemForMission : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             MissionManager.Instance.IncreaseCurrentMission(MissionID);
-            MissionManager.Instance.MissionCount++;
             gameObject.SetActive(false);
         }
     }

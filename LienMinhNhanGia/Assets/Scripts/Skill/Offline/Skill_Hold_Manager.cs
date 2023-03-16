@@ -81,11 +81,11 @@ public class Skill_Hold_Manager : MonoBehaviour
 
     public void ControlSkill(KeyCode key, AccountSkillEntity accountSkillEntity, SkillEntity skillEntity)
     {
-        if (Input.GetKeyDown(key) && accountSkillEntity != null && skillEntity != null && OfflinePlayer.Instance.GetCurrentChakra() >= (skillEntity.Chakra - accountSkillEntity.CurrentLevel))
+        if (Input.GetKeyDown(key) && accountSkillEntity != null && skillEntity != null && OfflinePlayer.Instance.GetCurrentChakra() >= (skillEntity.Chakra + 1 - accountSkillEntity.CurrentLevel))
         {
             Skill = new SkillDAO().GetSkillbyID(accountSkillEntity.SkillID);
             CallMethodName(Skill.SkillID);
-            OfflinePlayer.Instance.SetCurrentChakra(OfflinePlayer.Instance.GetCurrentChakra() - (skillEntity.Chakra - accountSkillEntity.CurrentLevel));
+            OfflinePlayer.Instance.SetCurrentChakra(OfflinePlayer.Instance.GetCurrentChakra() - (skillEntity.Chakra + 1 - accountSkillEntity.CurrentLevel));
             PlayerUIManager.Instance.UpdatePlayerChakraUI();
         }
     }

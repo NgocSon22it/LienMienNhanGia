@@ -77,7 +77,7 @@ public class Skill_Slot : MonoBehaviour, IPointerClickHandler
             CostUI.gameObject.SetActive(true);
 
             Skill = skillEntity;
-            CostUI.text = (Skill.Chakra - accountSkillEntity.CurrentLevel).ToString();
+            CostUI.text = (Skill.Chakra + 1 - accountSkillEntity.CurrentLevel).ToString();
             ImageUI.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);
             SkillImage.sprite = Resources.Load<Sprite>(Extension + Skill.SkillID);         
             SetUpStatusPanel(false, true);

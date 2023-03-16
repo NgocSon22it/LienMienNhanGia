@@ -132,6 +132,7 @@ public class SkillManager : MonoBehaviour
             ShowInformationSelectedSkill(skill);
             SetUpStatusForUpgrade(skill);
             LoadAccountSkillList();
+            LoadAccountSkillSlot();
         }
 
     }

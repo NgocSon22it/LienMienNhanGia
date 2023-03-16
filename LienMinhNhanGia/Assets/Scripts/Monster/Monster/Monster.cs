@@ -71,7 +71,7 @@ public class Monster : MonoBehaviour
 
     public void Die()
     {
-        if (Monster_ID.Equals("Monster_Tete"))
+        if (Monster_ID.Equals("Monster_Tete") || Monster_ID.Equals("Monster_Centipede"))
         {
             animator.SetTrigger("Die");
         }

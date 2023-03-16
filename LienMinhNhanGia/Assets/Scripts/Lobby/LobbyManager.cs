@@ -72,16 +72,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     bool IsReady;
 
     List<BossEntity> bossEntities = new List<BossEntity>();
-    private static Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
+    public static Dictionary<string, RoomInfo> cachedRoomList = new Dictionary<string, RoomInfo>();
     ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
     private void Awake()
     {
         Instance = this;
+        ConnectServer();
     }
 
     private void Start()
     {
-        ConnectServer();
+        
         PhotonNetwork.JoinLobby();
         Debug.Log("JoinLobby");
         bossEntities = new BossDAO().GetAllBoss();
@@ -102,10 +103,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Debug.Log("Connect to Server");
     }
 
-    public void FindRoom()
-    {
-
-    }
 
     public void CreateRoom_LoadListBossItem()
     {
@@ -141,7 +138,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         string roomBossName = CreateRoom_BossSelected.Name;
         int NumberPlayer = Convert.ToInt32(CreateRoom_DropDownNumberPlayerJoin.options[CreateRoom_DropDownNumberPlayerJoin.value].text);
         string roomName = CreateRoom_NameInput.text;
-
+        
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.IsVisible = true;
         roomOptions.IsOpen = true;
@@ -437,5 +434,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         CreateRoom_PasswordPanel.SetActive(status);
         CreateRoomWithPassword = status;
+    }
+
+    public void ReturnToStory()
+    {
+        SceneManager.LoadSceneAsync("MainStory");
+    }
+
+    private void OnApplicationQuit()
+    {
+        new AccountDAO().SaveAccountData(AccountManager.Account);
     }
 }

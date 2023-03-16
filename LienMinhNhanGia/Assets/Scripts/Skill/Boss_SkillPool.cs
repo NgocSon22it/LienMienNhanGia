@@ -5,7 +5,7 @@ using UnityEngine;
 public class Boss_SkillPool : MonoBehaviour
 {
     [Header("Handle Amount Skill")]
-    int AmountSkill = 5;
+    [SerializeField]int AmountSkill;
 
     [SerializeField] GameObject GroundSlash;
     List<GameObject> ListGroundSlash = new List<GameObject>();

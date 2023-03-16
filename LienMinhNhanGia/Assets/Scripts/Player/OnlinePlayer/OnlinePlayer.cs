@@ -7,6 +7,13 @@ using UnityEngine;
 
 public class OnlinePlayer : OnlineCharacter
 {
+    public static OnlinePlayer Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     new void Start()
     {
         base.Start();

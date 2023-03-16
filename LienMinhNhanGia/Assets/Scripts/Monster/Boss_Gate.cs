@@ -7,8 +7,7 @@ public class Boss_Gate : MonoBehaviour
     [SerializeField] GameObject GuidePanel;
     [SerializeField] int MaxVertical, MinVertical;
     [SerializeField] BoxCollider2D TriggerPlayer;
-    [SerializeField] int MapIndex;
-    [SerializeField] int NumberMission;
+    [SerializeField] List<string> ListMissionID;
 
     public bool isOpen;
     bool isDetectPlayer;
@@ -27,7 +26,7 @@ public class Boss_Gate : MonoBehaviour
     }
     private void Update()
     {
-        if (isDetectPlayer && !isOpen && MissionManager.Instance.MissionCount == NumberMission)
+        if (isDetectPlayer && !isOpen && CanOpenGate())
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
@@ -44,6 +43,25 @@ public class Boss_Gate : MonoBehaviour
             transform.position = new Vector2(transform.position.x, MinVertical);
             rb.velocity = Vector2.zero;
         }
+    }
+    public bool CanOpenGate()
+    {
+        bool checkValue = true;
+        if (AccountManager.ListAccountMission.Count > 0)
+        {
+            foreach (AccountMissionEntity missionEntity in AccountManager.ListAccountMission)
+            {
+                if (ListMissionID.Contains(missionEntity.MissionID))
+                {
+                    if(missionEntity.State == 0)
+                    {
+                        return false;
+                    }
+                    checkValue = missionEntity.State == 1 ? true : false;
+                }
+            }
+        }
+        return checkValue;
     }
 
     public void OpenDoor()
@@ -78,6 +96,7 @@ public class Boss_Gate : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             ShowGuidePanel();
+            AccountManager.UpdateListAccountMission();
         }
     }
 

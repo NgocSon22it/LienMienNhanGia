@@ -21,10 +21,10 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     protected int MovementSpeed;
 
     [Header("Component")]
-    protected Rigidbody2D rigidbody2d;
+    public Rigidbody2D rigidbody2d;
     protected SpriteRenderer spriteRenderer;
     protected Animator animator;
-    protected BoxCollider2D boxCollider2d;
+    public CapsuleCollider2D capsuleCollider2D;
     protected PhotonView PV;
 
     [Header("Enviroment Interaction")]
@@ -44,7 +44,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
     [Header("Change Value For Level Up")]
     protected int JumpPower;
-    protected int JumpTime, JumpTimeMax = 1;
+    protected int JumpTime, JumpTimeMax = 2;
     protected bool IsFalling, IsGround, IsTouchSlope;
     protected float VelocityY;
     protected bool IsWalking;
@@ -60,15 +60,12 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     [SerializeField] public float AttackRange;
 
     [Header("Online Show")]
-    [SerializeField] GameObject OnlineCamera;
     [SerializeField] TMP_Text PlayerNameUITxt;
     [SerializeField] Vector3 Offset;
-    [SerializeField] GameObject PlayerUI;
+    [SerializeField] GameObject PlayerHealthUI;
+    [SerializeField] GameObject PlayerChakraUI;
     [SerializeField] Image PlayerCurrentHealthUI;
     [SerializeField] Image PlayerCurrentChakraUI;
-    [SerializeField] TMP_Text PlayerCurrentHealthNumberUI;
-    [SerializeField] TMP_Text PlayerCurrentChakraNumberUI;
-    GameObject OnlineCameraFollow;
 
     Vector3 realPosition;
     Quaternion realRotation;
@@ -78,32 +75,48 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     Vector3 positionAtLastPacket = Vector3.zero;
     Quaternion rotationAtLastPacket = Quaternion.identity;
 
+    bool IsHurt;
+    public bool IsDie;
+
     public void Start()
     {
+        SetUpSkill();
         rigidbody2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        boxCollider2d = GetComponent<BoxCollider2D>();
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         PV = GetComponent<PhotonView>();
         PlayerNameUITxt.text = PV.Owner.NickName;
         SetUpPlayer();
-        if (PV.IsMine)
+
+        PlayerCurrentHealthUI.fillAmount = 1f;
+        PlayerCurrentChakraUI.fillAmount = 1f;
+        InvokeRepeating(nameof(CallRegen), 1f, 10f);
+    }
+
+    public void CallRegen()
+    {
+        PV.RPC(nameof(RegenChakra), RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void RegenChakra()
+    {
+        if (IsDie) return;
+        if (CurrentChakra >= TotalChakra)
         {
-            
-            /*OnlineCameraFollow = Instantiate(OnlineCamera);
-            OnlineCameraFollow.GetComponent<CinemachineConfiner2D>().m_BoundingShape2D = Online_GameManager.Instance.GetSkyBoxCollider();
-            OnlineCameraFollow.GetComponent<CinemachineVirtualCamera>().m_Follow = gameObject.transform;*/
-            PlayerCurrentHealthUI.fillAmount = 1f;
-            PlayerCurrentChakraUI.fillAmount = 1f;
+            CurrentChakra = TotalChakra;
         }
         else
         {
-
+            CurrentChakra += 1;
         }
+        SetUpChakraUI();
     }
-
     public void Update()
     {
+        if (IsDie) return;
+
         if (CanWalking)
         {
             XInput = Input.GetAxis("Horizontal");
@@ -116,7 +129,8 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         }
 
         PlayerNameUITxt.transform.position = Camera.main.WorldToScreenPoint(transform.position + Offset);
-        PlayerUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,5,0));
+        PlayerHealthUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 6, 0));
+        PlayerChakraUI.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 5.6f, 0));
         VelocityY = rigidbody2d.velocity.y;
         IsGround = CheckIsGround();
         IsTouchSlope = CheckIsTouchSlope();
@@ -130,6 +144,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         {
             Jump();
             NormalAttack();
+            ExecuteSkill();
         }
 
         animator.SetBool("IsGround", IsGround);
@@ -140,7 +155,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
     public void FixedUpdate()
     {
-
+        if (IsDie) return;
         if (PV.IsMine)
         {
             Walk();
@@ -166,6 +181,8 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     {
         SetUpHealth();
         SetUpChakra();
+        PV.RPC(nameof(SetUpHealthUI), RpcTarget.All);
+        PV.RPC(nameof(SetUpChakraUI), RpcTarget.All);
         SetUpSpeedAndJumpPower(27, 50);
     }
     public void NormalAttackDamage()
@@ -176,17 +193,9 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         {
             foreach (Collider2D Enemy in HitEnemy)
             {
-                if (Enemy.gameObject.CompareTag("Enemy"))
-                {
-                    Enemy.GetComponent<Monster>().TakeDamage(50);
-                }
                 if (Enemy.gameObject.CompareTag("Boss"))
                 {
-                    Enemy.GetComponent<Shukaku>().TakeDamage(50);
-                }
-                if (Enemy.gameObject.CompareTag("BreakItem"))
-                {
-                    Enemy.GetComponent<BreakItem>().Break();
+                    Enemy.GetComponent<Online_Shukaku>().TakeDamage(50);
                 }
             }
         }
@@ -195,13 +204,11 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void SetUpHealthUI()
     {
-        PlayerCurrentHealthNumberUI.text = GetCurrentHealth() + " / " + GetTotalHealth();      
         PlayerCurrentHealthUI.fillAmount = (float)GetCurrentHealth() / (float)GetTotalHealth();
     }
     [PunRPC]
     public void SetUpChakraUI()
     {
-        PlayerCurrentChakraNumberUI.text = GetCurrentChakra() + " / " + GetTotalChakra();
         PlayerCurrentChakraUI.fillAmount = (float)GetCurrentChakra() / (float)GetTotalChakra();
     }
     public void SetUpHealth()
@@ -220,13 +227,34 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         JumpPower = Jump;
     }
 
-    [PunRPC]
+
     public void TakeDamage(int damage)
     {
+        if (IsHurt) return;
         CurrentHealth -= damage;
-        CurrentChakra -= damage;
         PV.RPC(nameof(SetUpHealthUI), RpcTarget.All);
-        PV.RPC(nameof(SetUpChakraUI), RpcTarget.All);
+        CameraManager.Instance.StartShakeScreen(Strong, Frequency, Duration);
+        StartCoroutine(DamageAnimation());
+        if(CurrentHealth <= 0)
+        {
+            animator.SetTrigger("Die");
+        }
+
+    }
+
+    public IEnumerator DamageAnimation()
+    {
+        IsHurt = true;
+        for (int i = 0; i < 10; i++)
+        {
+            spriteRenderer.color = Color.red;
+
+            yield return new WaitForSeconds(.1f);
+
+            spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(.1f);
+        }
+        IsHurt = false;
     }
 
     public void SetCurrentHealth(int Health)
@@ -246,6 +274,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     {
         return TotalHealth;
     }
+    [PunRPC]
     public void SetCurrentChakra(int Chakra)
     {
         CurrentChakra = Chakra;
@@ -312,10 +341,12 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         animator.SetTrigger("Skill_WaterBall");
     }
 
-    public void CallTrigger(string TriggerName)
+    [PunRPC]
+    public void SetTriggerSkill_WaterSlash()
     {
-        PV.RPC(TriggerName, RpcTarget.All);
+        animator.SetTrigger("Skill_WaterSlash");
     }
+
 
     #endregion
 
@@ -338,7 +369,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         IsFacingRight = !IsFacingRight;
         transform.Rotate(0, 180, 0);
     }
-   
+
     public void NormalAttack()
     {
         if (Input.GetKeyDown(KeyCode.J) && !CanCombo)
@@ -407,7 +438,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     {
         CanWalking = value;
     }
-    
+
 
     public void Spawn_WaterBall()
     {
@@ -420,6 +451,94 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             waterball.SetActive(true);
         }
     }
+
+    public void Spawn_WaterSlash()
+    {
+        GameObject waterSlash = Skill_Pool.Instance.GetWaterSlashFromPool();
+
+        if (waterSlash != null)
+        {
+            waterSlash.transform.position = Skill_WaterSlash_Transform.position;
+            waterSlash.transform.rotation = Skill_WaterSlash_Transform.rotation;
+            waterSlash.SetActive(true);
+        }
+    }
+
+    AccountSkillEntity AccountSkill_U;
+    AccountSkillEntity AccountSkill_I;
+    AccountSkillEntity AccountSkill_O;
+
+    SkillEntity Skill;
+    SkillEntity Skill_U;
+    SkillEntity Skill_I;
+    SkillEntity Skill_O;
+
+    public void Skill_WaterBall()
+    {
+        PV.RPC(nameof(SetTriggerSkill_WaterBall), RpcTarget.AllBuffered);
+    }
+    public void Skill_WaterSlash()
+    {
+        PV.RPC(nameof(SetTriggerSkill_WaterSlash), RpcTarget.AllBuffered);
+    }
+
+
+    public void SetUpSkill()
+    {
+        AccountSkillEntity accountSkillEntityU = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 1);
+        AccountSkillEntity accountSkillEntityI = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 2);
+        AccountSkillEntity accountSkillEntityO = new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, 3);
+
+
+        AccountSkill_U = accountSkillEntityU;
+        if (AccountSkill_U != null) { Skill_U = new SkillDAO().GetSkillbyID(AccountSkill_U.SkillID); }
+        else { Skill_U = null; }
+
+
+        AccountSkill_I = accountSkillEntityI;
+        if (AccountSkill_I != null) { Skill_I = new SkillDAO().GetSkillbyID(AccountSkill_I.SkillID); }
+        else { Skill_I = null; }
+
+        AccountSkill_O = accountSkillEntityO;
+        if (AccountSkill_O != null) { Skill_O = new SkillDAO().GetSkillbyID(AccountSkill_O.SkillID); }
+        else { Skill_O = null; }
+
+    }
+
+
+    public void CallMethodFromHold(string MethodName)
+    {
+        Invoke(MethodName, 0f);
+    }
+
+    public void ControlSkill(KeyCode key, AccountSkillEntity accountSkillEntity, SkillEntity skillEntity)
+    {
+        if (Input.GetKeyDown(key) && accountSkillEntity != null && skillEntity != null && GetCurrentChakra() >= (skillEntity.Chakra - accountSkillEntity.CurrentLevel))
+        {
+            Skill = new SkillDAO().GetSkillbyID(accountSkillEntity.SkillID);
+            CallMethodFromHold(Skill.SkillID);
+            PV.RPC(nameof(SetCurrentChakra), RpcTarget.All, GetCurrentChakra() - (skillEntity.Chakra - accountSkillEntity.CurrentLevel));
+            PV.RPC(nameof(SetUpChakraUI), RpcTarget.All);
+        }
+    }
+
+    public void ExecuteSkill() 
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            ControlSkill(KeyCode.U, AccountSkill_U, Skill_U);
+        }
+        else if (Input.GetKeyDown(KeyCode.I))
+        {
+            ControlSkill(KeyCode.I, AccountSkill_I, Skill_I);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            ControlSkill(KeyCode.O, AccountSkill_O, Skill_O);
+        }
+    }
+
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -438,6 +557,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             stream.SendNext(CurrentChakra);
             stream.SendNext(Combo);
             stream.SendNext(CanCombo);
+            stream.SendNext(IsHurt);
         }
         else
         {
@@ -455,6 +575,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
             CurrentChakra = (int)stream.ReceiveNext();
             Combo = (int)stream.ReceiveNext();
             CanCombo = (bool)stream.ReceiveNext();
+            IsHurt = (bool)stream.ReceiveNext();
 
             //Lag compensation
             currentTime = 0.0f;

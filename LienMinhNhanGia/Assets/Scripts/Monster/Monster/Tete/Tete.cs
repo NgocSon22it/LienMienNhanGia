@@ -52,7 +52,7 @@ public class Tete : Monster
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<OfflinePlayer>().TakeDamage(1, transform);
+            collision.GetComponent<OfflinePlayer>().TakeDamage(Damage, transform);
         }
     }
 }

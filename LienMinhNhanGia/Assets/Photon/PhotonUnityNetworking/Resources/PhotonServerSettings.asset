@@ -50,6 +50,18 @@ MonoBehaviour:
   - SetTriggerSkill_WaterBall
   - DamageAnimationMethod
   - Die
+  - SetUpBossFight
+  - CallFirstSkill
+  - CallFouthSkill
+  - CallThirdSkill
+  - CallMove
+  - CallStartGame
+  - SetTriggerAnimationFirstSkill
+  - CallfOUTHSkill
+  - FindClostestPlayer
+  - SetTriggerSkill_WaterSlash
+  - SetCurrentChakra
+  - RegenChakra
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4948908577197652889}
   - component: {fileID: 600363114435481789}
   - component: {fileID: 7514047206327979965}
-  - component: {fileID: 1169823716919275769}
+  - component: {fileID: 3774700448489153965}
   m_Layer: 0
   m_Name: GroundSlash
   m_TagString: Untagged
@@ -170,7 +170,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1169823716919275769
+--- !u!114 &3774700448489153965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,4 +185,4 @@ MonoBehaviour:
   ListTag:
   - Player
   - Gate
-  Speed: 30
+  Speed: 35

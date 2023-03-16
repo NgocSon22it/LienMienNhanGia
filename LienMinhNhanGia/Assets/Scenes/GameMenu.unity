@@ -1376,8 +1376,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingMenu, Assembly-CSharp
+      - m_Target: {fileID: 1308091536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
         m_MethodName: ToggleMusic
         m_Mode: 1
         m_Arguments:
@@ -7160,6 +7160,10 @@ MonoBehaviour:
   PlayerNameTxt: {fileID: 1928741135}
   PlayerCoinTxt: {fileID: 2102221342}
   OptionPanel: {fileID: 1603775521}
+  MusicCheckBox: {fileID: 214640182}
+  SoundCheckBox: {fileID: 1952012799}
+  MusicAudioMixer: {fileID: 24100000, guid: 36466a3e0e7e970448f0f301e71dab8f, type: 2}
+  SoundAudioMixer: {fileID: 24100000, guid: 67a5120584a0cdb44a716d55388ca181, type: 2}
 --- !u!1 &1346469439
 GameObject:
   m_ObjectHideFlags: 0
@@ -10379,8 +10383,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SettingMenu, Assembly-CSharp
+      - m_Target: {fileID: 1308091536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
         m_MethodName: ToggleSound
         m_Mode: 1
         m_Arguments:

@@ -127,7 +127,8 @@ public class Black_Dog : Monster
 
     public void AttackDamage()
     {
-        Instantiate(Bite, PlaceBite.position, Quaternion.identity);
+        GameObject obj = Instantiate(Bite, PlaceBite.position, Quaternion.identity);
+        Destroy(obj, 2f);
         StartCoroutine(DamagePlayer());
     }
     private bool PlayerEnterArea()
@@ -155,7 +156,7 @@ public class Black_Dog : Monster
         yield return new WaitForSeconds(.2f);
         if (PlayerInSight())
         {
-            offlinePlayer.GetComponent<OfflinePlayer>().TakeDamage(1, transform);
+            offlinePlayer.GetComponent<OfflinePlayer>().TakeDamage(Damage, transform);
         }
     }
 
@@ -163,7 +164,7 @@ public class Black_Dog : Monster
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<OfflinePlayer>().TakeDamage(1, transform);
+            collision.GetComponent<OfflinePlayer>().TakeDamage(Damage, transform);
         }
     }
 

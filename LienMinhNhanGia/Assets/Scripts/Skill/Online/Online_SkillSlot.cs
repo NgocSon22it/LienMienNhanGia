@@ -38,6 +38,7 @@ public class Online_SkillSlot : MonoBehaviour, IPointerClickHandler
     {
         AccountSkillEntity accountSkillEntity =
         new Account_SkillDAO().GetAccountSkillbySlotIndex(AccountManager.AccountID, SlotIndex);
+        
 
         if (accountSkillEntity != null)
         {

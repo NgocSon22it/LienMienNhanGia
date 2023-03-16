@@ -168,4 +168,5 @@ MonoBehaviour:
   - Slope
   - Wall
   - Boss
+  - Gate
   Speed: 35

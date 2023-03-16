@@ -255,7 +255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1965142497738684163
 Transform:
   m_ObjectHideFlags: 0
@@ -378,8 +378,8 @@ MonoBehaviour:
   - {fileID: 1965142498229474371}
   - {fileID: 1965142498681976359}
   m_Bounds:
-    m_Center: {x: 0.09142721, y: 0.7251973, z: 0}
-    m_Extent: {x: 1.4643103, y: 1.4627361, z: 0}
+    m_Center: {x: 0.091424465, y: 0.7251973, z: 0}
+    m_Extent: {x: 1.4643106, y: 1.4627361, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
@@ -390,7 +390,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1965142497738684166}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -440,11 +440,11 @@ MonoBehaviour:
   Experience_Bonus: 0
   Point_Skill: 0
   CurrentHealth: 0
-  BossHealth: {fileID: 0}
+  CurrentHealthUI: {fileID: 0}
   IsDead: 0
-  Transform_GroundSlash: {fileID: 0}
-  Transform_BeastBomb: {fileID: 0}
-  Transform_EarthRock: {fileID: 0}
+  Transform_GroundSlash: {fileID: 1159515133}
+  Transform_BeastBomb: {fileID: 270921588}
+  Transform_EarthRock: {fileID: 1389707000}
 --- !u!114 &2236413987551647297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,7 +464,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 5892934405890719459}
+  - {fileID: -6579997663670745290}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -482,8 +482,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 0
+    Name: FirstSkill
+  - Type: 4
+    SynchronizeType: 0
+    Name: FouthSkill
+  - Type: 4
+    SynchronizeType: 0
+    Name: SecondSkill
+  - Type: 4
+    SynchronizeType: 0
+    Name: ThirdSkill
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &1965142497764471514
 GameObject:
   m_ObjectHideFlags: 0

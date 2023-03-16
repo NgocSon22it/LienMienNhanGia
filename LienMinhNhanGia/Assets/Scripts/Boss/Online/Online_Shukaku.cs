@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,19 +30,12 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     [SerializeField] Transform Transform_BeastBomb;
     [SerializeField] Transform Transform_EarthRock;
 
-    private void OnEnable()
+    private void Start()
     {
-        animator = GetComponent<Animator>();
-        circleCollider2D = GetComponent<CircleCollider2D>();
-        sp = GetComponent<SpriteRenderer>();
-        PV = GetComponent<PhotonView>();
-        Player = GameObject.FindGameObjectWithTag("Player").gameObject;
-        obj = Boss_SkillPool.Instance.GetBeastBombFromPool();
-        StartCoroutine(StartGame());
-        CurrentHealthUI.fillAmount = 1f;
+        SetUpBossFight();
     }
 
-    
+
     public void SetUpHealthUI()
     {
         CurrentHealthUI.fillAmount = (float)CurrentHealth / (float)Health;
@@ -49,42 +43,48 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
 
     public void SetUpBossFight()
     {
-        BossEntity bossEntity = new BossDAO().GetBossByID("Boss_Shukaku");
-        BossID = bossEntity.BossID;
-        Name = bossEntity.Name;
-        Health = bossEntity.Health * 3;
-        CurrentHealth = Health;
-        Speed = bossEntity.Speed;
-        Coin_Bonus = bossEntity.Coin_Bonus;
-        Experience_Bonus = bossEntity.Experience_Bonus;
-        Point_Skill = bossEntity.Point_Skill;
-    }
+        BossID = "Boss_Shukaku";
+        Name = "Shukaku";
+        Health = 3000;
+        CurrentHealth = 3000;
+        Speed = 0;
+        Coin_Bonus = 300;
+        Experience_Bonus = 300;
+        animator = GetComponent<Animator>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
+        sp = GetComponent<SpriteRenderer>();
+        PV = GetComponent<PhotonView>();
+        obj = Boss_SkillPool.Instance.GetBeastBombFromPool();
+        CurrentHealthUI.fillAmount = 1f;
+        StartCoroutine(Move());
 
-    public void TakeDamage(int damage)
+    }
+    public void GetTakeDamage(int Damage)
     {
-        CurrentHealth -= damage;
-        PV.RPC(nameof(DamageAnimation), RpcTarget.AllBuffered);
-        SetUpHealthUI();
-        if (CurrentHealth <= 0)
-        {
-            PV.RPC(nameof(Die), RpcTarget.AllBuffered);
-        }
+        PV.RPC(nameof(TakeDamage), RpcTarget.AllBuffered, Damage);
     }
 
     [PunRPC]
+    public void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+        StartCoroutine(DamageAnimation());
+        SetUpHealthUI();
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
     public void Die()
     {
         IsDead = true;
         obj.SetActive(false);
         StopAllCoroutines();
         gameObject.SetActive(false);
-        LevelManager.Instance.AddExperience(Experience_Bonus);
 
-    }
-    [PunRPC]
-    public void DamageAnimationMethod()
-    {
-        StartCoroutine(DamageAnimation());
+        Online_GameManager.Instance.WinGame();
+
     }
 
     IEnumerator DamageAnimation()
@@ -99,10 +99,6 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     {
         StartCoroutine(ExecuteFirstSkill());
     }
-    public void SecondSkill()
-    {
-        StartCoroutine(ExecuteThirdSkill());
-    }
     public void ThirdSkill()
     {
         StartCoroutine(ExecuteThirdSkill());
@@ -111,6 +107,8 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     {
         StartCoroutine(ExecuteFouthSkill());
     }
+
+
     IEnumerator ExecuteFirstSkill()
     {
         obj = Boss_SkillPool.Instance.GetGroundSlashFromPool();
@@ -136,6 +134,7 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
             obj.SetActive(true);
         }
         yield return new WaitForSeconds(4f);
+        PV.RPC(nameof(FindClostestPlayer), RpcTarget.AllBuffered);
         Vector2 direction = (Vector2)Player.transform.Find("MainPoint").position - (Vector2)Transform_BeastBomb.position;
         direction.Normalize();
         obj.GetComponent<Rigidbody2D>().AddForce(direction * 3000);
@@ -147,15 +146,15 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     }
     IEnumerator ExecuteFouthSkill()
     {
-        yield return new WaitForSeconds(1f);
-        Transform_EarthRock.position = new Vector3(Player.transform.position.x, 0, 3);
+        PV.RPC(nameof(FindClostestPlayer), RpcTarget.AllBuffered);
+        Transform_EarthRock.position = new Vector3(Player.transform.position.x, -0.5f, 3);
         Vector3 localPos = Transform_EarthRock.position;
         localPos.x = Player.transform.position.x;
 
         obj = Boss_SkillPool.Instance.GetFirstRockFromPool();
         if (obj != null)
         {
-            localPos.y = -20f;
+            localPos.y = -26f;
             Transform_EarthRock.localPosition = localPos;
 
             obj.transform.position = Transform_EarthRock.localPosition;
@@ -167,7 +166,7 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
         obj = Boss_SkillPool.Instance.GetEarthRockFromPool();
         if (obj != null)
         {
-            localPos.y = -14f;
+            localPos.y = -20f;
             Transform_EarthRock.localPosition = localPos;
 
             obj.transform.position = Transform_EarthRock.localPosition;
@@ -184,46 +183,99 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     {
         if (!IsDead)
         {
-            yield return new WaitForSeconds(0.5f);
-            int a = Random.Range(0, 4);
-            switch (a)
+            if (Online_GameManager.Instance.IsStopGame == false)
             {
-                case 0:
-                    animator.SetTrigger("FirstSkill");
-                    break;
-                case 1:
-                    //animator.SetBool("ThirdSkill", true);
-                    StartCoroutine(Move());
-                    break;
-                case 2:
-                    animator.SetBool("ThirdSkill", true);
-                    break;
-                case 3:
-                    animator.SetBool("FouthSkill", true);
-                    break;
+                yield return new WaitForSeconds(0.5f);
+                int a = Random.Range(0, 4);               
+                switch (a)
+                {
+                    case 0:
+                        PV.RPC(nameof(CallFirstSkill), RpcTarget.AllBuffered);
+                        break;
+                    case 1:
+                        PV.RPC(nameof(CallFirstSkill), RpcTarget.AllBuffered);
+                        break;
+                    case 2:
+                        PV.RPC(nameof(CallThirdSkill), RpcTarget.AllBuffered);
+                        break;
+                    case 3:
+                        PV.RPC(nameof(CallFouthSkill), RpcTarget.AllBuffered);
+                        break;
+                }
             }
+            else
+            {
+                Debug.Log("K nha");
+                StopAllCoroutines();
+            }
+
         }
     }
+
+    [PunRPC]
+    public void CallFirstSkill()
+    {
+        animator.SetTrigger("FirstSkill");
+    }
+    [PunRPC]
+    public void CallThirdSkill()
+    {
+        animator.SetBool("ThirdSkill", true);
+    }
+    [PunRPC]
+    public void CallFouthSkill()
+    {
+        animator.SetBool("FouthSkill", true);
+    }
+
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.GetComponent<OfflineCharacter>().TakeDamage(1, transform);
+            collision.GetComponent<OnlinePlayer>().TakeDamage(1);
         }
     }
 
-    public IEnumerator StartGame()
+    [PunRPC]
+    public void FindClostestPlayer()
     {
-        sp.color = Color.white;
-        SetUpBossFight();
-        IsDead = false;
-        yield return new WaitForSeconds(2f);
-        circleCollider2D.enabled = true;
-        StartCoroutine(Move());
+        float distanceToClosestPlayer = Mathf.Infinity;
+        GameObject closestPlayer = null;
+        GameObject[] allPlayer = GameObject.FindGameObjectsWithTag("Player");
+
+
+        foreach (GameObject currentPlayer in allPlayer)
+        {
+            float distanceToEnemy = (currentPlayer.transform.position - this.transform.position).sqrMagnitude;
+            if (distanceToEnemy < distanceToClosestPlayer)
+            {
+                distanceToClosestPlayer = distanceToEnemy;
+                closestPlayer = currentPlayer;
+            }
+
+        }
+
+        Player = closestPlayer;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
+        if (stream.IsWriting)
+        {
+
+
+            stream.SendNext(CurrentHealth);
+            stream.SendNext(Health);
+
+        }
+        else
+        {
+
+            CurrentHealth = (int)stream.ReceiveNext();
+            Health = (int)stream.ReceiveNext();
+
+
+        }
     }
 }

@@ -19,7 +19,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     string CurrentChat;
     string privateRecive;
 
-
     public static ChatManager Instance;
 
     private void Awake()

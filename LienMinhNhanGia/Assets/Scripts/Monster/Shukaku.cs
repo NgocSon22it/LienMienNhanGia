@@ -181,8 +181,7 @@ public class Shukaku : MonoBehaviour
                     animator.SetTrigger("FirstSkill");
                     break;
                 case 1:
-                    //animator.SetBool("ThirdSkill", true);
-                    StartCoroutine(Move());
+                    animator.SetTrigger("FirstSkill");
                     break;
                 case 2:
                     animator.SetBool("ThirdSkill", true);

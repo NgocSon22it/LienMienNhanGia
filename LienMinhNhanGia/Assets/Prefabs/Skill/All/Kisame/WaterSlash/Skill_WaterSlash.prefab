@@ -152,6 +152,7 @@ MonoBehaviour:
   - Slope
   - Wall
   - Boss
+  - Gate
   Speed: 40
 --- !u!61 &-5870549490609488200
 BoxCollider2D:

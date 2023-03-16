@@ -87,7 +87,6 @@ public class AccountDAO
             connection.Close();
         }
     }
-
     public AccountEntity CheckLogin(string username, string password)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -137,7 +136,6 @@ public class AccountDAO
         }
         return null;
     }
-
     public void CreateAccount(AccountEntity account)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -152,7 +150,6 @@ public class AccountDAO
             connection.Close();
         }
     }
-
     public void SaveAccountData(AccountEntity account)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -168,7 +165,6 @@ public class AccountDAO
             connection.Close();
         }
     }
-
     public AccountEntity GetAccountByUsername(string username)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -219,7 +215,6 @@ public class AccountDAO
         }
         return null;
     }
-
     public static string GetMD5(string str)
     {
         MD5 md5 = new MD5CryptoServiceProvider();

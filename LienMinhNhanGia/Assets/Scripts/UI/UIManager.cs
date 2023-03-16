@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject BossPanel;
     [SerializeField] GameObject PausePanel;
     [SerializeField] GameObject CommonPanel;
+    [SerializeField] TMP_Text CoinTxt;
 
     [Header("All Tab Panel")]
     [SerializeField] List<GameObject> AllTabPanel;
@@ -79,6 +80,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         ExecutePauseGame();
+        CoinTxt.text = AccountManager.Account.Coin.ToString();
     }
 
     public void ControlPauseGame(GameObject Panel, KeyCode key)

@@ -32,13 +32,6 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] Image Skill_O_Image;
     [SerializeField] TMP_Text Skill_O_CostTxt;
 
-    SkillEntity Skill_U;
-    SkillEntity Skill_I;
-    SkillEntity Skill_O;
-
-    string Extension = "Skill/";
-
-
     private void Awake()
     {
         Instance = this;
