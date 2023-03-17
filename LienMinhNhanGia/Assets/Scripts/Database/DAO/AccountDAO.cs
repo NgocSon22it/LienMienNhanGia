@@ -78,7 +78,7 @@ public class AccountDAO
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "Update Account set Coin = Coin, Experience = Experience, Level = @level where Account_ID = " + AccountID;
+            cmd.CommandText = "Update Account set Coin = @coinamount, Experience = @expamount, Level = @level where Account_ID = " + AccountID;
             cmd.Parameters.AddWithValue("@coinamount", CoinAmount);
             cmd.Parameters.AddWithValue("@level", Level);
             cmd.Parameters.AddWithValue("@expamount", ExperinenceAmount);
