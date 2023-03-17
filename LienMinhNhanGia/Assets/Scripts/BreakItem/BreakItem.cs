@@ -7,7 +7,6 @@ public class BreakItem : MonoBehaviour
     GameObject obj;
     protected BreakItem_Type type;
 
-
     public void Break()
     {
         gameObject.SetActive(false);
@@ -34,6 +33,7 @@ public class BreakItem : MonoBehaviour
     }
 
 }
+
 
 public enum BreakItem_Type
 {

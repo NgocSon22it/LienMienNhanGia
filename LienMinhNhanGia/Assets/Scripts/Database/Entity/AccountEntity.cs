@@ -19,6 +19,7 @@ public class AccountEntity
     public int PointSkill;
     public string LinkImage;
     public bool Delete;
+    public bool IsOnline;
 
     public AccountEntity() { }
 }

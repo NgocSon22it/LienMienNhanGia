@@ -26,6 +26,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     protected Animator animator;
     public CapsuleCollider2D capsuleCollider2D;
     protected PhotonView PV;
+    public AudioSource audioSource;
 
     [Header("Enviroment Interaction")]
     [SerializeField] protected LayerMask JumpAbleLayer;
@@ -67,6 +68,12 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
     [SerializeField] Image PlayerCurrentHealthUI;
     [SerializeField] Image PlayerCurrentChakraUI;
 
+
+    [Header("Audio")]
+    [SerializeField] AudioClip AttackSound;
+    [SerializeField] AudioClip WaterBallSound;
+    [SerializeField] AudioClip WaterSlashSound;
+
     Vector3 realPosition;
     Quaternion realRotation;
     float currentTime = 0;
@@ -86,6 +93,7 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
         animator = GetComponent<Animator>();
         capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         PV = GetComponent<PhotonView>();
+        audioSource = GetComponent<AudioSource>();
         PlayerNameUITxt.text = PV.Owner.NickName;
         SetUpPlayer();
 
@@ -174,6 +182,24 @@ public class OnlineCharacter : MonoBehaviourPun, IPunObservable
 
         }
 
+    }
+
+    public void PlaySoundAttack()
+    {
+        audioSource.clip = AttackSound;
+        audioSource.Play();
+    }
+
+    public void PlaySoundWaterBall()
+    {
+        audioSource.clip = WaterBallSound;
+        audioSource.Play();
+    }
+
+    public void PlaySoundWaterSlash()
+    {
+        audioSource.clip = WaterSlashSound;
+        audioSource.Play();
     }
     // RPC to sync position and velocity across network
 

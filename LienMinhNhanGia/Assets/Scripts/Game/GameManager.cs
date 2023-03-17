@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         new AccountDAO().SaveAccountData(AccountManager.Account);
+        new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
     }
 
 }

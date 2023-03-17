@@ -109,15 +109,12 @@ public class Online_GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("Lobby");
         LobbyManager.cachedRoomList.Clear();
     }
-    
+
 
     private void OnApplicationQuit()
     {
         new AccountDAO().SaveAccountData(AccountManager.Account);
+        new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
     }
 
-    /*public PolygonCollider2D GetSkyBoxCollider()
-    {
-        return SkyBox.GetComponent<PolygonCollider2D>();
-    }*/
 }

@@ -20,10 +20,10 @@ public class Monster : MonoBehaviour
     protected int CurrentHealth;
     [SerializeField] protected MonsterUI HealthBar;
 
-
     [Header("Component")]
     protected Animator animator;
     protected Rigidbody2D rigidbody2d;
+    protected AudioSource audioSource;
 
 
     protected bool FacingRight;
@@ -40,6 +40,7 @@ public class Monster : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rigidbody2d = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void SetUpMonster()
@@ -57,6 +58,12 @@ public class Monster : MonoBehaviour
             Link_image = monsterEntity.Link_image;
         }
     }
+
+    public void PlaySoundAttack()
+    {
+        audioSource.Play();
+    }
+
 
     public void TakeDamage(int damage)
     {

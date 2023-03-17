@@ -21,6 +21,7 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     [SerializeField] Image CurrentHealthUI;
     CircleCollider2D circleCollider2D;
     Animator animator;
+    AudioSource audioSource;
     SpriteRenderer sp;
     PhotonView PV;
     GameObject Player;
@@ -29,6 +30,10 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     [SerializeField] Transform Transform_GroundSlash;
     [SerializeField] Transform Transform_BeastBomb;
     [SerializeField] Transform Transform_EarthRock;
+
+    [SerializeField] AudioClip BeastBombSound;
+    [SerializeField] AudioClip RockSound;
+    [SerializeField] AudioClip GroundSlashSound;
 
     private void Start()
     {
@@ -54,6 +59,7 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
         circleCollider2D = GetComponent<CircleCollider2D>();
         sp = GetComponent<SpriteRenderer>();
         PV = GetComponent<PhotonView>();
+        audioSource = GetComponent<AudioSource>();
         obj = Boss_SkillPool.Instance.GetBeastBombFromPool();
         CurrentHealthUI.fillAmount = 1f;
         StartCoroutine(Move());
@@ -119,6 +125,8 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
             obj.transform.rotation = Transform_GroundSlash.rotation;
             obj.SetActive(true);
         }
+        audioSource.clip = GroundSlashSound;
+        audioSource.Play();
         yield return new WaitForSeconds(2f);
         StartCoroutine(Move());
     }
@@ -133,7 +141,10 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
             obj.transform.rotation = Transform_BeastBomb.rotation;
             obj.SetActive(true);
         }
+        audioSource.clip = BeastBombSound;
+        audioSource.Play();
         yield return new WaitForSeconds(4f);
+        audioSource.Stop();
         PV.RPC(nameof(FindClostestPlayer), RpcTarget.AllBuffered);
         Vector2 direction = (Vector2)Player.transform.Find("MainPoint").position - (Vector2)Transform_BeastBomb.position;
         direction.Normalize();
@@ -173,6 +184,8 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
             obj.transform.rotation = Transform_EarthRock.rotation;
             obj.SetActive(true);
         }
+        audioSource.clip = RockSound;
+        audioSource.Play();
         CameraManager.Instance.StartShakeScreen(6, 5, 1);
         yield return new WaitForSeconds(1f);
         animator.SetBool("FouthSkill", false);
@@ -267,11 +280,9 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
 
             stream.SendNext(CurrentHealth);
             stream.SendNext(Health);
-
         }
         else
         {
-
             CurrentHealth = (int)stream.ReceiveNext();
             Health = (int)stream.ReceiveNext();
 

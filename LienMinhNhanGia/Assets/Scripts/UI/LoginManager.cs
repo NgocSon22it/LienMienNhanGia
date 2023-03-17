@@ -13,6 +13,9 @@ public class LoginManager : MonoBehaviour
 
     [SerializeField] GameObject FormMenuUI;
     [SerializeField] GameObject AllSettingMenuUI;
+
+    [SerializeField] GameObject AlreadyLogin;
+
     public void Login()
     {
         if (Username.text.Length == 0)
@@ -36,23 +39,31 @@ public class LoginManager : MonoBehaviour
 
         if (CheckLogin != null)
         {
-            AccountManager.AccountID = CheckLogin.AccountID;
-            AccountManager.Account = CheckLogin;
-            LoginMessage.text = "";
-            FormMenuUI.SetActive(false);
-            AllSettingMenuUI.SetActive(true);
-            Password.text = "";
-            Username.text = "";
-            LoginMessage.text = "";
-            PasswordMessage.text = "";
-            MainMenuUI.Instance.SetUpPlayerInformation();
+            if (CheckLogin.IsOnline)
+            {
+                AlreadyLogin.SetActive(true);
+            }
+            else
+            {
+                new AccountDAO().UpdateAccountOnlineStatus(1, CheckLogin.AccountID);
+                AccountManager.AccountID = CheckLogin.AccountID;
+                AccountManager.Account = CheckLogin;
+                LoginMessage.text = "";
+                FormMenuUI.SetActive(false);
+                AllSettingMenuUI.SetActive(true);
+                Password.text = "";
+                Username.text = "";
+                LoginMessage.text = "";
+                PasswordMessage.text = "";
+                MainMenuUI.Instance.SetUpPlayerInformation();
+            }
         }
         else
         {
             LoginMessage.text = "Tài khoản và Mật khẩu không đúng";
         }
 
-        
+
     }
 }
 

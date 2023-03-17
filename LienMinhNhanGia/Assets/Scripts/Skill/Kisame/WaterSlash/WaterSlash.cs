@@ -50,7 +50,7 @@ public class WaterSlash : MonoBehaviour
                 Explosion.transform.position = transform.position;
                 Explosion.transform.rotation = transform.rotation;
                 Explosion.SetActive(true);
-            }         
+            }
         }
     }
 }

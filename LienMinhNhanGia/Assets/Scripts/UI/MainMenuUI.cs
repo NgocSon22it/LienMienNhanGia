@@ -109,6 +109,8 @@ public class MainMenuUI : MonoBehaviour
     public void ResetDataLogOut()
     {
         OptionPanel.SetActive(false);
+        new AccountDAO().SaveAccountData(AccountManager.Account);
+        new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
     }
 
     public void SetUpPlayerInformation()
@@ -117,5 +119,10 @@ public class MainMenuUI : MonoBehaviour
         PlayerCoinTxt.text = AccountManager.Account.Coin.ToString();      
     }
 
+    private void OnApplicationQuit()
+    {
+        new AccountDAO().SaveAccountData(AccountManager.Account);
+        new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
+    }
 
 }

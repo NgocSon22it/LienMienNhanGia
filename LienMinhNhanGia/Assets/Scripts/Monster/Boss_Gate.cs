@@ -9,9 +9,11 @@ public class Boss_Gate : MonoBehaviour
     [SerializeField] BoxCollider2D TriggerPlayer;
     [SerializeField] List<string> ListMissionID;
 
+
     public bool isOpen;
     bool isDetectPlayer;
     Rigidbody2D rb;
+    AudioSource audioSource;
 
     public static Boss_Gate Instance;
     private void Awake()
@@ -22,7 +24,7 @@ public class Boss_Gate : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        audioSource = GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -66,6 +68,7 @@ public class Boss_Gate : MonoBehaviour
 
     public void OpenDoor()
     {
+        audioSource.Play();
         rb.velocity = transform.up * 10;
         TriggerPlayer.enabled = false;
         isOpen = true;
@@ -73,6 +76,7 @@ public class Boss_Gate : MonoBehaviour
 
     public void CloseDoor()
     {
+        audioSource.Play();
         rb.velocity = -transform.up * 10;
         TriggerPlayer.enabled = true;
         isOpen = false;

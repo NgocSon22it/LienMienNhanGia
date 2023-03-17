@@ -19,8 +19,13 @@ public class Shukaku : MonoBehaviour
 
     [SerializeField] BossHealthUI BossHealth;
 
+    [SerializeField] AudioClip BeastBombSound;
+    [SerializeField] AudioClip RockSound;
+    [SerializeField] AudioClip GroundSlashSound;
+
     CircleCollider2D circleCollider2D;
     Animator animator;
+    AudioSource audioSource;
     SpriteRenderer sp;
     GameObject Player;
     private Quaternion Rotation;
@@ -33,6 +38,7 @@ public class Shukaku : MonoBehaviour
     private void OnEnable()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         circleCollider2D = GetComponent<CircleCollider2D>();
         sp = GetComponent<SpriteRenderer>();
         Player = GameObject.FindGameObjectWithTag("Player").gameObject;
@@ -110,6 +116,8 @@ public class Shukaku : MonoBehaviour
             obj.transform.rotation = Transform_GroundSlash.rotation;
             obj.SetActive(true);
         }
+        audioSource.clip = GroundSlashSound;
+        audioSource.Play();
         yield return new WaitForSeconds(2f);
         StartCoroutine(Move());
     }
@@ -117,6 +125,8 @@ public class Shukaku : MonoBehaviour
     {
 
         yield return new WaitForSeconds(1f);
+        audioSource.clip = BeastBombSound;
+        audioSource.Play();
         obj = Boss_SkillPool.Instance.GetBeastBombFromPool();
         if (obj != null)
         {
@@ -125,6 +135,7 @@ public class Shukaku : MonoBehaviour
             obj.SetActive(true);
         }
         yield return new WaitForSeconds(4f);
+        audioSource.Stop();
         Vector2 direction = (Vector2)Player.transform.Find("MainPoint").position - (Vector2)Transform_BeastBomb.position;
         direction.Normalize();
         obj.GetComponent<Rigidbody2D>().AddForce(direction * 3000);
@@ -163,6 +174,8 @@ public class Shukaku : MonoBehaviour
             obj.transform.rotation = Transform_EarthRock.rotation;
             obj.SetActive(true);
         }
+        audioSource.clip = RockSound;
+        audioSource.Play();
         CameraManager.Instance.StartShakeScreen(6, 5, 1);
         yield return new WaitForSeconds(1f);
         animator.SetBool("FouthSkill", false);

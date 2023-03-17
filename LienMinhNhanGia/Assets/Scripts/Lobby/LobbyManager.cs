@@ -61,9 +61,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public GameObject PlayerItem;
     public Transform PlayerContent;
 
-    [Header("Extension")]
-    string BossExtension = "Boss/";
-
     [Header("Account Information PlayerItem")]
     AccountEntity Account;
     AccountSkillEntity Account_SkillU;
@@ -444,5 +441,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void OnApplicationQuit()
     {
         new AccountDAO().SaveAccountData(AccountManager.Account);
+        new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
     }
 }

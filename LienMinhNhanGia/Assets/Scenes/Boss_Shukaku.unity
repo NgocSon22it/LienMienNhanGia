@@ -1195,6 +1195,7 @@ GameObject:
   - component: {fileID: 341451077}
   - component: {fileID: 341451078}
   - component: {fileID: 341451079}
+  - component: {fileID: 341451080}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1352,6 +1353,102 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 09c2834466792234b84ae7253d82c99f, type: 2}
+--- !u!82 &341451080
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341451073}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 36466a3e0e7e970448f0f301e71dab8f, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 498f35b1f36b28340a5766658c5f9210, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.2
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &442698660
 GameObject:
   m_ObjectHideFlags: 0
@@ -4780,18 +4877,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shukaku
       objectReference: {fileID: 0}
-    - target: {fileID: 1965142497738684166, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2236413987551647297, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5892934405890719459, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
+      propertyPath: RockSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 64b8c11448f42224d9cebdc585326c01, type: 3}
+    - target: {fileID: 5892934405890719459, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
+      propertyPath: BeastBombSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9ead3f09b89ee624f945db7c760d1968, type: 3}
+    - target: {fileID: 5892934405890719459, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
       propertyPath: CurrentHealthUI
       value: 
       objectReference: {fileID: 931933979}
+    - target: {fileID: 5892934405890719459, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
+      propertyPath: GroundSlashSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9bfebac2ab93bf947893686abe7e1ee2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8eea05c777b9c704eb6dab2b8accc8e9, type: 3}
 --- !u!1 &2060490218

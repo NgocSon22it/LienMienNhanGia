@@ -43,7 +43,9 @@ public class AccountDAO
                         BossKill = Convert.ToInt32(dr["Boss_Kill"]),
                         AmountSlotSkill = Convert.ToInt32(dr["Amount_Slot_Skill"]),
                         PointSkill = Convert.ToInt32(dr["Point_Skill"]),
-                        Delete = Convert.ToBoolean(dr["Delete"])
+                        Delete = Convert.ToBoolean(dr["Delete"]),
+                        IsOnline = Convert.ToBoolean(dr["IsOnline"])
+
 
                     };
                     connection.Close();
@@ -59,7 +61,6 @@ public class AccountDAO
 
         return null;
     }
-
     public void UpdateAccountCheckPoint(int AccountID, string CheckPointID)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -72,7 +73,6 @@ public class AccountDAO
             connection.Close();
         }
     }
-
     public void UpdateAccountCoinNLevel(int AccountID, int CoinAmount, int ExperinenceAmount, int Level)
     {
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
@@ -120,7 +120,8 @@ public class AccountDAO
                         BossKill = Convert.ToInt32(dr["Boss_Kill"]),
                         AmountSlotSkill = Convert.ToInt32(dr["Amount_Slot_Skill"]),
                         PointSkill = Convert.ToInt32(dr["Point_Skill"]),
-                        Delete = Convert.ToBoolean(dr["Delete"])
+                        Delete = Convert.ToBoolean(dr["Delete"]),
+                        IsOnline = Convert.ToBoolean(dr["IsOnline"])
 
                     };
                     connection.Close();
@@ -141,7 +142,7 @@ public class AccountDAO
         using (SqlConnection connection = new SqlConnection(ConnectionStr))
         {
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "Insert into Account values(@name,@username,@password,0,'0',0,0,1,'map1_1',0,3,0,0)";
+            cmd.CommandText = "Insert into Account values(@name,@username,@password,0,'0',0,0,1,'map1_1',1,3,0,0,0)";
             cmd.Parameters.AddWithValue("@username", account.Username);
             cmd.Parameters.AddWithValue("@password", GetMD5(account.Password));
             cmd.Parameters.AddWithValue("@name", account.Name);
@@ -160,6 +161,18 @@ public class AccountDAO
             cmd.Parameters.AddWithValue("@exp", account.Experience);
             cmd.Parameters.AddWithValue("@level", account.Level) ;
             cmd.Parameters.AddWithValue("@checkpoint", account.CheckPoint);
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+    public void UpdateAccountOnlineStatus(int status, int AccountID)
+    {
+        using (SqlConnection connection = new SqlConnection(ConnectionStr))
+        {
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "Update Account set IsOnline = @status where Account_ID = " + AccountID;
+            cmd.Parameters.AddWithValue("@status", status);
             connection.Open();
             cmd.ExecuteNonQuery();
             connection.Close();
@@ -198,7 +211,8 @@ public class AccountDAO
                         BossKill = Convert.ToInt32(dr["Boss_Kill"]),
                         AmountSlotSkill = Convert.ToInt32(dr["Amount_Slot_Skill"]),
                         PointSkill = Convert.ToInt32(dr["Point_Skill"]),
-                        Delete = Convert.ToBoolean(dr["Delete"])
+                        Delete = Convert.ToBoolean(dr["Delete"]),
+                        IsOnline = Convert.ToBoolean(dr["IsOnline"])
                     };
                     connection.Close();
 

@@ -16,8 +16,8 @@ public class OfflineCharacter : MonoBehaviour
     [Header("Component")]
     protected Rigidbody2D rigidbody2d;
     protected SpriteRenderer spriteRenderer;
-    [HideInInspector]
     public Animator animator;
+    public AudioSource audioSource;
     protected BoxCollider2D boxCollider2d;
 
     [Header("Enviroment Interaction")]
@@ -40,6 +40,11 @@ public class OfflineCharacter : MonoBehaviour
     public int Strong, Frequency;
     public float Duration;
     bool IsHurt;
+
+    [Header("Audio")]
+    [SerializeField] AudioClip AttackSound;
+    [SerializeField] AudioClip WaterBallSound;
+    [SerializeField] AudioClip WaterSlashSound;
 
     [Header("Change Value For Level Up")]
     protected int JumpPower;
@@ -70,6 +75,7 @@ public class OfflineCharacter : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         boxCollider2d = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
         SetUpPlayer();
         InvokeRepeating(nameof(RegenChakra), 1f, 10f);
     }
@@ -117,6 +123,24 @@ public class OfflineCharacter : MonoBehaviour
             CurrentChakra += 1;
         }
         PlayerUIManager.Instance.UpdatePlayerChakraUI();
+    }
+
+    public void PlaySoundAttack()
+    {
+        audioSource.clip = AttackSound;
+        audioSource.Play();
+    }
+
+    public void PlaySoundWaterBall()
+    {
+        audioSource.clip = WaterBallSound;
+        audioSource.Play();
+    }
+
+    public void PlaySoundWaterSlash()
+    {
+        audioSource.clip = WaterSlashSound;
+        audioSource.Play();
     }
 
     public void SetUpPlayer()
