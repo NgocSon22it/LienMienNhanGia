@@ -13,6 +13,7 @@ public class OnlinePlayer_Die : StateMachineBehaviour
         onlinePlayer.rigidbody2d.isKinematic = true;
         onlinePlayer.capsuleCollider2D.enabled = false;
         onlinePlayer.SetUpSpeedAndJumpPower(0, 0);
+        onlinePlayer.rigidbody2d.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezePositionX;
     }
 
 

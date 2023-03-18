@@ -30,7 +30,7 @@ public class WaterSlash : MonoBehaviour
     {
         if (ListTag.Contains(collision.gameObject.tag))
         {
-            if (collision.gameObject.CompareTag("Ground"))
+            if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Slope"))
             {
                 TurnOff();
             }

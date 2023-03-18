@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Online_GameManager : MonoBehaviourPunCallbacks
 {
@@ -19,10 +21,45 @@ public class Online_GameManager : MonoBehaviourPunCallbacks
 
     public List<GameObject> playerObjects;
 
+    [SerializeField] Toggle MusicCheckBox;
+    [SerializeField] Toggle SoundCheckBox;
+
+    [SerializeField] AudioMixer MusicAudioMixer;
+    [SerializeField] AudioMixer SoundAudioMixer;
+
+    public void ToggleMusic()
+    {
+        if (MusicCheckBox.isOn)
+        {
+            MusicAudioMixer.SetFloat("Volume", 0f);
+            MainMenuUI.MusicStatus = true;
+        }
+        else
+        {
+            MusicAudioMixer.SetFloat("Volume", -80f);
+            MainMenuUI.MusicStatus = false;
+        }
+    }
+    public void ToggleSound()
+    {
+        if (SoundCheckBox.isOn)
+        {
+            SoundAudioMixer.SetFloat("Volume", 0f);
+            MainMenuUI.SoundStatus = true;
+        }
+        else
+        {
+            SoundAudioMixer.SetFloat("Volume", -80f);
+            MainMenuUI.SoundStatus = false;
+        }
+    }
+
     public bool IsStopGame;
     public bool IsWin;
     private void Start()
     {
+        MusicCheckBox.isOn = MainMenuUI.MusicStatus;
+        SoundCheckBox.isOn = MainMenuUI.SoundStatus;
         PhotonNetwork.Instantiate(Path.Combine("Character/Online/", Character.name), SpawnPoint.position, SpawnPoint.rotation);
         // Find all player game objects and add them to the list
         GetPlayerInGame();

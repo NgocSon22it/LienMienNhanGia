@@ -8931,10 +8931,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1000057285090670010, guid: 680d369b850173d47a9ce480dc0964c0, type: 3}
-      propertyPath: Bite
-      value: 
-      objectReference: {fileID: 2849968454049977866, guid: e421a092e4def8345bd56b2bf19849e9, type: 3}
     - target: {fileID: 2191796174510786275, guid: 680d369b850173d47a9ce480dc0964c0, type: 3}
       propertyPath: m_RootOrder
       value: 44
@@ -8982,10 +8978,6 @@ PrefabInstance:
     - target: {fileID: 2191796174510786276, guid: 680d369b850173d47a9ce480dc0964c0, type: 3}
       propertyPath: m_Name
       value: YellowDog (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2191796175931864577, guid: 680d369b850173d47a9ce480dc0964c0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7928659854670480623, guid: 680d369b850173d47a9ce480dc0964c0, type: 3}
       propertyPath: m_AnchorMax.y
@@ -13690,10 +13682,34 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 840671652, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1201952440}
+    - target: {fileID: 840671652, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleMusic
+      objectReference: {fileID: 0}
+    - target: {fileID: 840671652, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 866720172, guid: 431944113496d2140b80f8e30ded5699, type: 3}
       propertyPath: CoinTxt
       value: 
       objectReference: {fileID: 692050064}
+    - target: {fileID: 1051417780, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1201952440}
+    - target: {fileID: 1051417780, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 1051417780, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1052529367, guid: 431944113496d2140b80f8e30ded5699, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -13980,6 +13996,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+--- !u!114 &429510977 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1051417780, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+  m_PrefabInstance: {fileID: 429510976}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &429510978 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 840671652, guid: 431944113496d2140b80f8e30ded5699, type: 3}
+  m_PrefabInstance: {fileID: 429510976}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &431072513
 GameObject:
   m_ObjectHideFlags: 0
@@ -37914,6 +37952,10 @@ MonoBehaviour:
   PlayerCamera: {fileID: 34882171}
   BossFightCamera: {fileID: 969679094}
   BossFightCameraTransform: {fileID: 469008273}
+  MusicCheckBox: {fileID: 429510978}
+  SoundCheckBox: {fileID: 429510977}
+  MusicAudioMixer: {fileID: 24100000, guid: 36466a3e0e7e970448f0f301e71dab8f, type: 2}
+  SoundAudioMixer: {fileID: 24100000, guid: 67a5120584a0cdb44a716d55388ca181, type: 2}
 --- !u!82 &1201952441
 AudioSource:
   m_ObjectHideFlags: 0
@@ -37928,7 +37970,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.2
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -48526,6 +48568,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6303264912249086962, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
+      propertyPath: m_Volume
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6303264912249086962, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: 67a5120584a0cdb44a716d55388ca181, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e171bc7ff0a14a2498d69041976fa06d, type: 3}
 --- !u!1 &1494131272
@@ -59711,22 +59761,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2191796174510786274, guid: d4fd45ae02a09a2448065c21b6eedaa2, type: 3}
-      propertyPath: m_Size.x
-      value: 75.92385
-      objectReference: {fileID: 0}
-    - target: {fileID: 2191796174510786274, guid: d4fd45ae02a09a2448065c21b6eedaa2, type: 3}
-      propertyPath: m_Size.y
-      value: 22.708866
-      objectReference: {fileID: 0}
-    - target: {fileID: 2191796174510786274, guid: d4fd45ae02a09a2448065c21b6eedaa2, type: 3}
-      propertyPath: m_Offset.x
-      value: 7.7889137
-      objectReference: {fileID: 0}
-    - target: {fileID: 2191796174510786274, guid: d4fd45ae02a09a2448065c21b6eedaa2, type: 3}
-      propertyPath: m_Offset.y
-      value: 5.668867
-      objectReference: {fileID: 0}
     - target: {fileID: 2191796174510786275, guid: d4fd45ae02a09a2448065c21b6eedaa2, type: 3}
       propertyPath: m_RootOrder
       value: 9

@@ -3,7 +3,9 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +26,42 @@ public class GameManager : MonoBehaviour
 
 
     public static GameManager Instance;
+
+
+    [SerializeField] Toggle MusicCheckBox;
+    [SerializeField] Toggle SoundCheckBox;
+
+    [SerializeField] AudioMixer MusicAudioMixer;
+    [SerializeField] AudioMixer SoundAudioMixer;
+
+
+    public void ToggleMusic()
+    {
+        if (MusicCheckBox.isOn)
+        {
+            MusicAudioMixer.SetFloat("Volume", 0f);
+            MainMenuUI.MusicStatus = true;
+        }
+        else
+        {
+            MusicAudioMixer.SetFloat("Volume", -80f);
+            MainMenuUI.MusicStatus = false;
+        }
+    }
+    public void ToggleSound()
+    {
+        if (SoundCheckBox.isOn)
+        {
+            SoundAudioMixer.SetFloat("Volume", 0f);
+            MainMenuUI.SoundStatus = true;
+        }
+        else
+        {
+            SoundAudioMixer.SetFloat("Volume", -80f);
+            MainMenuUI.SoundStatus = false;
+        }
+    }
+    
 
     private void Awake()
     {
@@ -55,6 +93,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MusicCheckBox.isOn = MainMenuUI.MusicStatus;
+        SoundCheckBox.isOn = MainMenuUI.SoundStatus;
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<OfflinePlayer>();
         checkPoint = GetSaveCheckPointByID(AccountManager.Account.CheckPoint);
         Player.transform.position = checkPoint.transform.position;

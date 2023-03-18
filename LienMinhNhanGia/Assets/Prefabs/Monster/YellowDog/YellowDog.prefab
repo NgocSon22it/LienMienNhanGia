@@ -205,7 +205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2191796175931864578}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7779999, y: -0.22800016, z: -0.64009273}
+  m_LocalPosition: {x: -0.7779999, y: -0.22800016, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -452,7 +452,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  Bite: {fileID: 2849968454049977866, guid: 22205b190b6ee3240be5f25a1fa11024, type: 3}
+  Bite: {fileID: 2849968454049977866, guid: e421a092e4def8345bd56b2bf19849e9, type: 3}
   PlaceBite: {fileID: 2191796175931864577}
 --- !u!82 &7478794639309748524
 AudioSource:
@@ -466,7 +466,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: 67a5120584a0cdb44a716d55388ca181, type: 2}
   m_audioClip: {fileID: 8300000, guid: 5c9d2a22f5078474e9455f5c1aa8393f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0

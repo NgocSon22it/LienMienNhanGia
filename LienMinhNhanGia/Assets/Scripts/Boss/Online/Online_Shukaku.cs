@@ -146,50 +146,56 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
         yield return new WaitForSeconds(4f);
         audioSource.Stop();
         PV.RPC(nameof(FindClostestPlayer), RpcTarget.AllBuffered);
-        Vector2 direction = (Vector2)Player.transform.Find("MainPoint").position - (Vector2)Transform_BeastBomb.position;
-        direction.Normalize();
-        obj.GetComponent<Rigidbody2D>().AddForce(direction * 3000);
-        yield return new WaitForSeconds(1.5f);
-        animator.SetBool("ThirdSkill", false);
-        yield return new WaitForSeconds(1f);
+        if (Player != null)
+        {
+            Vector2 direction = (Vector2)Player.transform.Find("MainPoint").position - (Vector2)Transform_BeastBomb.position;
+            direction.Normalize();
+            obj.GetComponent<Rigidbody2D>().AddForce(direction * 3000);
+            yield return new WaitForSeconds(1.5f);
+            animator.SetBool("ThirdSkill", false);
+            yield return new WaitForSeconds(1f);
+            
+        }
         StartCoroutine(Move());
-
     }
     IEnumerator ExecuteFouthSkill()
     {
         PV.RPC(nameof(FindClostestPlayer), RpcTarget.AllBuffered);
-        Transform_EarthRock.position = new Vector3(Player.transform.position.x, -0.5f, 3);
-        Vector3 localPos = Transform_EarthRock.position;
-        localPos.x = Player.transform.position.x;
-
-        obj = Boss_SkillPool.Instance.GetFirstRockFromPool();
-        if (obj != null)
+        if(Player!= null) 
         {
-            localPos.y = -26f;
-            Transform_EarthRock.localPosition = localPos;
+            Transform_EarthRock.position = new Vector3(Player.transform.position.x, -0.5f, 3);
+            Vector3 localPos = Transform_EarthRock.position;
+            localPos.x = Player.transform.position.x;
 
-            obj.transform.position = Transform_EarthRock.localPosition;
-            obj.transform.rotation = Transform_EarthRock.rotation;
-            obj.SetActive(true);
-        }
+            obj = Boss_SkillPool.Instance.GetFirstRockFromPool();
+            if (obj != null)
+            {
+                localPos.y = -26f;
+                Transform_EarthRock.localPosition = localPos;
 
-        yield return new WaitForSeconds(1.5f);
-        obj = Boss_SkillPool.Instance.GetEarthRockFromPool();
-        if (obj != null)
-        {
-            localPos.y = -20f;
-            Transform_EarthRock.localPosition = localPos;
+                obj.transform.position = Transform_EarthRock.localPosition;
+                obj.transform.rotation = Transform_EarthRock.rotation;
+                obj.SetActive(true);
+            }
 
-            obj.transform.position = Transform_EarthRock.localPosition;
-            obj.transform.rotation = Transform_EarthRock.rotation;
-            obj.SetActive(true);
-        }
-        audioSource.clip = RockSound;
-        audioSource.Play();
-        CameraManager.Instance.StartShakeScreen(6, 5, 1);
-        yield return new WaitForSeconds(1f);
-        animator.SetBool("FouthSkill", false);
-        yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
+            obj = Boss_SkillPool.Instance.GetEarthRockFromPool();
+            if (obj != null)
+            {
+                localPos.y = -20f;
+                Transform_EarthRock.localPosition = localPos;
+
+                obj.transform.position = Transform_EarthRock.localPosition;
+                obj.transform.rotation = Transform_EarthRock.rotation;
+                obj.SetActive(true);
+            }
+            audioSource.clip = RockSound;
+            audioSource.Play();
+            CameraManager.Instance.StartShakeScreen(6, 5, 1);
+            yield return new WaitForSeconds(1f);
+            animator.SetBool("FouthSkill", false);
+            yield return new WaitForSeconds(2f);
+        }    
         StartCoroutine(Move());
     }
     IEnumerator Move()
@@ -199,7 +205,7 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
             if (Online_GameManager.Instance.IsStopGame == false)
             {
                 yield return new WaitForSeconds(0.5f);
-                int a = Random.Range(0, 4);               
+                int a = Random.Range(0, 4);
                 switch (a)
                 {
                     case 0:
@@ -261,15 +267,18 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
         foreach (GameObject currentPlayer in allPlayer)
         {
             float distanceToEnemy = (currentPlayer.transform.position - this.transform.position).sqrMagnitude;
-            if (distanceToEnemy < distanceToClosestPlayer)
+            bool checkCollider = currentPlayer.GetComponent<CapsuleCollider2D>().enabled;
+            if (distanceToEnemy < distanceToClosestPlayer && checkCollider)
             {
                 distanceToClosestPlayer = distanceToEnemy;
                 closestPlayer = currentPlayer;
             }
 
         }
-
-        Player = closestPlayer;
+        if (closestPlayer != null)
+        {
+            Player = closestPlayer;
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
