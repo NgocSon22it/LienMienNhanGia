@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
     public void SetUpExperienceUI()
     {
         CurrentLevel.text = "Level: " + Level;
-        CurrentExpBar.fillAmount = Expercience / ExpercienceToNextLevel;
+        CurrentExpBar.fillAmount = (float)Expercience / (float)ExpercienceToNextLevel;
         CurrentExpTxt.text = Expercience.ToString();
         NextLevelExpTxt.text = ExpercienceToNextLevel.ToString();
         new AccountDAO().UpdateAccountCoinNLevel(AccountManager.AccountID, AccountManager.Account.Coin, AccountManager.Account.Experience, AccountManager.Account.Level);

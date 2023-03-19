@@ -36,7 +36,7 @@ public class WaterSlash : MonoBehaviour
             }
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                collision.GetComponent<Monster>().TakeDamage(0);
+                collision.GetComponent<Monster>().TakeDamage(100);
             }
             if (collision.gameObject.CompareTag("Boss"))
             {

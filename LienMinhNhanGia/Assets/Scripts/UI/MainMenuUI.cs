@@ -116,13 +116,17 @@ public class MainMenuUI : MonoBehaviour
     public void SetUpPlayerInformation()
     {
         PlayerNameTxt.text = AccountManager.Account.Name;
-        PlayerCoinTxt.text = AccountManager.Account.Coin.ToString();      
+        PlayerCoinTxt.text = AccountManager.Account.Coin.ToString();
     }
 
     private void OnApplicationQuit()
     {
-        new AccountDAO().SaveAccountData(AccountManager.Account);
-        new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
+        if (AccountManager.AccountID != 0)
+        {
+            new AccountDAO().SaveAccountData(AccountManager.Account);
+            new AccountDAO().UpdateAccountOnlineStatus(0, AccountManager.AccountID);
+
+        }
     }
 
 }

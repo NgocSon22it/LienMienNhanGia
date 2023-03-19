@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AccountManager
 {
-    public static int AccountID = 3;
+    public static int AccountID = 0;
 
     public static List<AccountItemEntity> ListAccountItem = new Account_ItemDAO().GetAllItemForAccount(AccountID);
 

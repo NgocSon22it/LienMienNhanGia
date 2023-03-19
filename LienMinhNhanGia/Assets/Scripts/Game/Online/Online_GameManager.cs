@@ -61,7 +61,6 @@ public class Online_GameManager : MonoBehaviourPunCallbacks
         MusicCheckBox.isOn = MainMenuUI.MusicStatus;
         SoundCheckBox.isOn = MainMenuUI.SoundStatus;
         PhotonNetwork.Instantiate(Path.Combine("Character/Online/", Character.name), SpawnPoint.position, SpawnPoint.rotation);
-        // Find all player game objects and add them to the list
         GetPlayerInGame();
         IsStopGame = false;
         InvokeRepeating(nameof(IsEveryBodyDead), 1f, 5f);

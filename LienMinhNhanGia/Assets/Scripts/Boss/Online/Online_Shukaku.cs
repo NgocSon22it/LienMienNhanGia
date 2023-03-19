@@ -50,8 +50,8 @@ public class Online_Shukaku : MonoBehaviourPun, IPunObservable
     {
         BossID = "Boss_Shukaku";
         Name = "Shukaku";
-        Health = 3000;
-        CurrentHealth = 3000;
+        Health = 5000;
+        CurrentHealth = 5000;
         Speed = 0;
         Coin_Bonus = 300;
         Experience_Bonus = 300;
